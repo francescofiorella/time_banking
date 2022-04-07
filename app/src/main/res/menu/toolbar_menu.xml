@@ -8,6 +8,4 @@
         android:contentDescription="edit"
         app:showAsAction="ifRoom" />
 
-
-
 </menu>
