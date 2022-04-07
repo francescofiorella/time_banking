@@ -22,12 +22,14 @@ class ShowProfileActivity : AppCompatActivity() {
         const val NICKNAME_KEY = "group36.lab1.NICKNAME"
         const val EMAIL_KEY = "group36.lab1.EMAIL"
         const val LOCATION_KEY = "group36.lab1.LOCATION"
+        const val DESCRIPTION_KEY = "group36.lab1.DESCRIPTION"
 
         private const val PHOTO_SAVE_KEY = "photo_save_key"
-        private const val FULL_NAME_SAVE_KEY = "photo_save_key"
+        private const val FULL_NAME_SAVE_KEY = "fullname_save_key"
         private const val NICKNAME_SAVE_KEY = "nickname_save_key"
         private const val EMAIL_SAVE_KEY = "email_save_key"
         private const val LOCATION_SAVE_KEY = "location_save_key"
+        private const val DESCRIPTION_SAVE_KEY = "description_save_key"
 
         private const val SHARED_KEY = "shared_key"
         private const val PROFILE_KEY = "profile"
@@ -39,6 +41,7 @@ class ShowProfileActivity : AppCompatActivity() {
     private lateinit var nicknameTV: TextView
     private lateinit var emailTV: TextView
     private lateinit var locationTV: TextView
+    private lateinit var descriptionTV : TextView
     private var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class ShowProfileActivity : AppCompatActivity() {
         nicknameTV = findViewById(R.id.tv_nickname)
         emailTV = findViewById(R.id.tv_email)
         locationTV = findViewById(R.id.tv_location)
+        descriptionTV = findViewById(R.id.tv_description)
 
         sharedPref = applicationContext?.getSharedPreferences(SHARED_KEY, Context.MODE_PRIVATE)
 
@@ -85,6 +89,7 @@ class ShowProfileActivity : AppCompatActivity() {
         outState.putString(NICKNAME_SAVE_KEY, nicknameTV.text.toString())
         outState.putString(EMAIL_SAVE_KEY, emailTV.text.toString())
         outState.putString(LOCATION_SAVE_KEY, locationTV.text.toString())
+        outState.putString(DESCRIPTION_SAVE_KEY, descriptionTV.text.toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -96,6 +101,7 @@ class ShowProfileActivity : AppCompatActivity() {
         nicknameTV.text = savedInstanceState.getString(NICKNAME_SAVE_KEY) ?: ""
         emailTV.text = savedInstanceState.getString(EMAIL_SAVE_KEY) ?: ""
         locationTV.text = savedInstanceState.getString(LOCATION_SAVE_KEY) ?: ""
+        descriptionTV.text = savedInstanceState.getString(DESCRIPTION_SAVE_KEY) ?: ""
     }
 
     private fun editProfile() {
@@ -105,6 +111,7 @@ class ShowProfileActivity : AppCompatActivity() {
         intent.putExtra(NICKNAME_KEY, nicknameTV.text.toString())
         intent.putExtra(EMAIL_KEY, emailTV.text.toString())
         intent.putExtra(LOCATION_KEY, locationTV.text.toString())
+        intent.putExtra(DESCRIPTION_KEY, descriptionTV.text.toString())
         startActivityForResult(intent, EDIT_KEY)
     }
 
@@ -120,12 +127,15 @@ class ShowProfileActivity : AppCompatActivity() {
                         data?.getStringExtra(FULL_NAME_KEY) ?: "",
                         data?.getStringExtra(NICKNAME_KEY) ?: "",
                         data?.getStringExtra(EMAIL_KEY) ?: "",
-                        data?.getStringExtra(LOCATION_KEY) ?: ""
+                        data?.getStringExtra(LOCATION_KEY) ?: "",
+                        data?.getStringExtra(DESCRIPTION_KEY)?: "", /* ******* AGGIUSTARE QUI ******* */
+                        data?.getStringExtra(DESCRIPTION_KEY)?: ""
                     )
                     fNameTV.text = user.fullName
                     nicknameTV.text = user.nickName
                     emailTV.text = user.email
                     locationTV.text = user.location
+                    descriptionTV.text = user.description
                     sharedPref?.edit()
                         ?.putString(PROFILE_KEY, Gson().toJson(user) ?: "")
                         ?.apply()

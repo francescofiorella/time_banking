@@ -17,6 +17,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.chip.Chip
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -27,6 +28,8 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var nicknameET: EditText
     lateinit var emailET: EditText
     lateinit var locationET: EditText
+    lateinit var descriptionET : EditText
+
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
@@ -44,6 +47,8 @@ class EditProfileActivity : AppCompatActivity() {
         nicknameET = findViewById(R.id.nickname_et)
         emailET = findViewById(R.id.email_et)
         locationET = findViewById(R.id.location_et)
+        descriptionET = findViewById(R.id.description_et)
+
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -58,6 +63,7 @@ class EditProfileActivity : AppCompatActivity() {
         nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
         emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
         locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
+        descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY)?: "")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -107,12 +113,15 @@ class EditProfileActivity : AppCompatActivity() {
             fNameET.text.toString(),
             nicknameET.text.toString(),
             emailET.text.toString(),
-            locationET.text.toString()
+            locationET.text.toString(),
+            descriptionET.text.toString(), /* ******** AGGIUSTARE QUI ********** */
+            descriptionET.text.toString()
         )
         intent.putExtra(ShowProfileActivity.FULL_NAME_KEY, user.fullName)
         intent.putExtra(ShowProfileActivity.NICKNAME_KEY, user.nickName)
         intent.putExtra(ShowProfileActivity.EMAIL_KEY, user.email)
         intent.putExtra(ShowProfileActivity.LOCATION_KEY, user.location)
+        intent.putExtra(ShowProfileActivity.DESCRIPTION_KEY, user.description)
         intent.putExtra(ShowProfileActivity.PHOTO_KEY, photoIV.drawable.toBitmap())
         setResult(Activity.RESULT_OK, intent)
         super.onBackPressed()
