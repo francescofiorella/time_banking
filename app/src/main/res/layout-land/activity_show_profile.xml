@@ -35,10 +35,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_photo2"
+                android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_account_circle" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_account" />
 
         </LinearLayout>
 
@@ -54,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Full Name"
+                android:text="Mattia Caputo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
             <TextView
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Nickname"
+                android:text="m_caputo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic" />
 
@@ -71,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="email@address"
+                android:text="caputospelato@gmail.com"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic" />
 
@@ -80,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Location"
+                android:text="via degli Spelati, 16"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic" />
 
