@@ -183,7 +183,9 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="222" />
+
         </com.google.android.material.chip.ChipGroup>
+
     </HorizontalScrollView>
 
     <EditText

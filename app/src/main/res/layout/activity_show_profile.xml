@@ -13,19 +13,18 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_baseline_edit_24"
-            app:title="@string/app_name"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            />
+            app:menu="@menu/toolbar_menu"
+            app:title="@string/app_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -38,9 +37,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_weight="2"
         android:orientation="vertical">
 
@@ -49,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Full Name"
+            android:text="Mattia Caputo"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
         <TextView
@@ -57,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Nickname"
+            android:text="m_caputo"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
@@ -66,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="email@address"
+            android:text="caputospelato@gmail.com"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
@@ -75,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Location"
+            android:text="via degli Spelati, 16"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic" />
 
