@@ -3,9 +3,9 @@
 
     <item
         android:id="@+id/edit"
+        android:contentDescription="edit"
         android:icon="@drawable/ic_baseline_edit_24"
         android:title="edit"
-        android:contentDescription="edit"
         app:showAsAction="ifRoom" />
 
 </menu>

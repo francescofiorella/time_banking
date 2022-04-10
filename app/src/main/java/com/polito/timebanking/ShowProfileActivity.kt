@@ -7,19 +7,16 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Base64
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isGone
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 
 class ShowProfileActivity : AppCompatActivity() {
 
@@ -34,7 +31,7 @@ class ShowProfileActivity : AppCompatActivity() {
         const val DESCRIPTION_KEY = "group36.lab1.DESCRIPTION"
 
         private const val PHOTO_SAVE_KEY = "photo_save_key"
-        private const val FULL_NAME_SAVE_KEY = "fullname_save_key"
+        private const val FULL_NAME_SAVE_KEY = "fullName_save_key"
         private const val NICKNAME_SAVE_KEY = "nickname_save_key"
         private const val EMAIL_SAVE_KEY = "email_save_key"
         private const val LOCATION_SAVE_KEY = "location_save_key"
@@ -51,18 +48,18 @@ class ShowProfileActivity : AppCompatActivity() {
     private lateinit var nicknameTV: TextView
     private lateinit var emailTV: TextView
     private lateinit var locationTV: TextView
-    private lateinit var descriptionTV : TextView
-    private lateinit var chip1 : Chip
-    private lateinit var chip2 : Chip
-    private lateinit var chip3 : Chip
-    private lateinit var chip4 : Chip
-    private lateinit var chip5 : Chip
-    private lateinit var chip6 : Chip
-    private lateinit var chip7 : Chip
-    private lateinit var chip8 : Chip
-    private lateinit var chipcontrol : MutableList<Chip>
-    private lateinit var photo : Bitmap
-    private var skillsarray = arrayListOf<String>()
+    private lateinit var descriptionTV: TextView
+    private lateinit var chip1: Chip
+    private lateinit var chip2: Chip
+    private lateinit var chip3: Chip
+    private lateinit var chip4: Chip
+    private lateinit var chip5: Chip
+    private lateinit var chip6: Chip
+    private lateinit var chip7: Chip
+    private lateinit var chip8: Chip
+    private lateinit var chipControl: MutableList<Chip>
+    private lateinit var photo: Bitmap
+    private var skillsArray = arrayListOf<String>()
     private var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,20 +81,16 @@ class ShowProfileActivity : AppCompatActivity() {
         chip6 = findViewById(R.id.chip_6)
         chip7 = findViewById(R.id.chip_7)
         chip8 = findViewById(R.id.chip_8)
-        chipcontrol = mutableListOf<Chip>()
+        chipControl = mutableListOf()
 
-        chipcontrol.add(0, chip1)
-        chipcontrol.add(1, chip2)
-        chipcontrol.add(2, chip3)
-        chipcontrol.add(3, chip4)
-        chipcontrol.add(4, chip5)
-        chipcontrol.add(5, chip6)
-        chipcontrol.add(6, chip7)
-        chipcontrol.add(7, chip8)
-
-        for (chip in chipcontrol) {
-            chip.setVisibility(View.GONE)
-        }
+        chipControl.add(0, chip1)
+        chipControl.add(1, chip2)
+        chipControl.add(2, chip3)
+        chipControl.add(3, chip4)
+        chipControl.add(4, chip5)
+        chipControl.add(5, chip6)
+        chipControl.add(6, chip7)
+        chipControl.add(7, chip8)
 
         sharedPref = applicationContext?.getSharedPreferences(SHARED_KEY, Context.MODE_PRIVATE)
 
@@ -109,27 +102,24 @@ class ShowProfileActivity : AppCompatActivity() {
                     nicknameTV.text = user.nickName
                     emailTV.text = user.email
                     locationTV.text = user.location
-                    skillsarray = user.skills
+                    skillsArray = user.skills
                     descriptionTV.text = user.description
                 }
             }
         }
 
         try {
-            val fileInputStream = openFileInput("profileimg.png")
+            val fileInputStream = openFileInput("profileImg.png")
             val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
             photoIV.setImageBitmap(b)
-        }
-
-        catch (e : FileNotFoundException){
+        } catch (e: FileNotFoundException) {
             e.printStackTrace()
         }
 
-
-        for (skill in skillsarray) {
-            for (chip in chipcontrol) {
+        for (skill in skillsArray) {
+            for (chip in chipControl) {
                 if (chip.text == skill)
-                    chip.setVisibility(View.VISIBLE)
+                    chip.visibility = View.VISIBLE
             }
         }
 
@@ -152,7 +142,7 @@ class ShowProfileActivity : AppCompatActivity() {
         outState.putString(NICKNAME_SAVE_KEY, nicknameTV.text.toString())
         outState.putString(EMAIL_SAVE_KEY, emailTV.text.toString())
         outState.putString(LOCATION_SAVE_KEY, locationTV.text.toString())
-        outState.putStringArrayList(SKILLS_SAVE_KEY, skillsarray)
+        outState.putStringArrayList(SKILLS_SAVE_KEY, skillsArray)
         outState.putString(DESCRIPTION_SAVE_KEY, descriptionTV.text.toString())
     }
 
@@ -165,13 +155,13 @@ class ShowProfileActivity : AppCompatActivity() {
         nicknameTV.text = savedInstanceState.getString(NICKNAME_SAVE_KEY) ?: ""
         emailTV.text = savedInstanceState.getString(EMAIL_SAVE_KEY) ?: ""
         locationTV.text = savedInstanceState.getString(LOCATION_SAVE_KEY) ?: ""
-        skillsarray = savedInstanceState.getStringArrayList(SKILLS_SAVE_KEY) ?: arrayListOf();
+        skillsArray = savedInstanceState.getStringArrayList(SKILLS_SAVE_KEY) ?: arrayListOf()
         descriptionTV.text = savedInstanceState.getString(DESCRIPTION_SAVE_KEY) ?: ""
 
-        for (skill in skillsarray) {
-            for(chip in chipcontrol) {
+        for (skill in skillsArray) {
+            for (chip in chipControl) {
                 if (chip.text == skill)
-                    chip.setVisibility(View.VISIBLE)
+                    chip.visibility = View.VISIBLE
             }
         }
     }
@@ -183,7 +173,7 @@ class ShowProfileActivity : AppCompatActivity() {
         intent.putExtra(NICKNAME_KEY, nicknameTV.text.toString())
         intent.putExtra(EMAIL_KEY, emailTV.text.toString())
         intent.putExtra(LOCATION_KEY, locationTV.text.toString())
-        intent.putExtra(SKILLS_KEY, skillsarray)
+        intent.putExtra(SKILLS_KEY, skillsArray)
         intent.putExtra(DESCRIPTION_KEY, descriptionTV.text.toString())
         startActivityForResult(intent, EDIT_KEY)
     }
@@ -203,8 +193,8 @@ class ShowProfileActivity : AppCompatActivity() {
                         data?.getStringExtra(NICKNAME_KEY) ?: "",
                         data?.getStringExtra(EMAIL_KEY) ?: "",
                         data?.getStringExtra(LOCATION_KEY) ?: "",
-                        data?.getStringArrayListExtra(SKILLS_KEY)?: arrayListOf(),
-                        data?.getStringExtra(DESCRIPTION_KEY)?: ""
+                        data?.getStringArrayListExtra(SKILLS_KEY) ?: arrayListOf(),
+                        data?.getStringExtra(DESCRIPTION_KEY) ?: ""
                     )
                     fNameTV.text = user.fullName
                     nicknameTV.text = user.nickName
@@ -212,26 +202,24 @@ class ShowProfileActivity : AppCompatActivity() {
                     locationTV.text = user.location
                     descriptionTV.text = user.description
 
-                    skillsarray = (data?.getStringArrayListExtra(SKILLS_KEY)?: arrayListOf())
+                    skillsArray = (data?.getStringArrayListExtra(SKILLS_KEY) ?: arrayListOf())
 
-                    for (chip in chipcontrol) {
-                        chip.setVisibility(View.GONE)
+                    for (chip in chipControl) {
+                        chip.visibility = View.GONE
                     }
 
-                    for (skill in skillsarray) {
-                        for (chip in chipcontrol) {
+                    for (skill in skillsArray) {
+                        for (chip in chipControl) {
                             if (chip.text == skill)
-                                chip.setVisibility(View.VISIBLE)
+                                chip.visibility = View.VISIBLE
                         }
                     }
-
 
                     sharedPref?.edit()
                         ?.putString(PROFILE_KEY, Gson().toJson(user) ?: "")
                         ?.apply()
 
-
-                    val filename = "profileimg.png"
+                    val filename = "profileImg.png"
                     val stream = ByteArrayOutputStream()
                     photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
                     this.openFileOutput(filename, Context.MODE_PRIVATE).use {

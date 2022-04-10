@@ -20,24 +20,24 @@ import com.google.android.material.chip.Chip
 
 class EditProfileActivity : AppCompatActivity() {
 
-    lateinit var toolbar: MaterialToolbar
-    lateinit var photoIV: ImageView
-    lateinit var button: ImageButton
-    lateinit var fNameET: EditText
-    lateinit var nicknameET: EditText
-    lateinit var emailET: EditText
-    lateinit var locationET: EditText
-    lateinit var descriptionET : EditText
-    private lateinit var chip1e : Chip
-    private lateinit var chip2e : Chip
-    private lateinit var chip3e : Chip
-    private lateinit var chip4e : Chip
-    private lateinit var chip5e : Chip
-    private lateinit var chip6e : Chip
-    private lateinit var chip7e : Chip
-    private lateinit var chip8e : Chip
-    private lateinit var chipcontrol : MutableList<Chip>
-    private var skillsarray = arrayListOf<String>()
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var photoIV: ImageView
+    private lateinit var button: ImageButton
+    private lateinit var fNameET: EditText
+    private lateinit var nicknameET: EditText
+    private lateinit var emailET: EditText
+    private lateinit var locationET: EditText
+    private lateinit var descriptionET: EditText
+    private lateinit var chip1e: Chip
+    private lateinit var chip2e: Chip
+    private lateinit var chip3e: Chip
+    private lateinit var chip4e: Chip
+    private lateinit var chip5e: Chip
+    private lateinit var chip6e: Chip
+    private lateinit var chip7e: Chip
+    private lateinit var chip8e: Chip
+    private lateinit var chipControl: MutableList<Chip>
+    private var skillsArray = arrayListOf<String>()
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
@@ -64,16 +64,16 @@ class EditProfileActivity : AppCompatActivity() {
         chip6e = findViewById(R.id.chip_6e)
         chip7e = findViewById(R.id.chip_7e)
         chip8e = findViewById(R.id.chip_8e)
-        chipcontrol = mutableListOf<Chip>()
+        chipControl = mutableListOf()
 
-        chipcontrol.add(0, chip1e)
-        chipcontrol.add(1, chip2e)
-        chipcontrol.add(2, chip3e)
-        chipcontrol.add(3, chip4e)
-        chipcontrol.add(4, chip5e)
-        chipcontrol.add(5, chip6e)
-        chipcontrol.add(6, chip7e)
-        chipcontrol.add(7, chip8e)
+        chipControl.add(0, chip1e)
+        chipControl.add(1, chip2e)
+        chipControl.add(2, chip3e)
+        chipControl.add(3, chip4e)
+        chipControl.add(4, chip5e)
+        chipControl.add(5, chip6e)
+        chipControl.add(6, chip7e)
+        chipControl.add(7, chip8e)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -83,11 +83,13 @@ class EditProfileActivity : AppCompatActivity() {
             showMenu(it, R.menu.insert_photo_menu)
         }
 
-        for (chip in chipcontrol) {
+        for (chip in chipControl) {
             chip.setOnClickListener {
                 if (chip.isChecked)
-                    skillsarray.add(chip.text.toString())
+                    skillsArray.add(chip.text.toString())
             }
+            if (skillsArray.contains(chip.text.toString()))
+                chip.isChecked = false
         }
 
         photoIV.setImageBitmap(intent.getParcelableExtra(ShowProfileActivity.PHOTO_KEY))
@@ -95,15 +97,9 @@ class EditProfileActivity : AppCompatActivity() {
         nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
         emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
         locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
-        skillsarray = intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY)?: arrayListOf<String>()
-        descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY)?: "")
-
-        for (skill in skillsarray) {
-            for(chip in chipcontrol)
-            if (chip.text == skill)
-                chip.setChecked(false)
-        }
-
+        skillsArray =
+            intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY) ?: arrayListOf()
+        descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY) ?: "")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -155,12 +151,12 @@ class EditProfileActivity : AppCompatActivity() {
             nicknameET.text.toString(),
             emailET.text.toString(),
             locationET.text.toString(),
-            descriptionET.text.toString()
+            description = descriptionET.text.toString()
         )
 
-        for (chip in chipcontrol) {
+        for (chip in chipControl) {
             if (!chip.isChecked)
-                user.skills.add(chip.text.toString());
+                user.skills.add(chip.text.toString())
         }
 
         intent.putExtra(ShowProfileActivity.FULL_NAME_KEY, user.fullName)
