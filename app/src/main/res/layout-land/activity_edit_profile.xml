@@ -136,68 +136,68 @@
                     app:singleLine="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_1"
+                        android:id="@+id/chip_1e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Petlover" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_2"
+                        android:id="@+id/chip_2e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Babysitter" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_3"
+                        android:id="@+id/chip_3e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Gardener" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_4"
+                        android:id="@+id/chip_4e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Carwasher" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_5"
+                        android:id="@+id/chip_5e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Magician" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_6"
+                        android:id="@+id/chip_6e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Factotum" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_7"
+                        android:id="@+id/chip_7e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Scientist" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_8"
+                        android:id="@+id/chip_8e"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Caregiver" />
 
                 </com.google.android.material.chip.ChipGroup>
 

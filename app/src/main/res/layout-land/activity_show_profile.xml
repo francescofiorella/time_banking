@@ -62,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
-                android:text="Mattia Caputo"
+                android:text="Mario Rossi"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
-                android:text="m_caputo"
+                android:text="m_rossi"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
-                android:text="via degli Spelati, 16"
+                android:text="Corso Duca degli Abruzzi, 7"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -135,64 +135,72 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Petlover" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_2"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Babysitter" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_3"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Gardener" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_4"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Carwasher" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_5"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Magician" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_6"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Factotum" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_7"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="111" />
+                        android:text="Scientist" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_8"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checkable="false"
                         android:checked="true"
-                        android:text="222" />
+                        android:text="Caregiver" />
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -203,12 +211,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
+                android:layout_marginTop="20dp"
                 android:gravity="top"
-                android:text="Buonasera a tutti, sono caputo lo spelato e posso portarvi il cane a spasso."
+                android:minLines="3"
+                android:text="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="italic"
-                android:minLines="3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/skills_hsv" />
 

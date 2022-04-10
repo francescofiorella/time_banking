@@ -15,7 +15,6 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.drawToBitmap
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 
@@ -29,7 +28,16 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var emailET: EditText
     lateinit var locationET: EditText
     lateinit var descriptionET : EditText
-
+    private lateinit var chip1e : Chip
+    private lateinit var chip2e : Chip
+    private lateinit var chip3e : Chip
+    private lateinit var chip4e : Chip
+    private lateinit var chip5e : Chip
+    private lateinit var chip6e : Chip
+    private lateinit var chip7e : Chip
+    private lateinit var chip8e : Chip
+    private lateinit var chipcontrol : MutableList<Chip>
+    private var skillsarray = arrayListOf<String>()
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
@@ -48,7 +56,24 @@ class EditProfileActivity : AppCompatActivity() {
         emailET = findViewById(R.id.email_et)
         locationET = findViewById(R.id.location_et)
         descriptionET = findViewById(R.id.description_et)
+        chip1e = findViewById(R.id.chip_1e)
+        chip2e = findViewById(R.id.chip_2e)
+        chip3e = findViewById(R.id.chip_3e)
+        chip4e = findViewById(R.id.chip_4e)
+        chip5e = findViewById(R.id.chip_5e)
+        chip6e = findViewById(R.id.chip_6e)
+        chip7e = findViewById(R.id.chip_7e)
+        chip8e = findViewById(R.id.chip_8e)
+        chipcontrol = mutableListOf<Chip>()
 
+        chipcontrol.add(0, chip1e)
+        chipcontrol.add(1, chip2e)
+        chipcontrol.add(2, chip3e)
+        chipcontrol.add(3, chip4e)
+        chipcontrol.add(4, chip5e)
+        chipcontrol.add(5, chip6e)
+        chipcontrol.add(6, chip7e)
+        chipcontrol.add(7, chip8e)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -58,12 +83,27 @@ class EditProfileActivity : AppCompatActivity() {
             showMenu(it, R.menu.insert_photo_menu)
         }
 
+        for (chip in chipcontrol) {
+            chip.setOnClickListener {
+                if (chip.isChecked)
+                    skillsarray.add(chip.text.toString())
+            }
+        }
+
         photoIV.setImageBitmap(intent.getParcelableExtra(ShowProfileActivity.PHOTO_KEY))
         fNameET.setText(intent.getStringExtra(ShowProfileActivity.FULL_NAME_KEY) ?: "")
         nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
         emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
         locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
+        skillsarray = intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY)?: arrayListOf<String>()
         descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY)?: "")
+
+        for (skill in skillsarray) {
+            for(chip in chipcontrol)
+            if (chip.text == skill)
+                chip.setChecked(false)
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -109,20 +149,27 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val intent = Intent()
+
         val user = User(
             fNameET.text.toString(),
             nicknameET.text.toString(),
             emailET.text.toString(),
             locationET.text.toString(),
-            descriptionET.text.toString(), /* ******** AGGIUSTARE QUI ********** */
             descriptionET.text.toString()
         )
+
+        for (chip in chipcontrol) {
+            if (!chip.isChecked)
+                user.skills.add(chip.text.toString());
+        }
+
         intent.putExtra(ShowProfileActivity.FULL_NAME_KEY, user.fullName)
         intent.putExtra(ShowProfileActivity.NICKNAME_KEY, user.nickName)
         intent.putExtra(ShowProfileActivity.EMAIL_KEY, user.email)
         intent.putExtra(ShowProfileActivity.LOCATION_KEY, user.location)
         intent.putExtra(ShowProfileActivity.DESCRIPTION_KEY, user.description)
         intent.putExtra(ShowProfileActivity.PHOTO_KEY, photoIV.drawable.toBitmap())
+        intent.putExtra(ShowProfileActivity.SKILLS_KEY, user.skills)
         setResult(Activity.RESULT_OK, intent)
         super.onBackPressed()
     }
