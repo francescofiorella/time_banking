@@ -16,7 +16,6 @@ import android.widget.ImageView
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import java.io.ByteArrayOutputStream
@@ -46,7 +45,6 @@ class EditProfileActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
-        private const val PHOTO_SAVE_KEY = "photo_save_key"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,16 +86,8 @@ class EditProfileActivity : AppCompatActivity() {
             showMenu(it, R.menu.insert_photo_menu)
         }
 
+        setImageFromStorage()
 
-
-        //photoIV.setImageBitmap(intent.getParcelableExtra(ShowProfileActivity.PHOTO_KEY))
-        try {
-            val fileInputStream = openFileInput("profileImg.png")
-            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
-            photoIV.setImageBitmap(b)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
         fNameET.setText(intent.getStringExtra(ShowProfileActivity.FULL_NAME_KEY) ?: "")
         nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
         emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
@@ -117,23 +107,9 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        //outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
-    }
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-       /* savedInstanceState.getParcelable<Bitmap>(PHOTO_SAVE_KEY)?.let {
-            photoIV.setImageBitmap(it)
-        } */
-        try {
-            val fileInputStream = openFileInput("profileImg.png")
-            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
-            photoIV.setImageBitmap(b)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
+        setImageFromStorage()
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
@@ -143,7 +119,8 @@ class EditProfileActivity : AppCompatActivity() {
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.select_image -> {
-                    val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                    val gallery =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
                     startActivityForResult(gallery, pickImage)
                     true
                 }
@@ -187,7 +164,6 @@ class EditProfileActivity : AppCompatActivity() {
         intent.putExtra(ShowProfileActivity.EMAIL_KEY, user.email)
         intent.putExtra(ShowProfileActivity.LOCATION_KEY, user.location)
         intent.putExtra(ShowProfileActivity.DESCRIPTION_KEY, user.description)
-        //intent.putExtra(ShowProfileActivity.PHOTO_KEY, photoIV.drawable.toBitmap())
         intent.putExtra(ShowProfileActivity.SKILLS_KEY, user.skills)
         setResult(Activity.RESULT_OK, intent)
         super.onBackPressed()
@@ -199,6 +175,7 @@ class EditProfileActivity : AppCompatActivity() {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         } catch (e: ActivityNotFoundException) {
             // display error state to the user
+            e.printStackTrace()
         }
     }
 
@@ -207,16 +184,26 @@ class EditProfileActivity : AppCompatActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             photoIV.setImageBitmap(imageBitmap)
-            saveImage(imageBitmap)
-        } else if(requestCode == pickImage && resultCode == RESULT_OK){
+            saveImageToStorage(imageBitmap)
+        } else if (requestCode == pickImage && resultCode == RESULT_OK) {
             val imageUri = data?.data
-            val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
+            val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
             photoIV.setImageBitmap(imageBitmap)
-            saveImage(imageBitmap)
-            }
+            saveImageToStorage(imageBitmap)
+        }
     }
 
-    private fun saveImage(photo: Bitmap){
+    private fun setImageFromStorage() {
+        try {
+            val fileInputStream = openFileInput("profileImg.png")
+            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+            photoIV.setImageBitmap(b)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun saveImageToStorage(photo: Bitmap) {
         val filename = "profileImg.png"
         val stream = ByteArrayOutputStream()
         photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
@@ -224,5 +211,4 @@ class EditProfileActivity : AppCompatActivity() {
             it.write(stream.toByteArray())
         }
     }
-
 }

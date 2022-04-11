@@ -11,18 +11,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
-import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
 class ShowProfileActivity : AppCompatActivity() {
 
     companion object {
         const val EDIT_KEY = 10
-        const val PHOTO_KEY = "group36.lab1.PHOTO"
         const val FULL_NAME_KEY = "group36.lab1.FULL_NAME"
         const val NICKNAME_KEY = "group36.lab1.NICKNAME"
         const val EMAIL_KEY = "group36.lab1.EMAIL"
@@ -30,7 +27,6 @@ class ShowProfileActivity : AppCompatActivity() {
         const val SKILLS_KEY = "group36.lab1.SKILLS"
         const val DESCRIPTION_KEY = "group36.lab1.DESCRIPTION"
 
-        private const val PHOTO_SAVE_KEY = "photo_save_key"
         private const val FULL_NAME_SAVE_KEY = "fullName_save_key"
         private const val NICKNAME_SAVE_KEY = "nickname_save_key"
         private const val EMAIL_SAVE_KEY = "email_save_key"
@@ -58,7 +54,6 @@ class ShowProfileActivity : AppCompatActivity() {
     private lateinit var chip7: Chip
     private lateinit var chip8: Chip
     private lateinit var chipControl: MutableList<Chip>
-    private lateinit var photo: Bitmap
     private var skillsArray = arrayListOf<String>()
     private var sharedPref: SharedPreferences? = null
 
@@ -108,13 +103,7 @@ class ShowProfileActivity : AppCompatActivity() {
             }
         }
 
-        try {
-            val fileInputStream = openFileInput("profileImg.png")
-            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
-            photoIV.setImageBitmap(b)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
+        setImageFromStorage()
 
         for (skill in skillsArray) {
             for (chip in chipControl) {
@@ -137,7 +126,6 @@ class ShowProfileActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
         outState.putString(FULL_NAME_SAVE_KEY, fNameTV.text.toString())
         outState.putString(NICKNAME_SAVE_KEY, nicknameTV.text.toString())
         outState.putString(EMAIL_SAVE_KEY, emailTV.text.toString())
@@ -148,10 +136,6 @@ class ShowProfileActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        /*
-        savedInstanceState.getParcelable<Bitmap>(PHOTO_SAVE_KEY)?.let {
-            photoIV.setImageBitmap(it)
-        } */
         try {
             val fileInputStream = openFileInput("profileImg.png")
             val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
@@ -176,7 +160,6 @@ class ShowProfileActivity : AppCompatActivity() {
 
     private fun editProfile() {
         val intent = Intent(this, EditProfileActivity::class.java)
-        //intent.putExtra(PHOTO_KEY, photoIV.drawable.toBitmap())
         intent.putExtra(FULL_NAME_KEY, fNameTV.text.toString())
         intent.putExtra(NICKNAME_KEY, nicknameTV.text.toString())
         intent.putExtra(EMAIL_KEY, emailTV.text.toString())
@@ -191,17 +174,7 @@ class ShowProfileActivity : AppCompatActivity() {
         when (requestCode) {
             EDIT_KEY -> {
                 if (resultCode == Activity.RESULT_OK) {
-                   /* data?.getParcelableExtra<Bitmap>(PHOTO_KEY)?.let {
-                        photoIV.setImageBitmap(it)
-                        photo = it
-                    }*/
-                    try {
-                        val fileInputStream = openFileInput("profileImg.png")
-                        val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
-                        photoIV.setImageBitmap(b)
-                    } catch (e: FileNotFoundException) {
-                        e.printStackTrace()
-                    }
+                    setImageFromStorage()
 
                     val user = User(
                         data?.getStringExtra(FULL_NAME_KEY) ?: "",
@@ -238,6 +211,16 @@ class ShowProfileActivity : AppCompatActivity() {
                 }
             }
             else -> Unit
+        }
+    }
+
+    private fun setImageFromStorage() {
+        try {
+            val fileInputStream = openFileInput("profileImg.png")
+            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+            photoIV.setImageBitmap(b)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
     }
 }
