@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.graphics.Matrix
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -24,6 +26,7 @@ import com.google.android.material.chip.ChipGroup
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.IOException
+
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -164,10 +167,26 @@ class EditProfileActivity : AppCompatActivity() {
                 rotateImageIfRequired(imageBitmap, ShowProfileActivity.PATH_PHOTO)
             photoIV.setImageBitmap(rotatedImageBitmap)
         } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
-            val imageUri = data?.data
-            val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
-            photoIV.setImageBitmap(imageBitmap)
-            saveImageToStorage(imageBitmap)
+            data?.data?.let { imageUri ->
+                var imageBitmap: Bitmap? = null
+                try {
+                    imageBitmap = if (Build.VERSION.SDK_INT < 28) {
+                        @Suppress("DEPRECATION")
+                        MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                    } else {
+                        val source: ImageDecoder.Source =
+                            ImageDecoder.createSource(contentResolver, imageUri)
+                        ImageDecoder.decodeBitmap(source)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
+                imageBitmap?.let {
+                    photoIV.setImageBitmap(it)
+                    saveImageToStorage(it)
+                }
+            }
         }
     }
 
@@ -187,15 +206,6 @@ class EditProfileActivity : AppCompatActivity() {
         this.openFileOutput(ShowProfileActivity.PATH_PHOTO, Context.MODE_PRIVATE).use {
             it.write(stream.toByteArray())
         }
-    }
-
-    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
-        val matrix = Matrix()
-        matrix.postRotate(angle)
-        return Bitmap.createBitmap(
-            source, 0, 0, source.width, source.height,
-            matrix, true
-        )
     }
 
     private fun rotateImageIfRequired(bitmap: Bitmap, pathname: String): Bitmap {
@@ -223,5 +233,14 @@ class EditProfileActivity : AppCompatActivity() {
                 else -> throw e
             }
         }
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            source, 0, 0, source.width, source.height,
+            matrix, true
+        )
     }
 }
