@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.gson.Gson
 import java.io.FileNotFoundException
 
@@ -44,17 +45,9 @@ class ShowProfileActivity : AppCompatActivity() {
     private lateinit var nicknameTV: TextView
     private lateinit var emailTV: TextView
     private lateinit var locationTV: TextView
+    private lateinit var skillsCG: ChipGroup
     private lateinit var descriptionTV: TextView
-    private lateinit var chip1: Chip
-    private lateinit var chip2: Chip
-    private lateinit var chip3: Chip
-    private lateinit var chip4: Chip
-    private lateinit var chip5: Chip
-    private lateinit var chip6: Chip
-    private lateinit var chip7: Chip
-    private lateinit var chip8: Chip
-    private lateinit var chipControl: MutableList<Chip>
-    private var skillsArray = arrayListOf<String>()
+    private var skillsList = arrayListOf<String>()
     private var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,25 +60,8 @@ class ShowProfileActivity : AppCompatActivity() {
         nicknameTV = findViewById(R.id.tv_nickname)
         emailTV = findViewById(R.id.tv_email)
         locationTV = findViewById(R.id.tv_location)
+        skillsCG = findViewById(R.id.skills_cg)
         descriptionTV = findViewById(R.id.tv_description)
-        chip1 = findViewById(R.id.chip_1)
-        chip2 = findViewById(R.id.chip_2)
-        chip3 = findViewById(R.id.chip_3)
-        chip4 = findViewById(R.id.chip_4)
-        chip5 = findViewById(R.id.chip_5)
-        chip6 = findViewById(R.id.chip_6)
-        chip7 = findViewById(R.id.chip_7)
-        chip8 = findViewById(R.id.chip_8)
-        chipControl = mutableListOf()
-
-        chipControl.add(0, chip1)
-        chipControl.add(1, chip2)
-        chipControl.add(2, chip3)
-        chipControl.add(3, chip4)
-        chipControl.add(4, chip5)
-        chipControl.add(5, chip6)
-        chipControl.add(6, chip7)
-        chipControl.add(7, chip8)
 
         sharedPref = applicationContext?.getSharedPreferences(SHARED_KEY, Context.MODE_PRIVATE)
 
@@ -97,7 +73,7 @@ class ShowProfileActivity : AppCompatActivity() {
                     nicknameTV.text = user.nickName
                     emailTV.text = user.email
                     locationTV.text = user.location
-                    skillsArray = user.skills
+                    skillsList = user.skills
                     descriptionTV.text = user.description
                 }
             }
@@ -105,10 +81,10 @@ class ShowProfileActivity : AppCompatActivity() {
 
         setImageFromStorage()
 
-        for (skill in skillsArray) {
-            for (chip in chipControl) {
-                if (chip.text == skill)
-                    chip.visibility = View.VISIBLE
+        for (idx in 0 until skillsCG.childCount) {
+            val skillC: Chip = skillsCG.getChildAt(idx) as Chip
+            if (skillsList.contains(skillC.text.toString())) {
+                skillC.visibility = View.VISIBLE
             }
         }
 
@@ -130,7 +106,7 @@ class ShowProfileActivity : AppCompatActivity() {
         outState.putString(NICKNAME_SAVE_KEY, nicknameTV.text.toString())
         outState.putString(EMAIL_SAVE_KEY, emailTV.text.toString())
         outState.putString(LOCATION_SAVE_KEY, locationTV.text.toString())
-        outState.putStringArrayList(SKILLS_SAVE_KEY, skillsArray)
+        outState.putStringArrayList(SKILLS_SAVE_KEY, skillsList)
         outState.putString(DESCRIPTION_SAVE_KEY, descriptionTV.text.toString())
     }
 
@@ -147,13 +123,13 @@ class ShowProfileActivity : AppCompatActivity() {
         nicknameTV.text = savedInstanceState.getString(NICKNAME_SAVE_KEY) ?: ""
         emailTV.text = savedInstanceState.getString(EMAIL_SAVE_KEY) ?: ""
         locationTV.text = savedInstanceState.getString(LOCATION_SAVE_KEY) ?: ""
-        skillsArray = savedInstanceState.getStringArrayList(SKILLS_SAVE_KEY) ?: arrayListOf()
+        skillsList = savedInstanceState.getStringArrayList(SKILLS_SAVE_KEY) ?: arrayListOf()
         descriptionTV.text = savedInstanceState.getString(DESCRIPTION_SAVE_KEY) ?: ""
 
-        for (skill in skillsArray) {
-            for (chip in chipControl) {
-                if (chip.text == skill)
-                    chip.visibility = View.VISIBLE
+        for (idx in 0 until skillsCG.childCount) {
+            val skillC: Chip = skillsCG.getChildAt(idx) as Chip
+            if (skillsList.contains(skillC.text.toString())) {
+                skillC.visibility = View.VISIBLE
             }
         }
     }
@@ -164,7 +140,7 @@ class ShowProfileActivity : AppCompatActivity() {
         intent.putExtra(NICKNAME_KEY, nicknameTV.text.toString())
         intent.putExtra(EMAIL_KEY, emailTV.text.toString())
         intent.putExtra(LOCATION_KEY, locationTV.text.toString())
-        intent.putExtra(SKILLS_KEY, skillsArray)
+        intent.putExtra(SKILLS_KEY, skillsList)
         intent.putExtra(DESCRIPTION_KEY, descriptionTV.text.toString())
         startActivityForResult(intent, EDIT_KEY)
     }
@@ -190,16 +166,14 @@ class ShowProfileActivity : AppCompatActivity() {
                     locationTV.text = user.location
                     descriptionTV.text = user.description
 
-                    skillsArray = (data?.getStringArrayListExtra(SKILLS_KEY) ?: arrayListOf())
+                    skillsList = (data?.getStringArrayListExtra(SKILLS_KEY) ?: arrayListOf())
 
-                    for (chip in chipControl) {
-                        chip.visibility = View.GONE
-                    }
-
-                    for (skill in skillsArray) {
-                        for (chip in chipControl) {
-                            if (chip.text == skill)
-                                chip.visibility = View.VISIBLE
+                    for (idx in 0 until skillsCG.childCount) {
+                        val skillC: Chip = skillsCG.getChildAt(idx) as Chip
+                        if (skillsList.contains(skillC.text.toString())) {
+                            skillC.visibility = View.VISIBLE
+                        } else {
+                            skillC.visibility = View.GONE
                         }
                     }
 

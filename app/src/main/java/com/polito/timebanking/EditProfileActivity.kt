@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
@@ -25,26 +26,18 @@ class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var photoIV: ImageView
-    private lateinit var button: ImageButton
+    private lateinit var editPhotoIB: ImageButton
     private lateinit var fNameET: EditText
     private lateinit var nicknameET: EditText
     private lateinit var emailET: EditText
     private lateinit var locationET: EditText
+    private lateinit var skillsCG: ChipGroup
     private lateinit var descriptionET: EditText
-    private lateinit var chip1e: Chip
-    private lateinit var chip2e: Chip
-    private lateinit var chip3e: Chip
-    private lateinit var chip4e: Chip
-    private lateinit var chip5e: Chip
-    private lateinit var chip6e: Chip
-    private lateinit var chip7e: Chip
-    private lateinit var chip8e: Chip
-    private lateinit var chipControl: MutableList<Chip>
-    private var skillsArray = arrayListOf<String>()
-    private var pickImage = 100
+    private var skillsList = arrayListOf<String>()
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
+        private const val REQUEST_PICK_IMAGE = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,36 +46,19 @@ class EditProfileActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.topAppBar)
         photoIV = findViewById(R.id.photo)
-        button = findViewById(R.id.edit_photo)
+        editPhotoIB = findViewById(R.id.edit_photo)
         fNameET = findViewById(R.id.fullName_et)
         nicknameET = findViewById(R.id.nickname_et)
         emailET = findViewById(R.id.email_et)
         locationET = findViewById(R.id.location_et)
+        skillsCG = findViewById(R.id.skills_cg)
         descriptionET = findViewById(R.id.description_et)
-        chip1e = findViewById(R.id.chip_1e)
-        chip2e = findViewById(R.id.chip_2e)
-        chip3e = findViewById(R.id.chip_3e)
-        chip4e = findViewById(R.id.chip_4e)
-        chip5e = findViewById(R.id.chip_5e)
-        chip6e = findViewById(R.id.chip_6e)
-        chip7e = findViewById(R.id.chip_7e)
-        chip8e = findViewById(R.id.chip_8e)
-        chipControl = mutableListOf()
-
-        chipControl.add(0, chip1e)
-        chipControl.add(1, chip2e)
-        chipControl.add(2, chip3e)
-        chipControl.add(3, chip4e)
-        chipControl.add(4, chip5e)
-        chipControl.add(5, chip6e)
-        chipControl.add(6, chip7e)
-        chipControl.add(7, chip8e)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        button.setOnClickListener {
+        editPhotoIB.setOnClickListener {
             showMenu(it, R.menu.insert_photo_menu)
         }
 
@@ -92,19 +68,20 @@ class EditProfileActivity : AppCompatActivity() {
         nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
         emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
         locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
-        skillsArray =
-            intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY) ?: arrayListOf()
+        skillsList = intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY) ?: arrayListOf()
         descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY) ?: "")
 
-        for (chip in chipControl) {
-            chip.setOnClickListener {
-                if (chip.isChecked)
-                    skillsArray.add(chip.text.toString())
+        for (idx in 0 until skillsCG.childCount) {
+            val skillC: Chip = skillsCG.getChildAt(idx) as Chip
+            skillC.isChecked = skillsList.contains(skillC.text.toString())
+            skillC.setOnCheckedChangeListener { chip, isChecked ->
+                if (isChecked) {
+                    skillsList.add(chip.text.toString())
+                } else {
+                    skillsList.remove(chip.text.toString())
+                }
             }
-            if (skillsArray.contains(chip.text.toString()))
-                chip.isChecked = false
         }
-
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -121,7 +98,7 @@ class EditProfileActivity : AppCompatActivity() {
                 R.id.select_image -> {
                     val gallery =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-                    startActivityForResult(gallery, pickImage)
+                    startActivityForResult(gallery, REQUEST_PICK_IMAGE)
                     true
                 }
                 R.id.take_image -> {
@@ -151,13 +128,9 @@ class EditProfileActivity : AppCompatActivity() {
             nicknameET.text.toString(),
             emailET.text.toString(),
             locationET.text.toString(),
-            description = descriptionET.text.toString()
+            skillsList,
+            descriptionET.text.toString()
         )
-
-        for (chip in chipControl) {
-            if (!chip.isChecked)
-                user.skills.add(chip.text.toString())
-        }
 
         intent.putExtra(ShowProfileActivity.FULL_NAME_KEY, user.fullName)
         intent.putExtra(ShowProfileActivity.NICKNAME_KEY, user.nickName)
@@ -185,7 +158,7 @@ class EditProfileActivity : AppCompatActivity() {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             photoIV.setImageBitmap(imageBitmap)
             saveImageToStorage(imageBitmap)
-        } else if (requestCode == pickImage && resultCode == RESULT_OK) {
+        } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
             val imageUri = data?.data
             val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
             photoIV.setImageBitmap(imageBitmap)

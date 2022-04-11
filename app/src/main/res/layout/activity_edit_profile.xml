@@ -124,7 +124,7 @@
             app:layout_constraintTop_toBottomOf="@id/skills_tv">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
+                android:id="@+id/skills_cg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleLine="true">
@@ -136,7 +136,8 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="Petlover"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_2e"
@@ -144,7 +145,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Babysitter" />
+                    android:text="Babysitter"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_3e"
@@ -152,7 +154,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Gardener" />
+                    android:text="Gardener"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_4e"
@@ -160,7 +163,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Carwasher" />
+                    android:text="Carwasher"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_5e"
@@ -168,7 +172,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Magician" />
+                    android:text="Magician"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_6e"
@@ -176,7 +181,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Factotum" />
+                    android:text="Factotum"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_7e"
@@ -184,7 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Scientist" />
+                    android:text="Scientist"
+                    app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_8e"
@@ -192,7 +199,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Caregiver" />
+                    android:text="Caregiver"
+                    app:checkedIconEnabled="true" />
 
             </com.google.android.material.chip.ChipGroup>
 
