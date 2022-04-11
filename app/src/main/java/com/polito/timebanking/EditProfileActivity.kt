@@ -48,9 +48,9 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_profile)
 
         toolbar = findViewById(R.id.topAppBar)
-        photoIV = findViewById(R.id.photo)
-        editPhotoIB = findViewById(R.id.edit_photo)
-        fNameET = findViewById(R.id.fullName_et)
+        photoIV = findViewById(R.id.photo_iv)
+        editPhotoIB = findViewById(R.id.edit_photo_ib)
+        fNameET = findViewById(R.id.full_name_et)
         nicknameET = findViewById(R.id.nickname_et)
         emailET = findViewById(R.id.email_et)
         locationET = findViewById(R.id.location_et)
@@ -62,7 +62,7 @@ class EditProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         editPhotoIB.setOnClickListener {
-            showMenu(it, R.menu.insert_photo_menu)
+            showMenu(it, R.menu.edit_photo_menu)
         }
 
         setImageFromStorage()

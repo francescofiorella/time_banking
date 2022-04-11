@@ -39,7 +39,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="User image"
+            android:contentDescription="@string/photo_iv_description"
             android:src="@drawable/ic_account"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +54,12 @@
             app:layout_constraintGuide_percent="0.33" />
 
         <TextView
-            android:id="@+id/tv_fullname"
+            android:id="@+id/tv_full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Mario Rossi"
+            android:text="@string/full_name_tv_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideline" />
@@ -69,18 +69,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="m_rossi"
+            android:text="@string/nickname_tv_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fullname" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_full_name" />
 
         <TextView
             android:id="@+id/tv_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="mariorossi@example.com"
+            android:text="@string/email_tv_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="Corso Duca degli Abruzzi, 7"
+            android:text="@string/location_tv_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Skills"
+            android:text="@string/skills_tv_text"
             app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
         <HorizontalScrollView
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Petlover"
+                    android:text="@string/chip_1_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Babysitter"
+                    android:text="@string/chip_2_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Gardener"
+                    android:text="@string/chip_3_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Carwasher"
+                    android:text="@string/chip_4_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Magician"
+                    android:text="@string/chip_5_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Factotum"
+                    android:text="@string/chip_6_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Scientist"
+                    android:text="@string/chip_7_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -203,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Caregiver"
+                    android:text="@string/chip_8_text"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -218,7 +218,7 @@
             android:layout_marginVertical="16dp"
             android:gravity="top"
             android:minLines="3"
-            android:text="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
+            android:text="@string/description_tv_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"

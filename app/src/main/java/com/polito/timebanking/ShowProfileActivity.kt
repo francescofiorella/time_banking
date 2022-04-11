@@ -58,7 +58,7 @@ class ShowProfileActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.topAppBar)
         photoIV = findViewById(R.id.iv_photo)
-        fNameTV = findViewById(R.id.tv_fullname)
+        fNameTV = findViewById(R.id.tv_full_name)
         nicknameTV = findViewById(R.id.tv_nickname)
         emailTV = findViewById(R.id.tv_email)
         locationTV = findViewById(R.id.tv_location)

@@ -33,12 +33,12 @@
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
         <ImageView
-            android:id="@+id/photo"
+            android:id="@+id/photo_iv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:contentDescription="User image"
+            android:contentDescription="@string/photo_iv_description"
             android:src="@drawable/ic_account"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,13 +46,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/edit_photo"
+            android:id="@+id/edit_photo_ib"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Edit Image"
+            android:contentDescription="@string/edit_photo_ib_description"
             android:src="@drawable/ic_camera_alt"
-            app:layout_constraintEnd_toEndOf="@id/photo"
-            app:layout_constraintTop_toTopOf="@id/photo" />
+            app:layout_constraintEnd_toEndOf="@id/photo_iv"
+            app:layout_constraintTop_toTopOf="@id/photo_iv" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -62,12 +62,12 @@
             app:layout_constraintGuide_percent="0.33" />
 
         <EditText
-            android:id="@+id/fullName_et"
+            android:id="@+id/full_name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:hint="Full Name"
+            android:hint="@string/full_name_et_hint"
             android:importantForAutofill="no"
             android:inputType="textPersonName|textCapWords"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,18 +78,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:hint="Nickname"
+            android:hint="@string/nickname_et_hint"
             android:importantForAutofill="no"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullName_et" />
+            app:layout_constraintTop_toBottomOf="@+id/full_name_et" />
 
         <EditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:hint="email@address"
+            android:hint="@string/email_et_hint"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:hint="Location"
+            android:hint="@string/location_et_hint"
             android:importantForAutofill="no"
             android:inputType="text|textCapSentences"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Skills"
+            android:text="@string/skills_tv_text"
             app:layout_constraintTop_toBottomOf="@id/location_et" />
 
         <HorizontalScrollView
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Petlover"
+                    android:text="@string/chip_1_text"
                     android:visibility="visible"
                     app:checkedIconEnabled="true" />
 
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Babysitter"
+                    android:text="@string/chip_2_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Gardener"
+                    android:text="@string/chip_3_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Carwasher"
+                    android:text="@string/chip_4_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Magician"
+                    android:text="@string/chip_5_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Factotum"
+                    android:text="@string/chip_6_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Scientist"
+                    android:text="@string/chip_7_text"
                     app:checkedIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
@@ -201,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Caregiver"
+                    android:text="@string/chip_8_text"
                     app:checkedIconEnabled="true" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
             android:gravity="top"
-            android:hint="Description"
+            android:hint="@string/description_et_hint"
             android:importantForAutofill="no"
             android:inputType="text|textMultiLine|textCapSentences"
             android:minLines="3"

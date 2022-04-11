@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/select_image"
-        android:title="Select an image from gallery" />
+        android:title="@string/edit_photo_menu_select_image_title" />
 
     <item
         android:id="@+id/take_image"
-        android:title="Use the camera to take a picture" />
+        android:title="@string/edit_photo_menu_take_image_title" />
 
 </menu>
