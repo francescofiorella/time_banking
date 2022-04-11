@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -159,13 +158,9 @@ class EditProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            val uricam = data?.data
-            val path = uricam?.path
-            path?.apply {
-                val r= rotateImageIfRequired(imageBitmap,path)
-            }
             photoIV.setImageBitmap(imageBitmap)
             saveImageToStorage(imageBitmap)
+
         } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
             val imageUri = data?.data
             val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
@@ -201,8 +196,8 @@ class EditProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun rotateImageIfRequired(bitmap: Bitmap, uri: String): Bitmap{
-        val ei = ExifInterface(uri)
+    private fun rotateImageIfRequired(bitmap: Bitmap, pathname: String): Bitmap{
+        val ei = ExifInterface(pathname)
         val orientation: Int = ei.getAttributeInt(
             ExifInterface.TAG_ORIENTATION,
             ExifInterface.ORIENTATION_UNDEFINED
