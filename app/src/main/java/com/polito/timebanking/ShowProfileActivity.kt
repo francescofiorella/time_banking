@@ -28,6 +28,8 @@ class ShowProfileActivity : AppCompatActivity() {
         const val SKILLS_KEY = "group36.lab1.SKILLS"
         const val DESCRIPTION_KEY = "group36.lab1.DESCRIPTION"
 
+        const val PATH_PHOTO = "profileImg.png"
+
         private const val FULL_NAME_SAVE_KEY = "fullName_save_key"
         private const val NICKNAME_SAVE_KEY = "nickname_save_key"
         private const val EMAIL_SAVE_KEY = "email_save_key"
@@ -113,7 +115,7 @@ class ShowProfileActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         try {
-            val fileInputStream = openFileInput("profileImg.png")
+            val fileInputStream = openFileInput(PATH_PHOTO)
             val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
             photoIV.setImageBitmap(b)
         } catch (e: FileNotFoundException) {
@@ -190,7 +192,7 @@ class ShowProfileActivity : AppCompatActivity() {
 
     private fun setImageFromStorage() {
         try {
-            val fileInputStream = openFileInput("profileImg.png")
+            val fileInputStream = openFileInput(PATH_PHOTO)
             val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
             photoIV.setImageBitmap(b)
         } catch (e: FileNotFoundException) {

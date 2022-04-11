@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -18,11 +17,13 @@ import android.widget.ImageView
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.exifinterface.media.ExifInterface
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
+import java.io.IOException
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -158,9 +159,10 @@ class EditProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            photoIV.setImageBitmap(imageBitmap)
             saveImageToStorage(imageBitmap)
-
+            val rotatedImageBitmap =
+                rotateImageIfRequired(imageBitmap, ShowProfileActivity.PATH_PHOTO)
+            photoIV.setImageBitmap(rotatedImageBitmap)
         } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
             val imageUri = data?.data
             val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
@@ -171,7 +173,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun setImageFromStorage() {
         try {
-            val fileInputStream = openFileInput("profileImg.png")
+            val fileInputStream = openFileInput(ShowProfileActivity.PATH_PHOTO)
             val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
             photoIV.setImageBitmap(b)
         } catch (e: FileNotFoundException) {
@@ -180,13 +182,13 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun saveImageToStorage(photo: Bitmap) {
-        val filename = "profileImg.png"
         val stream = ByteArrayOutputStream()
         photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        this.openFileOutput(filename, Context.MODE_PRIVATE).use {
+        this.openFileOutput(ShowProfileActivity.PATH_PHOTO, Context.MODE_PRIVATE).use {
             it.write(stream.toByteArray())
         }
     }
+
     private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(angle)
@@ -196,19 +198,30 @@ class EditProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun rotateImageIfRequired(bitmap: Bitmap, pathname: String): Bitmap{
-        val ei = ExifInterface(pathname)
-        val orientation: Int = ei.getAttributeInt(
-            ExifInterface.TAG_ORIENTATION,
-            ExifInterface.ORIENTATION_UNDEFINED
-        )
+    private fun rotateImageIfRequired(bitmap: Bitmap, pathname: String): Bitmap {
+        try {
+            val fileInputStream = openFileInput(pathname)
+            val ei = ExifInterface(fileInputStream)
+            val orientation: Int = ei.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED
+            )
 
-        return when (orientation) {
-            ExifInterface.ORIENTATION_ROTATE_90 ->  rotateImage(bitmap, 90f)
-            ExifInterface.ORIENTATION_ROTATE_180 ->   rotateImage(bitmap, 180f)
-            ExifInterface.ORIENTATION_ROTATE_270 ->   rotateImage(bitmap, 270f)
-            ExifInterface.ORIENTATION_NORMAL ->   bitmap
-            else ->   bitmap
+            return when (orientation) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
+                ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
+                ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
+                ExifInterface.ORIENTATION_NORMAL -> bitmap
+                else -> bitmap
+            }
+        } catch (e: Exception) {
+            when (e) {
+                is FileNotFoundException, is IOException -> {
+                    e.printStackTrace()
+                    return bitmap
+                }
+                else -> throw e
+            }
         }
     }
 }
