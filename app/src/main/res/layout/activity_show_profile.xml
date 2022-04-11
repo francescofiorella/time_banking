@@ -27,6 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +37,8 @@
             android:id="@+id/iv_photo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="User image"
             android:src="@drawable/ic_account"
             app:layout_constraintBottom_toTopOf="@id/guideline"
@@ -55,8 +57,8 @@
             android:id="@+id/tv_fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Mario Rossi"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +68,6 @@
             android:id="@+id/tv_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
             android:text="m_rossi"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -78,7 +79,6 @@
             android:id="@+id/tv_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
             android:text="mariorossi@example.com"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -90,7 +90,6 @@
             android:id="@+id/tv_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
             android:text="Corso Duca degli Abruzzi, 7"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -102,7 +101,6 @@
             android:id="@+id/skills_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:text="Skills"
             app:layout_constraintTop_toBottomOf="@id/tv_location" />
@@ -111,8 +109,6 @@
             android:id="@+id/skills_hsv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginStart="16dp"
             android:scrollbars="none"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/skills_tv">
@@ -174,7 +170,9 @@
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:checked="true"
-                    android:text="Magician" />
+                    android:text="Magician"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_6"
@@ -217,7 +215,6 @@
             android:id="@+id/tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
             android:gravity="top"
             android:minLines="3"

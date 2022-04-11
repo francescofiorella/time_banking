@@ -23,15 +23,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageButton
-        android:id="@+id/edit_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="Insert Image"
-        android:src="@drawable/ic_camera_alt"
-        app:layout_constraintEnd_toEndOf="@id/photo"
-        app:layout_constraintTop_toTopOf="@id/photo" />
-
     <ImageView
         android:id="@+id/photo"
         android:layout_width="0dp"
@@ -46,6 +37,15 @@
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+    <ImageButton
+        android:id="@+id/edit_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Edit Image"
+        android:src="@drawable/ic_camera_alt"
+        app:layout_constraintEnd_toEndOf="@id/photo"
+        app:layout_constraintTop_toTopOf="@id/photo" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:hint="Full Name"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName|textCapWords"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:hint="Nickname"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:hint="email@address"
+                android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:hint="Location"
+                android:importantForAutofill="no"
                 android:inputType="text|textCapSentences"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -213,6 +217,7 @@
                 android:layout_marginVertical="16dp"
                 android:gravity="top"
                 android:hint="Description"
+                android:importantForAutofill="no"
                 android:inputType="text|textMultiLine|textCapSentences"
                 android:minLines="3"
                 app:layout_constraintEnd_toEndOf="parent"
