@@ -161,7 +161,7 @@ class EditProfileActivity : AppCompatActivity() {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             val uricam = data?.data
             val path = uricam?.path
-            if(path !=null){
+            path?.apply {
                 val r= rotateImageIfRequired(imageBitmap,path)
             }
             photoIV.setImageBitmap(imageBitmap)
