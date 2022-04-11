@@ -2,8 +2,10 @@ package com.polito.timebanking
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -17,6 +19,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -38,6 +42,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var chip8e: Chip
     private lateinit var chipControl: MutableList<Chip>
     private var skillsArray = arrayListOf<String>()
+    private var pickImage = 100
 
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
@@ -83,6 +88,24 @@ class EditProfileActivity : AppCompatActivity() {
             showMenu(it, R.menu.insert_photo_menu)
         }
 
+
+
+        //photoIV.setImageBitmap(intent.getParcelableExtra(ShowProfileActivity.PHOTO_KEY))
+        try {
+            val fileInputStream = openFileInput("profileImg.png")
+            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+            photoIV.setImageBitmap(b)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        fNameET.setText(intent.getStringExtra(ShowProfileActivity.FULL_NAME_KEY) ?: "")
+        nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
+        emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
+        locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
+        skillsArray =
+            intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY) ?: arrayListOf()
+        descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY) ?: "")
+
         for (chip in chipControl) {
             chip.setOnClickListener {
                 if (chip.isChecked)
@@ -92,25 +115,24 @@ class EditProfileActivity : AppCompatActivity() {
                 chip.isChecked = false
         }
 
-        photoIV.setImageBitmap(intent.getParcelableExtra(ShowProfileActivity.PHOTO_KEY))
-        fNameET.setText(intent.getStringExtra(ShowProfileActivity.FULL_NAME_KEY) ?: "")
-        nicknameET.setText(intent.getStringExtra(ShowProfileActivity.NICKNAME_KEY) ?: "")
-        emailET.setText(intent.getStringExtra(ShowProfileActivity.EMAIL_KEY) ?: "")
-        locationET.setText(intent.getStringExtra(ShowProfileActivity.LOCATION_KEY) ?: "")
-        skillsArray =
-            intent.getStringArrayListExtra(ShowProfileActivity.SKILLS_KEY) ?: arrayListOf()
-        descriptionET.setText(intent.getStringExtra(ShowProfileActivity.DESCRIPTION_KEY) ?: "")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
+        //outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getParcelable<Bitmap>(PHOTO_SAVE_KEY)?.let {
+       /* savedInstanceState.getParcelable<Bitmap>(PHOTO_SAVE_KEY)?.let {
             photoIV.setImageBitmap(it)
+        } */
+        try {
+            val fileInputStream = openFileInput("profileImg.png")
+            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+            photoIV.setImageBitmap(b)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
     }
 
@@ -121,7 +143,8 @@ class EditProfileActivity : AppCompatActivity() {
         popup.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.select_image -> {
-                    // Respond to context menu item 1 click.
+                    val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                    startActivityForResult(gallery, pickImage)
                     true
                 }
                 R.id.take_image -> {
@@ -164,7 +187,7 @@ class EditProfileActivity : AppCompatActivity() {
         intent.putExtra(ShowProfileActivity.EMAIL_KEY, user.email)
         intent.putExtra(ShowProfileActivity.LOCATION_KEY, user.location)
         intent.putExtra(ShowProfileActivity.DESCRIPTION_KEY, user.description)
-        intent.putExtra(ShowProfileActivity.PHOTO_KEY, photoIV.drawable.toBitmap())
+        //intent.putExtra(ShowProfileActivity.PHOTO_KEY, photoIV.drawable.toBitmap())
         intent.putExtra(ShowProfileActivity.SKILLS_KEY, user.skills)
         setResult(Activity.RESULT_OK, intent)
         super.onBackPressed()
@@ -184,6 +207,22 @@ class EditProfileActivity : AppCompatActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             photoIV.setImageBitmap(imageBitmap)
+            saveImage(imageBitmap)
+        } else if(requestCode == pickImage && resultCode == RESULT_OK){
+            val imageUri = data?.data
+            val imageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
+            photoIV.setImageBitmap(imageBitmap)
+            saveImage(imageBitmap)
+            }
+    }
+
+    private fun saveImage(photo: Bitmap){
+        val filename = "profileImg.png"
+        val stream = ByteArrayOutputStream()
+        photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+        this.openFileOutput(filename, Context.MODE_PRIVATE).use {
+            it.write(stream.toByteArray())
         }
     }
+
 }

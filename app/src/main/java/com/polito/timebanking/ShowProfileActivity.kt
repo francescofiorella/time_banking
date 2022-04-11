@@ -137,7 +137,7 @@ class ShowProfileActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
+        //outState.putParcelable(PHOTO_SAVE_KEY, photoIV.drawable.toBitmap())
         outState.putString(FULL_NAME_SAVE_KEY, fNameTV.text.toString())
         outState.putString(NICKNAME_SAVE_KEY, nicknameTV.text.toString())
         outState.putString(EMAIL_SAVE_KEY, emailTV.text.toString())
@@ -148,8 +148,16 @@ class ShowProfileActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        /*
         savedInstanceState.getParcelable<Bitmap>(PHOTO_SAVE_KEY)?.let {
             photoIV.setImageBitmap(it)
+        } */
+        try {
+            val fileInputStream = openFileInput("profileImg.png")
+            val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+            photoIV.setImageBitmap(b)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
         fNameTV.text = savedInstanceState.getString(FULL_NAME_SAVE_KEY) ?: ""
         nicknameTV.text = savedInstanceState.getString(NICKNAME_SAVE_KEY) ?: ""
@@ -168,7 +176,7 @@ class ShowProfileActivity : AppCompatActivity() {
 
     private fun editProfile() {
         val intent = Intent(this, EditProfileActivity::class.java)
-        intent.putExtra(PHOTO_KEY, photoIV.drawable.toBitmap())
+        //intent.putExtra(PHOTO_KEY, photoIV.drawable.toBitmap())
         intent.putExtra(FULL_NAME_KEY, fNameTV.text.toString())
         intent.putExtra(NICKNAME_KEY, nicknameTV.text.toString())
         intent.putExtra(EMAIL_KEY, emailTV.text.toString())
@@ -183,9 +191,16 @@ class ShowProfileActivity : AppCompatActivity() {
         when (requestCode) {
             EDIT_KEY -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    data?.getParcelableExtra<Bitmap>(PHOTO_KEY)?.let {
+                   /* data?.getParcelableExtra<Bitmap>(PHOTO_KEY)?.let {
                         photoIV.setImageBitmap(it)
                         photo = it
+                    }*/
+                    try {
+                        val fileInputStream = openFileInput("profileImg.png")
+                        val b: Bitmap = BitmapFactory.decodeStream(fileInputStream)
+                        photoIV.setImageBitmap(b)
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
                     }
 
                     val user = User(
@@ -219,12 +234,7 @@ class ShowProfileActivity : AppCompatActivity() {
                         ?.putString(PROFILE_KEY, Gson().toJson(user) ?: "")
                         ?.apply()
 
-                    val filename = "profileImg.png"
-                    val stream = ByteArrayOutputStream()
-                    photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
-                    this.openFileOutput(filename, Context.MODE_PRIVATE).use {
-                        it.write(stream.toByteArray())
-                    }
+
                 }
             }
             else -> Unit
