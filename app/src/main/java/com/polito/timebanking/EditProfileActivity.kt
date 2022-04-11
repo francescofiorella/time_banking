@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
@@ -156,6 +159,11 @@ class EditProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
+            val uricam = data?.data
+            val path = uricam?.path
+            if(path !=null){
+                val r= rotateImageIfRequired(imageBitmap,path)
+            }
             photoIV.setImageBitmap(imageBitmap)
             saveImageToStorage(imageBitmap)
         } else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
@@ -182,6 +190,30 @@ class EditProfileActivity : AppCompatActivity() {
         photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
         this.openFileOutput(filename, Context.MODE_PRIVATE).use {
             it.write(stream.toByteArray())
+        }
+    }
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            source, 0, 0, source.width, source.height,
+            matrix, true
+        )
+    }
+
+    private fun rotateImageIfRequired(bitmap: Bitmap, uri: String): Bitmap{
+        val ei = ExifInterface(uri)
+        val orientation: Int = ei.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 ->  rotateImage(bitmap, 90f)
+            ExifInterface.ORIENTATION_ROTATE_180 ->   rotateImage(bitmap, 180f)
+            ExifInterface.ORIENTATION_ROTATE_270 ->   rotateImage(bitmap, 270f)
+            ExifInterface.ORIENTATION_NORMAL ->   bitmap
+            else ->   bitmap
         }
     }
 }
