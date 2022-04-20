@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/timeSlotDetailsFragment">
+
+    <fragment
+        android:id="@+id/timeSlotDetailsFragment"
+        android:name="com.polito.timebanking.TimeSlotDetailsFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeSlotEditFragment"
+        android:name="com.polito.timebanking.TimeSlotEditFragment"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit" >
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timeSlotListFragment"
+            app:destination="@id/timeSlotListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeSlotListFragment"
+        android:name="com.polito.timebanking.TimeSlotListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
+</navigation>
