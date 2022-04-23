@@ -5,10 +5,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profile"
-            android:title="Profile" />
-        <item
-            android:id="@+id/nav_list"
-            android:title="Time slot list" />
+            android:id="@+id/timeSlotListFragment"
+            android:title="Time slot list"
+            android:checked="true"/>
     </group>
 </menu>

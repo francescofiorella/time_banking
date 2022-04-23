@@ -6,6 +6,6 @@
         android:contentDescription="@string/toolbar_menu_edit_description"
         android:icon="@drawable/ic_baseline_edit_24"
         android:title="@string/toolbar_menu_edit_title"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
 </menu>

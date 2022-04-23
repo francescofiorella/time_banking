@@ -50,7 +50,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        toolbar = findViewById(R.id.topAppBar)
+        toolbar = findViewById(R.id.toolbar)
         photoIV = findViewById(R.id.photo_iv)
         editPhotoIB = findViewById(R.id.edit_photo_ib)
         fNameET = findViewById(R.id.full_name_et)

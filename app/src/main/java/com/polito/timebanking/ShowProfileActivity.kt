@@ -56,7 +56,7 @@ class ShowProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_profile)
 
-        toolbar = findViewById(R.id.topAppBar)
+        toolbar = findViewById(R.id.toolbar)
         photoIV = findViewById(R.id.iv_photo)
         fNameTV = findViewById(R.id.tv_full_name)
         nicknameTV = findViewById(R.id.tv_nickname)
