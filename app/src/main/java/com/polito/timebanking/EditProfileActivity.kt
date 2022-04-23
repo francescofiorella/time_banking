@@ -23,6 +23,7 @@ import androidx.exifinterface.media.ExifInterface
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.polito.timebanking.model.User
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.IOException

@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit -> {
-                    navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-                    true
+                    if (navController?.currentDestination?.id == R.id.timeSlotDetailsFragment) {
+                        navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                        true
+                    } else false
                 }
                 else -> false
             }

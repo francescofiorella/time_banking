@@ -15,6 +15,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.gson.Gson
+import com.polito.timebanking.model.User
 import java.io.FileNotFoundException
 
 class ShowProfileActivity : AppCompatActivity() {

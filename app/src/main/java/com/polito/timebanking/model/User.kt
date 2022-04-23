@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.model
 
 data class User(
     var fullName: String,
