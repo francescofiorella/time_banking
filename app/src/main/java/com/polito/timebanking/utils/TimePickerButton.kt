@@ -26,8 +26,13 @@ open class TimePickerButton(
         val calendar = Calendar.getInstance()
         val builder = MaterialTimePicker.Builder()
         builder.setTimeFormat(TimeFormat.CLOCK_24H)
-        builder.setHour(calendar.get(Calendar.HOUR_OF_DAY))
-        builder.setMinute(calendar.get(Calendar.MINUTE))
+        if (hour != null && minute != null) {
+            builder.setHour(hour!!)
+            builder.setMinute(minute!!)
+        } else {
+            builder.setHour(calendar.get(Calendar.HOUR_OF_DAY))
+            builder.setMinute(calendar.get(Calendar.MINUTE))
+        }
         builder.setTitleText(TIME_PICKER_TITLE)
         val materialTimePicker = builder.build()
 

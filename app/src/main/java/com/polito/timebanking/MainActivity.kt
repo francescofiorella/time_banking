@@ -39,11 +39,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        /*appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.timeSlotListFragment), binding.drawerLayout
-        )*/
-        //setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private val navigationListener = NavController.OnDestinationChangedListener { _, _, _ ->
@@ -71,9 +66,4 @@ class MainActivity : AppCompatActivity() {
         menu?.findItem(R.id.edit)?.isVisible = navController?.currentDestination?.id == R.id.timeSlotDetailsFragment
         return true
     }
-
-    /*override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }*/
 }
