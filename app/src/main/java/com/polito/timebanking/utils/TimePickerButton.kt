@@ -3,12 +3,9 @@ package com.polito.timebanking.utils
 import android.view.View
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import java.sql.Time
-import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
@@ -66,11 +63,6 @@ open class TimePickerButton(
     private fun setOnClickListener() {
         layout.setEndIconOnClickListener(listener)
         textView.setOnClickListener(listener)
-    }
-
-    private fun removeOnClickListener() {
-        layout.setEndIconOnClickListener(listener)
-        textView.setOnClickListener(null)
     }
 
     private fun showTimePicker(materialTimePicker: MaterialTimePicker) {

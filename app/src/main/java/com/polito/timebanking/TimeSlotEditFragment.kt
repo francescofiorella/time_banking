@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
+import com.polito.timebanking.viewmodels.TimeSlotViewModel
 
 class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
 
@@ -17,6 +19,8 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
     // custom date and time pickers
     private lateinit var datePickerBtn: DatePickerButton
     private lateinit var timePickerButton: TimePickerButton
+
+    val viewModel by viewModels<TimeSlotViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,10 +46,9 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                /*viewModel.year = year
+                viewModel.year = year
                 viewModel.month = month
                 viewModel.day = day
-                viewModel.dateString = dateString*/
             }
         }
 
@@ -57,7 +60,8 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                // do things
+                viewModel.hour = hour
+                viewModel.minute = minute
             }
         }
     }
