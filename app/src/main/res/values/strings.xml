@@ -26,4 +26,10 @@
     <string name="edit_photo_menu_take_image_title">Use the camera to take a picture</string>
     <string name="toolbar_menu_edit_description">Edit Menu</string>
     <string name="toolbar_menu_edit_title">Edit</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="duration">Duration</string>
+    <string name="location">Location</string>
 </resources>

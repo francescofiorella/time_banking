@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
 import com.polito.timebanking.utils.DatePickerButton
+import com.polito.timebanking.utils.TimePickerButton
 
 class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
 
     private lateinit var binding: FragmentTimeSlotEditBinding
-    // custom datePicker
+    // custom date and time pickers
     private lateinit var datePickerBtn: DatePickerButton
+    private lateinit var timePickerButton: TimePickerButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,18 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
                 viewModel.month = month
                 viewModel.day = day
                 viewModel.dateString = dateString*/
+            }
+        }
+
+        // init timePicker
+        timePickerButton = object : TimePickerButton(
+            binding.timeTextInputLayout,
+            binding.timeAutoCompleteTV,
+            requireActivity()
+        ) {
+            override fun onPositiveBtnClickListener() {
+                super.onPositiveBtnClickListener()
+                // do things
             }
         }
     }
