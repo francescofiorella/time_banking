@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment"
             app:destination="@id/timeSlotEditFragment" />
+        <action
+            android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
     </fragment>
 
     <fragment
@@ -32,6 +35,9 @@
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timeSlotListFragment"
+            app:destination="@id/timeSlotListFragment" />
     </fragment>
 
 </navigation>
