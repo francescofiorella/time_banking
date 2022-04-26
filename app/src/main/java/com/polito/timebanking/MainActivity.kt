@@ -31,10 +31,17 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit -> {
-                    if (navController?.currentDestination?.id == R.id.timeSlotDetailsFragment) {
-                        navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-                        true
-                    } else false
+                    when (navController?.currentDestination?.id) {
+                        R.id.timeSlotDetailsFragment -> {
+                            navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                            true
+                        }
+                        R.id.showProfileFragment -> {
+                            navController?.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+                            true
+                        }
+                        else -> false
+                    }
                 }
                 else -> false
             }
@@ -63,7 +70,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.edit)?.isVisible = navController?.currentDestination?.id == R.id.timeSlotDetailsFragment
+        menu?.findItem(R.id.edit)?.isVisible = when (navController?.currentDestination?.id) {
+            R.id.timeSlotDetailsFragment -> true
+            R.id.showProfileFragment -> true
+            else -> false
+        }
         return true
     }
 }

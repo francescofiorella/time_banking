@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/timeSlotListFragment"
         android:name="com.polito.timebanking.TimeSlotListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_time_slot_list" >
+        android:label="Time Slot list"
+        tools:layout="@layout/fragment_time_slot_list">
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment"
             app:destination="@id/timeSlotEditFragment" />
@@ -21,23 +21,42 @@
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
         android:name="com.polito.timebanking.TimeSlotDetailsFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_time_slot_detail" >
+        android:label="Time Slot details"
+        tools:layout="@layout/fragment_time_slot_detail">
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
             app:destination="@id/timeSlotEditFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/timeSlotEditFragment"
         android:name="com.polito.timebanking.TimeSlotEditFragment"
-        android:label="fragment_edit"
-        tools:layout="@layout/fragment_time_slot_edit" >
+        android:label="Time Slot edit"
+        tools:layout="@layout/fragment_time_slot_edit">
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timeSlotListFragment"
             app:destination="@id/timeSlotListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showProfileFragment"
+        android:name="com.polito.timebanking.ShowProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_show_profile" >
+        <action
+            android:id="@+id/action_showProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.polito.timebanking.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
     </fragment>
 
 </navigation>

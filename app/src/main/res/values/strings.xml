@@ -33,4 +33,6 @@
     <string name="duration">Duration</string>
     <string name="location">Location</string>
     <string name="edit">Edit</string>
+    <string name="navigation_menu_show_profile_fragment">Profile</string>
+    <string name="navigation_menu_time_slot_list_fragment">Time slot list</string>
 </resources>
