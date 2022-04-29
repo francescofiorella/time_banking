@@ -29,6 +29,9 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
         binding.timeSlot = viewModel.timeslot
+
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+
         return binding.root
     }
 

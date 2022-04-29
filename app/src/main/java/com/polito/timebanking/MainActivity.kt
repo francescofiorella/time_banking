@@ -2,11 +2,12 @@ package com.polito.timebanking
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +25,8 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController!!)
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setNavigationOnClickListener {
-            binding.drawerLayout.open()
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -76,5 +76,15 @@ class MainActivity : AppCompatActivity() {
             else -> false
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            when (navController?.currentDestination?.id) {
+                R.id.timeSlotListFragment, R.id.showProfileFragment -> binding.drawerLayout.open()
+                else -> onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

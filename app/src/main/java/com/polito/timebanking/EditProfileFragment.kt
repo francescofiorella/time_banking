@@ -1,38 +1,14 @@
 package com.polito.timebanking
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.graphics.Matrix
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import androidx.annotation.MenuRes
-import androidx.appcompat.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
-import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
-import com.polito.timebanking.models.User
 import com.polito.timebanking.viewmodels.UserViewModel
-import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
-import java.io.IOException
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
@@ -47,6 +23,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_edit_profile, container, false)
         binding.user = viewModel.user
+
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+
         return binding.root
     }
 

@@ -68,7 +68,8 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_person">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/full_name_et"
@@ -90,7 +91,8 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/full_name_til">
+                    app:layout_constraintTop_toBottomOf="@id/full_name_til"
+                    app:startIconDrawable="@drawable/ic_alternate_email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nickname_et"
@@ -112,7 +114,8 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_til">
+                    app:layout_constraintTop_toBottomOf="@id/nickname_til"
+                    app:startIconDrawable="@drawable/ic_email">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_et"
@@ -134,7 +137,8 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/email_til">
+                    app:layout_constraintTop_toBottomOf="@id/email_til"
+                    app:startIconDrawable="@drawable/ic_location_on">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/location_et"
@@ -258,7 +262,8 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/skills_hsv">
+                    app:layout_constraintTop_toBottomOf="@id/skills_hsv"
+                    app:startIconDrawable="@drawable/ic_description">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_et"

@@ -31,9 +31,13 @@ class TimeSlotListFragment: Fragment(), TimeSlotListener{
     ): View {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_list, container, false)
+
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+
         TimeSlotAdapter(timeSlotList,this).also {
             binding.listRecyclerView.adapter = it
         }
+
         return binding.root
     }
 

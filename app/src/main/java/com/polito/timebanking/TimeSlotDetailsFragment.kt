@@ -23,6 +23,9 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_detail) {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
         binding.timeSlot = viewModel.timeslot
+
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+
         return binding.root
     }
 }
