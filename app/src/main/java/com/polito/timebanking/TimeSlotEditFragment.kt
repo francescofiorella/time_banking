@@ -13,7 +13,7 @@ import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 
-class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
+class TimeSlotEditFragment: Fragment() {
 
     private lateinit var binding: FragmentTimeSlotEditBinding
     // custom date and time pickers
