@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -45,9 +46,9 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.timeslot.year = year
-                viewModel.timeslot.month = month
-                viewModel.timeslot.day = day
+                viewModel.timeslot.year = year!!
+                viewModel.timeslot.month = month!!
+                viewModel.timeslot.day = day!!
             }
         }
 
@@ -59,9 +60,10 @@ class TimeSlotEditFragment: Fragment(R.layout.fragment_time_slot_edit) {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.timeslot.hour = hour
-                viewModel.timeslot.minute = minute
+                viewModel.timeslot.hour = hour!!
+                viewModel.timeslot.minute = minute!!
             }
         }
+
     }
 }

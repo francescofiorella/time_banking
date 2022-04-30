@@ -51,11 +51,27 @@ class TimeSlotListFragment: Fragment(), TimeSlotListener{
 
     override fun onCardClickListener(timeSlot: TimeSlot, position: Int) {
         // TODO: pass timeSlot parameters to detailFragment
-        findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
+        findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment, Bundle().apply{
+            putString("tstitle", timeSlotList.elementAt(position).title)
+            //putString("tsdescription",timeSlotList.elementAt(position).description)
+            //putString("tsduration",timeSlotList.elementAt(position).duration)
+            putString("tslocation",timeSlotList.elementAt(position).location)
+            //putInt("tsyear", timeSlotList.elementAt(position).year)
+            //putInt("tsmonth", timeSlotList.elementAt(position).month)
+            //putInt("tsday", timeSlotList.elementAt(position).day)
+            //putInt("tshour", timeSlotList.elementAt(position).hour)
+            //putInt("tsminute", timeSlotList.elementAt(position).minute)
+        })
     }
 
     override fun onEditClickListener(timeSlot: TimeSlot, position: Int) {
         // TODO: pass timeSlot parameters to editFragment
-        findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
+        findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment, Bundle().apply{
+
+            putString("tstitle", timeSlotList.elementAt(position).title)
+            //putString("tsdescription",timeSlotList.elementAt(position).description)
+            //putString("tsduration",timeSlotList.elementAt(position).duration)
+            putString("tslocation",timeSlotList.elementAt(position).location)
+        })
     }
 }
