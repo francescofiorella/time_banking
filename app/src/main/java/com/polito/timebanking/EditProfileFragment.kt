@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.viewmodels.UserViewModel
 
-class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
+class EditProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentEditProfileBinding
     private val viewModel by viewModels<UserViewModel>()

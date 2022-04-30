@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
 import com.polito.timebanking.viewmodels.UserViewModel
 
-class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
+class ShowProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentShowProfileBinding
     private val viewModel by viewModels<UserViewModel>()
