@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.polito.timebanking.databinding.FragmentTimeSlotListBinding
 import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.TimeSlotAdapter
@@ -52,15 +53,7 @@ class TimeSlotListFragment: Fragment(), TimeSlotListener{
     override fun onCardClickListener(timeSlot: TimeSlot, position: Int) {
         // TODO: pass timeSlot parameters to detailFragment
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment, Bundle().apply{
-            putString("tstitle", timeSlotList.elementAt(position).title)
-            putString("tsdescription",timeSlotList.elementAt(position).description)
-            putString("tsduration",timeSlotList.elementAt(position).duration)
-            putString("tslocation",timeSlotList.elementAt(position).location)
-            putInt("tsyear", timeSlotList.elementAt(position).year ?: 0)
-            putInt("tsmonth", timeSlotList.elementAt(position).month ?: 0)
-            putInt("tsday", timeSlotList.elementAt(position).day ?: 0)
-            putInt("tshour", timeSlotList.elementAt(position).hour ?: 0)
-            putInt("tsminute", timeSlotList.elementAt(position).minute ?: 0)
+            putString("timeslot_key", Gson().toJson(timeSlotList[position]) ?: "")
         })
     }
 

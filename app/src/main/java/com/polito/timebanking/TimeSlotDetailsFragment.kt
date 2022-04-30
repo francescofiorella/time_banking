@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
 import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
@@ -27,7 +28,9 @@ class TimeSlotDetailsFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
-        viewModel.setTimeSlot(requireArguments())
+        requireArguments().getString("timeslot_key").also {
+            viewModel.timeslot = Gson().fromJson(it, TimeSlot::class.java)
+        }
         binding.timeSlot = viewModel.timeslot
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
