@@ -29,7 +29,9 @@ class TimeSlotDetailsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
         requireArguments().getString("timeslot_key").also {
-            viewModel.timeslot = Gson().fromJson(it, TimeSlot::class.java)
+            if (!it.isNullOrEmpty()) {
+                viewModel.timeslot = Gson().fromJson(it, TimeSlot::class.java)
+            }
         }
         binding.timeSlot = viewModel.timeslot
 
