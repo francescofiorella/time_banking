@@ -11,7 +11,7 @@ import com.polito.timebanking.R
 import com.polito.timebanking.models.TimeSlot
 
 class TimeSlotAdapter(
-    private val data: MutableList<TimeSlot>,
+    private val data: List<TimeSlot>,
     private val listener: TimeSlotListener
 ) : RecyclerView.Adapter<TimeSlotAdapter.TimeSlotViewHolder>() {
 

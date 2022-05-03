@@ -63,6 +63,10 @@ class TimeSlotEditFragment: Fragment() {
             }
         }
 
+        datePickerBtn.year = viewModel.currentTimeslot?.year.takeIf { it != 0 }
+        datePickerBtn.month = viewModel.currentTimeslot?.month.takeIf { it != 0 }
+        datePickerBtn.day = viewModel.currentTimeslot?.day.takeIf { it != 0 }
+
         // init timePicker
         timePickerButton = object : TimePickerButton(
             binding.timeTextInputLayout,
@@ -75,6 +79,9 @@ class TimeSlotEditFragment: Fragment() {
                 viewModel.currentTimeslot?.minute = minute!!
             }
         }
+
+        timePickerButton.hour = viewModel.currentTimeslot?.hour.takeIf { it != 99 }
+        timePickerButton.minute = viewModel.currentTimeslot?.minute.takeIf { it != 99 }
     }
 
     override fun onDestroyView() {
@@ -87,8 +94,8 @@ class TimeSlotEditFragment: Fragment() {
             timeSlot.location = binding.locationEt.text.toString()
             // save the list
             when (viewModel.editFragmentMode) {
-                ADD_MODE -> viewModel.timeSlotList.add(timeSlot)
-                EDIT_MODE -> Unit
+                ADD_MODE -> viewModel.addTimeSlot(timeSlot)
+                EDIT_MODE -> viewModel.updateTimeSlot(timeSlot)
                 else -> Unit
             }
         }

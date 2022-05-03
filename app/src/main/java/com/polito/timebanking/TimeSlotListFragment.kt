@@ -32,8 +32,10 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
-        TimeSlotAdapter(viewModel.timeSlotList, this).also {
-            binding.listRecyclerView.adapter = it
+        viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->
+            TimeSlotAdapter(list, this).also {
+                binding.listRecyclerView.adapter = it
+            }
         }
 
         return binding.root

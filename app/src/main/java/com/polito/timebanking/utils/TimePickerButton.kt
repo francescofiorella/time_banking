@@ -48,7 +48,7 @@ open class TimePickerButton(
             textView.setText(timeString)
         }
 
-    val timeString: String?
+    private val timeString: String?
         get() {
             return timeToString(hour, minute)
         }

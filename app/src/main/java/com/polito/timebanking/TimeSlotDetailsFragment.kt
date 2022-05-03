@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.NONE
@@ -43,5 +44,10 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.editFragmentMode = NONE
+    }
+
+    fun navigateToEdit() {
+        viewModel.editFragmentMode = TimeSlotViewModel.EDIT_MODE
+        findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
     }
 }
