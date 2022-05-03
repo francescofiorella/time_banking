@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.gson.Gson
 import com.polito.timebanking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.edit -> {
                     when (navController?.currentDestination?.id) {
                         R.id.timeSlotDetailsFragment -> {
-                            navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                            navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment, Bundle().apply {
+                                putString("timeslot_key",  "")
+                            })
                             true
                         }
                         R.id.showProfileFragment -> {

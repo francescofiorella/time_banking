@@ -16,37 +16,7 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
-        <argument
-            android:name="tstitle"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="tsdescription"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="tsyear"
-            app:argType="integer" />
-        <argument
-            android:name="tsmonth"
-            app:argType="integer" />
-        <argument
-            android:name="tsday"
-            app:argType="integer" />
-        <argument
-            android:name="tshour"
-            app:argType="integer" />
-        <argument
-            android:name="tsminute"
-            app:argType="integer" />
-        <argument
-            android:name="tsduration"
-            app:argType="string"
-            android:defaultValue="null" />
-        <argument
-            android:name="tslocation"
-            app:argType="string"
-            android:defaultValue="null" />
+
     </fragment>
 
     <fragment

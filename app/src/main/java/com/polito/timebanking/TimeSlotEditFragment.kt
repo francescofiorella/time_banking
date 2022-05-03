@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.gson.Gson
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
+import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
@@ -29,9 +31,14 @@ class TimeSlotEditFragment: Fragment() {
     ): View {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
-        binding.timeSlot = viewModel.timeslot
 
+        requireArguments().getString("timeslot_key").also {
+            if (!it.isNullOrEmpty()) {
+                viewModel.timeslot = Gson().fromJson(it, TimeSlot::class.java)
+            }
+        }
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+        binding.timeSlot = viewModel.timeslot
 
         return binding.root
     }
