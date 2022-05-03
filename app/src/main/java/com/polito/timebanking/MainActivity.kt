@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.gson.Gson
 import com.polito.timebanking.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

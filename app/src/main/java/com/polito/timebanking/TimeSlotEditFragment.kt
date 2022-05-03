@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.google.gson.Gson
+import androidx.fragment.app.activityViewModels
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
-import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
+import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
+import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
 
 class TimeSlotEditFragment: Fragment() {
 
@@ -22,7 +21,7 @@ class TimeSlotEditFragment: Fragment() {
     private lateinit var datePickerBtn: DatePickerButton
     private lateinit var timePickerButton: TimePickerButton
 
-    private val viewModel by viewModels<TimeSlotViewModel>()
+    private val viewModel by activityViewModels<TimeSlotViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,13 +31,18 @@ class TimeSlotEditFragment: Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
 
-        requireArguments().getString("timeslot_key").also {
-            if (!it.isNullOrEmpty()) {
-                viewModel.timeslot = Gson().fromJson(it, TimeSlot::class.java)
+        /*if (savedInstanceState == null) {
+            // se proviene da listFragment
+            requireArguments().getString(TIMESLOT_KEY).also {
+                if (!it.isNullOrEmpty()) {
+                    requireArguments().remove(TIMESLOT_KEY)
+                    viewModel.currentTimeslot = Gson().fromJson(it, TimeSlot::class.java)
+                }
             }
-        }
+        }*/
+        binding.timeSlot = viewModel.currentTimeslot
+
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-        binding.timeSlot = viewModel.timeslot
 
         return binding.root
     }
@@ -53,9 +57,9 @@ class TimeSlotEditFragment: Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.timeslot.year = year!!
-                viewModel.timeslot.month = month!!
-                viewModel.timeslot.day = day!!
+                viewModel.currentTimeslot?.year = year!!
+                viewModel.currentTimeslot?.month = month!!
+                viewModel.currentTimeslot?.day = day!!
             }
         }
 
@@ -67,10 +71,26 @@ class TimeSlotEditFragment: Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.timeslot.hour = hour!!
-                viewModel.timeslot.minute = minute!!
+                viewModel.currentTimeslot?.hour = hour!!
+                viewModel.currentTimeslot?.minute = minute!!
             }
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.currentTimeslot?.let { timeSlot ->
+            timeSlot.title = binding.titleEt.text.toString()
+            timeSlot.description = binding.descriptionEt.text.toString()
+            // date and time are saved on positive button click
+            timeSlot.duration = binding.durationEt.text.toString()
+            timeSlot.location = binding.locationEt.text.toString()
+            // save the list
+            when (viewModel.editFragmentMode) {
+                ADD_MODE -> viewModel.timeSlotList.add(timeSlot)
+                EDIT_MODE -> Unit
+                else -> Unit
+            }
+        }
     }
 }
