@@ -1,7 +1,5 @@
 package com.polito.timebanking
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
-import com.polito.timebanking.utils.rotateBitmap
+import com.polito.timebanking.utils.loadBitmapFromStorage
 import com.polito.timebanking.viewmodels.UserViewModel
-import java.io.FileNotFoundException
 
 class ShowProfileFragment : Fragment() {
 
@@ -36,7 +33,14 @@ class ShowProfileFragment : Fragment() {
 
         userModel.currentUser.observe(viewLifecycleOwner) {
             if (userModel.currentUserBitmap.value == null) {
-                it.photoPath?.let { photoPath -> setPhotoFromStorage(photoPath) }
+                it.photoPath?.let { photoPath ->
+                    loadBitmapFromStorage(
+                        requireContext(),
+                        photoPath
+                    )
+                }.let { bitmap ->
+                    userModel.currentUserBitmap.value = bitmap
+                }
             }
         }
 
@@ -45,7 +49,9 @@ class ShowProfileFragment : Fragment() {
         }
 
         userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            binding.ivPhoto.setImageBitmap(it)
+            if (it != null) {
+                binding.ivPhoto.setImageBitmap(it)
+            }
         }
 
         userModel.currentUserCheckedSkills.observe(viewLifecycleOwner) {
@@ -63,16 +69,5 @@ class ShowProfileFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun setPhotoFromStorage(path: String) {
-        try {
-            val fileInputStream = requireContext().openFileInput(path)
-            val bitmap: Bitmap = BitmapFactory.decodeStream(fileInputStream)
-            val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
-            userModel.currentUserBitmap.value = rotatedBitmap
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
     }
 }

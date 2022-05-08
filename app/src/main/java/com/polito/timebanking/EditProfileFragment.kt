@@ -2,7 +2,6 @@ package com.polito.timebanking
 
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -22,9 +21,8 @@ import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.models.UserSkill
 import com.polito.timebanking.utils.rotateBitmap
+import com.polito.timebanking.utils.saveBitmapToStorage
 import com.polito.timebanking.viewmodels.UserViewModel
-import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
 
 class EditProfileFragment : Fragment() {
 
@@ -55,7 +53,9 @@ class EditProfileFragment : Fragment() {
         }
 
         userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            binding.photoIv.setImageBitmap(it)
+            if (it != null) {
+                binding.photoIv.setImageBitmap(it)
+            }
         }
 
         userModel.allSkills.observe(viewLifecycleOwner) {
@@ -132,6 +132,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val path = "profilePhoto${userModel.currentUser.value?.id}.png"
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SELECT_PHOTO -> {
@@ -155,35 +156,25 @@ class EditProfileFragment : Fragment() {
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
                         }
-                        bitmap?.let {
-                            savePhotoToStorage(it)
-                            userModel.currentUserBitmap.value = it
+                        bitmap?.let { it ->
+                            saveBitmapToStorage(requireContext(), it, path)
+                            userModel.currentUser.value?.let { currentUser ->
+                                currentUser.photoPath = path
+                            }
+                            val rotatedBitmap = rotateBitmap(requireContext(), it, path)
+                            userModel.currentUserBitmap.value = rotatedBitmap
                         }
                     }
                 }
                 REQUEST_CODE_TAKE_PHOTO -> {
                     val bitmap = data?.extras?.get("data") as Bitmap
-                    val path = savePhotoToStorage(bitmap)
+                    saveBitmapToStorage(requireContext(), bitmap, path)
+                    userModel.currentUser.value?.let { it.photoPath = path }
                     val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
                     userModel.currentUserBitmap.value = rotatedBitmap
                 }
             }
         }
-    }
-
-    private fun savePhotoToStorage(bitmap: Bitmap): String {
-        val path = "profilePhoto${userModel.currentUser.value?.id}.png"
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        try {
-            requireContext().openFileOutput(path, Context.MODE_PRIVATE).use {
-                it.write(stream.toByteArray())
-            }
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
-        userModel.currentUser.value?.let { it.photoPath = path }
-        return path
     }
 
     override fun onDestroyView() {

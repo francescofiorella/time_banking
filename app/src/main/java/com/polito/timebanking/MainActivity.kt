@@ -3,17 +3,23 @@ package com.polito.timebanking
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
+import com.polito.timebanking.utils.loadBitmapFromStorage
+import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
+    private val userModel by viewModels<UserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +29,33 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController!!)
+
+        userModel.currentUserBitmap.observe(this) {
+            if (it != null) {
+                val header = binding.navView.getHeaderView(0)
+                val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
+                photoIV.setImageBitmap(it)
+            }
+        }
+
+        userModel.currentUser.observe(this) {
+            if (userModel.currentUserBitmap.value == null) {
+                it.photoPath?.let { photoPath ->
+                    loadBitmapFromStorage(
+                        applicationContext,
+                        photoPath
+                    )
+                }.let { bitmap ->
+                    userModel.currentUserBitmap.value = bitmap
+                }
+            }
+
+            val header = binding.navView.getHeaderView(0)
+            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
+            fullNameTV.text = it.fullName
+            val emailTV = header.findViewById<TextView>(R.id.tv_email)
+            emailTV.text = it.email
+        }
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
