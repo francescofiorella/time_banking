@@ -3,7 +3,6 @@ package com.polito.timebanking
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,36 +35,20 @@ class ShowProfileFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         userModel.currentUser.observe(viewLifecycleOwner) {
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUser.observe - $it"
-            )
             if (userModel.currentUserBitmap.value == null) {
                 it.photoPath?.let { photoPath -> setPhotoFromStorage(photoPath) }
             }
         }
 
         userModel.currentUserSkills.observe(viewLifecycleOwner) {
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUserSkills.observe - $it"
-            )
             userModel.currentUserCheckedSkills.value = it.toMutableList()
         }
 
         userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUserBitmap.observe - $it"
-            )
             binding.ivPhoto.setImageBitmap(it)
         }
 
         userModel.currentUserCheckedSkills.observe(viewLifecycleOwner) {
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUserCheckedSkills.observe - $it"
-            )
             binding.skillsCg.removeAllViews()
             it.forEach { skill ->
                 val chip = layoutInflater.inflate(

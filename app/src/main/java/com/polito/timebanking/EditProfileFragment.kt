@@ -9,7 +9,6 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -56,18 +55,10 @@ class EditProfileFragment : Fragment() {
         }
 
         userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            Log.d(
-                "EditProfileFragment",
-                "userModel.currentUserBitmap.observe - $it"
-            )
             binding.photoIv.setImageBitmap(it)
         }
 
         userModel.allSkills.observe(viewLifecycleOwner) {
-            Log.d(
-                "EditProfileFragment",
-                "userModel.allSkills.observe - $it"
-            )
             binding.skillsCg.removeAllViews()
             it.forEach { skill ->
                 val chip = layoutInflater.inflate(
