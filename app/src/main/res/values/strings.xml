@@ -17,6 +17,7 @@
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="date_time">Date and time</string>
     <string name="duration">Duration</string>
     <string name="location">Location</string>
     <string name="edit">Edit</string>

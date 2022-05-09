@@ -136,7 +136,7 @@
                     android:id="@+id/duration_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="text|textCapSentences"
                     android:text="@{timeSlot.duration}" />
 
             </com.google.android.material.textfield.TextInputLayout>
