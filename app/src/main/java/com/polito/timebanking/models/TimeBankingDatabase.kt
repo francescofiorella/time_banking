@@ -5,20 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [TimeSlot::class], version = 1)
-abstract class TimeSlotDatabase : RoomDatabase() {
+@Database(entities = [TimeSlot::class, User::class, Skill::class, UserSkill::class], version = 1)
+abstract class TimeBankingDatabase : RoomDatabase() {
     abstract fun timeSlotDao(): TimeSlotDao
+    abstract fun userDao(): UserDao
+    abstract fun skillDao(): SkillDao
+    abstract fun userSkillDao(): UserSkillDao
 
     companion object {
         @Volatile
-        private var INSTANCE: TimeSlotDatabase? = null
+        private var INSTANCE: TimeBankingDatabase? = null
 
-        fun getDatabase(context: Context): TimeSlotDatabase =
+        fun getDatabase(context: Context): TimeBankingDatabase =
             (INSTANCE ?: synchronized(this) {
                 val i = INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
-                    TimeSlotDatabase::class.java,
-                    "timeSlots"
+                    TimeBankingDatabase::class.java,
+                    "timeBanking"
                 ).build()
                 INSTANCE = i
                 INSTANCE

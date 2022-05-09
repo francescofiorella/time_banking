@@ -48,11 +48,6 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             viewModel.editFragmentMode = ADD_MODE
             viewModel.currentTimeslot = TimeSlot()
             findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
-            /*findNavController().navigate(
-                R.id.action_timeSlotListFragment_to_timeSlotEditFragment,
-                Bundle().apply {
-                    putString(TIMESLOT_KEY, null)
-                })*/
         }
     }
 
@@ -66,21 +61,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeslot = timeSlot
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
-        /*findNavController().navigate(
-            R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment,
-            Bundle().apply {
-                putString(TIMESLOT_KEY, Gson().toJson(viewModel.timeSlotList[position]) ?: "")
-            })*/
     }
 
     override fun onEditClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = EDIT_MODE
         viewModel.currentTimeslot = timeSlot
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
-        /*findNavController().navigate(
-            R.id.action_timeSlotListFragment_to_timeSlotEditFragment,
-            Bundle().apply {
-                putString(TIMESLOT_KEY, Gson().toJson(viewModel.timeSlotList[position]) ?: "")
-            })*/
     }
 }

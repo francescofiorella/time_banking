@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 
 class UserSkillRepository(application: Application) {
-    private val userSkillDao = UsersDatabase.getDatabase(application).userSkillDao()
+    private val userSkillDao = TimeBankingDatabase.getDatabase(application).userSkillDao()
 
     fun getUserSkills(userId: Long): LiveData<List<Skill>> = userSkillDao.getUserSkills(userId)
 

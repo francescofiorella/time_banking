@@ -31,15 +31,6 @@ class TimeSlotEditFragment: Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
 
-        /*if (savedInstanceState == null) {
-            // se proviene da listFragment
-            requireArguments().getString(TIMESLOT_KEY).also {
-                if (!it.isNullOrEmpty()) {
-                    requireArguments().remove(TIMESLOT_KEY)
-                    viewModel.currentTimeslot = Gson().fromJson(it, TimeSlot::class.java)
-                }
-            }
-        }*/
         binding.timeSlot = viewModel.currentTimeslot
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
