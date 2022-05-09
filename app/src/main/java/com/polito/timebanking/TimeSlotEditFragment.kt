@@ -43,13 +43,26 @@ class TimeSlotEditFragment : Fragment() {
             ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     viewModel.currentTimeslot?.let { timeSlot ->
-                        timeSlot.title = binding.titleEt.text.toString()
-                        timeSlot.description = binding.descriptionEt.text.toString()
-                        // date and time are saved on positive button click
-                        timeSlot.duration = binding.durationEt.text.toString()
-                        timeSlot.location = binding.locationEt.text.toString()
+                        val title = binding.titleEt.text.toString()
+                        val description = binding.descriptionEt.text.toString()
+                        val duration = binding.durationEt.text.toString()
+                        val location = binding.locationEt.text.toString()
+
+                        if (timeSlot.title != title
+                            || timeSlot.description != description
+                            || timeSlot.duration != duration
+                            || timeSlot.location != location
+                        ) {
+                            viewModel.hasBeenModified = true
+                            timeSlot.title = title
+                            timeSlot.description = description
+                            // date and time are saved on positive button click
+                            timeSlot.duration = duration
+                            timeSlot.location = location
+                        }
+                        
                         // save the list
-                        if (!timeSlot.isEmpty()) {
+                        if (!timeSlot.isEmpty() && viewModel.hasBeenModified) {
                             when (viewModel.editFragmentMode) {
                                 ADD_MODE -> {
                                     viewModel.addTimeSlot(timeSlot)
@@ -100,8 +113,13 @@ class TimeSlotEditFragment : Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.currentTimeslot?.hour = hour!!
-                viewModel.currentTimeslot?.minute = minute!!
+                if (viewModel.currentTimeslot?.hour != hour
+                    || viewModel.currentTimeslot?.minute != minute
+                ) {
+                    viewModel.hasBeenModified = true
+                    viewModel.currentTimeslot?.hour = hour!!
+                    viewModel.currentTimeslot?.minute = minute!!
+                }
             }
         }
 
@@ -112,11 +130,23 @@ class TimeSlotEditFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.currentTimeslot?.let { timeSlot ->
-            timeSlot.title = binding.titleEt.text.toString()
-            timeSlot.description = binding.descriptionEt.text.toString()
-            // date and time are saved on positive button click
-            timeSlot.duration = binding.durationEt.text.toString()
-            timeSlot.location = binding.locationEt.text.toString()
+            val title = binding.titleEt.text.toString()
+            val description = binding.descriptionEt.text.toString()
+            val duration = binding.durationEt.text.toString()
+            val location = binding.locationEt.text.toString()
+
+            if (timeSlot.title != title
+                || timeSlot.description != description
+                || timeSlot.duration != duration
+                || timeSlot.location != location
+            ) {
+                viewModel.hasBeenModified = true
+                timeSlot.title = title
+                timeSlot.description = description
+                // date and time are saved on positive button click
+                timeSlot.duration = duration
+                timeSlot.location = location
+            }
         }
     }
 }

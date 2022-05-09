@@ -35,10 +35,12 @@ class TimeSlotDetailsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.hasBeenModified = false
         viewModel.editFragmentMode = NONE
     }
 
     fun navigateToEdit() {
+        viewModel.hasBeenModified = false
         viewModel.editFragmentMode = EDIT_MODE
         findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
     }

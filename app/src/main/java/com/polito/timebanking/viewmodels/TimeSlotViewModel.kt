@@ -13,6 +13,8 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     var currentTimeslot: TimeSlot? = null
     var editFragmentMode: Int = NONE
 
+    var hasBeenModified = false
+
     companion object {
         const val NONE = 0
         const val ADD_MODE = 1
