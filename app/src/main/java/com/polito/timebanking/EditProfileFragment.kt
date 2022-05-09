@@ -22,6 +22,7 @@ import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.models.UserSkill
 import com.polito.timebanking.utils.rotateBitmap
 import com.polito.timebanking.utils.saveBitmapToStorage
+import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EditProfileFragment : Fragment() {
@@ -180,5 +181,6 @@ class EditProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         userModel.currentUser.value?.let { userModel.updateUser(it) }
+        activity?.snackBar("User updated!")
     }
 }

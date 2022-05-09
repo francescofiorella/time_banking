@@ -10,12 +10,22 @@
         android:name="com.polito.timebanking.TimeSlotListFragment"
         android:label="Time Slot list"
         tools:layout="@layout/fragment_time_slot_list">
+
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotEditFragment"
-            app:destination="@id/timeSlotEditFragment" />
+            app:destination="@id/timeSlotEditFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
-            app:destination="@id/timeSlotDetailsFragment" />
+            app:destination="@id/timeSlotDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
 
     </fragment>
 
@@ -24,40 +34,43 @@
         android:name="com.polito.timebanking.TimeSlotDetailsFragment"
         android:label="Time Slot details"
         tools:layout="@layout/fragment_time_slot_detail">
+
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
-            app:destination="@id/timeSlotEditFragment" />
+            app:destination="@id/timeSlotEditFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
     </fragment>
 
     <fragment
         android:id="@+id/timeSlotEditFragment"
         android:name="com.polito.timebanking.TimeSlotEditFragment"
         android:label="Time Slot edit"
-        tools:layout="@layout/fragment_time_slot_edit">
-        <action
-            android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
-            app:destination="@id/timeSlotDetailsFragment" />
-        <action
-            android:id="@+id/action_timeSlotEditFragment_to_timeSlotListFragment"
-            app:destination="@id/timeSlotListFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_time_slot_edit" />
+
     <fragment
         android:id="@+id/showProfileFragment"
         android:name="com.polito.timebanking.ShowProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_show_profile" >
+        tools:layout="@layout/fragment_show_profile">
+
         <action
             android:id="@+id/action_showProfileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
     </fragment>
+
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.polito.timebanking.EditProfileFragment"
         android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" >
-        <action
-            android:id="@+id/action_editProfileFragment_to_showProfileFragment"
-            app:destination="@id/showProfileFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_edit_profile" />
 
 </navigation>
