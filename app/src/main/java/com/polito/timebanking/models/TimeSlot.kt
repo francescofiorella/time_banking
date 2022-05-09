@@ -12,8 +12,7 @@ import com.polito.timebanking.utils.timeToString
         ForeignKey(
             entity = User::class,
             parentColumns = ["id"],
-            childColumns = ["userId"],
-            onDelete = ForeignKey.CASCADE
+            childColumns = ["userId"]
         )
     ]
 )
