@@ -66,7 +66,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.edit -> {
                     when (navController?.currentDestination?.id) {
                         R.id.timeSlotDetailsFragment -> {
-                            navController?.navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                            (navHostFragment.childFragmentManager.findFragmentById(
+                                R.id.nav_host_fragment_content_main
+                            ) as TimeSlotDetailsFragment).navigateToEdit()
                             true
                         }
                         R.id.showProfileFragment -> {

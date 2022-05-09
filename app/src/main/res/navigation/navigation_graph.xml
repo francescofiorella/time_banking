@@ -16,6 +16,7 @@
         <action
             android:id="@+id/action_timeSlotListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
+
     </fragment>
 
     <fragment

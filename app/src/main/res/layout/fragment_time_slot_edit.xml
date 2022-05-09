@@ -40,8 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|textCapWords"
-                    android:text="@{timeSlot.title}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:text="@{timeSlot.title}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

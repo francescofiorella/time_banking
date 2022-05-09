@@ -50,7 +50,7 @@ open class DatePickerButton(
             textView.setText(dateString)
         }
 
-    val dateString: String?
+    private val dateString: String?
         get() {
             return dateToString(day, month, year)
         }
