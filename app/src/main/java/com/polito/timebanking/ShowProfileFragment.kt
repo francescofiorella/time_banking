@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,7 +34,7 @@ class ShowProfileFragment : Fragment() {
 
         userModel.currentUser.observe(viewLifecycleOwner) {
             if (userModel.currentUserBitmap.value == null) {
-                it.photoPath?.let { photoPath ->
+                it?.photoPath?.let { photoPath ->
                     loadBitmapFromStorage(
                         requireContext(),
                         photoPath
@@ -45,6 +46,7 @@ class ShowProfileFragment : Fragment() {
         }
 
         userModel.currentUserSkills.observe(viewLifecycleOwner) {
+            binding.skillsTv.isVisible = it.isNotEmpty()
             userModel.currentUserCheckedSkills.value = it.toMutableList()
         }
 

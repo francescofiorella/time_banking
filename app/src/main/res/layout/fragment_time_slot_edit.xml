@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|textCapWords"
-                    android:text="@{timeSlot.title}"/>
+                    android:text="@{timeSlot.title}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +136,7 @@
                     android:id="@+id/duration_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences"
+                    android:inputType="text|textCapSentences|textMultiLine"
                     android:text="@{timeSlot.duration}" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -147,19 +147,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="10dp"
                 android:hint="@string/location"
                 app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/duration_textInputLayout"
+                app:layout_constraintVertical_bias="0.0"
                 app:startIconDrawable="@drawable/ic_location_on">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/location_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences"
+                    android:inputType="text|textCapSentences|textMultiLine"
                     android:text="@{timeSlot.location}" />
 
             </com.google.android.material.textfield.TextInputLayout>

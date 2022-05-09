@@ -60,39 +60,75 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Full Name" />
 
+                <ImageView
+                    android:id="@+id/nickname_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nickname_et_hint"
+                    android:src="@drawable/ic_alternate_email"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+
                 <TextView
                     android:id="@+id/tv_nickname"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp"
+                    android:layout_marginStart="8dp"
                     android:text="@{viewmodel.currentUser.nickname}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/nickname_icon"
                     app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
                     tools:text="Nickname" />
 
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/email_et_hint"
+                    android:src="@drawable/ic_email"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_email" />
+
                 <TextView
                     android:id="@+id/tv_email"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp"
+                    android:layout_marginStart="8dp"
                     android:text="@{viewmodel.currentUser.email}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/email_icon"
                     app:layout_constraintTop_toBottomOf="@+id/tv_nickname"
                     tools:text="E-Mail" />
 
+                <ImageView
+                    android:id="@+id/location_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/location"
+                    android:src="@drawable/ic_location_on"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_location" />
+
                 <TextView
                     android:id="@+id/tv_location"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp"
+                    android:layout_marginStart="8dp"
                     android:text="@{viewmodel.currentUser.location}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/location_icon"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email"
                     tools:text="Location" />
 
@@ -102,6 +138,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/skills_tv_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
                 <HorizontalScrollView
@@ -121,17 +159,28 @@
                 </HorizontalScrollView>
 
                 <TextView
+                    android:id="@+id/description_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/skills_hsv" />
+
+                <TextView
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="16dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="top"
                     android:minLines="3"
                     android:text="@{viewmodel.currentUser.description}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/skills_hsv"
+                    app:layout_constraintTop_toBottomOf="@+id/description_tv"
                     tools:text="Description" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

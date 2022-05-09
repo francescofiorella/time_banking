@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         userModel.currentUser.observe(this) {
             if (userModel.currentUserBitmap.value == null) {
-                it.photoPath?.let { photoPath ->
+                it?.photoPath?.let { photoPath ->
                     loadBitmapFromStorage(
                         applicationContext,
                         photoPath
@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
 
             val header = binding.navView.getHeaderView(0)
             val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
-            fullNameTV.text = it.fullName
+            fullNameTV.text = it?.fullName
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
-            emailTV.text = it.email
+            emailTV.text = it?.email
         }
 
         setSupportActionBar(binding.toolbar)

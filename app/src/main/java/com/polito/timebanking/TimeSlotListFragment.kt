@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,8 +34,15 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->
-            TimeSlotAdapter(list, this).also {
-                binding.listRecyclerView.adapter = it
+            if (list.isEmpty()) {
+                binding.noTimeSlotsTv.isVisible = true
+                binding.listRecyclerView.isVisible = false
+            } else {
+                binding.noTimeSlotsTv.isVisible = false
+                binding.listRecyclerView.isVisible = true
+                TimeSlotAdapter(list, this).also {
+                    binding.listRecyclerView.adapter = it
+                }
             }
         }
 

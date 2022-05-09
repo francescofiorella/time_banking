@@ -8,7 +8,7 @@ import androidx.room.Update
 @Dao
 interface UserDao {
     @Query("SELECT * FROM User WHERE id = :id")
-    fun getUser(id: Int): LiveData<User>
+    fun getUser(id: Int): LiveData<User?>
 
     @Update
     fun updateUser(user: User)

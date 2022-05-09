@@ -18,7 +18,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val skillRepository = SkillRepository(application)
     private val userSkillRepository = UserSkillRepository(application)
 
-    val currentUser: LiveData<User> = userRepository.getUser(1)
+    val currentUser: LiveData<User?> = userRepository.getUser(1)
     val currentUserSkills: LiveData<List<Skill>> = userSkillRepository.getUserSkills(1)
     val currentUserBitmap = MutableLiveData<Bitmap>()
     val currentUserCheckedSkills = MutableLiveData<MutableList<Skill>>()

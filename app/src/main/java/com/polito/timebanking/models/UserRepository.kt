@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 class UserRepository(application: Application) {
     private val userDao = TimeBankingDatabase.getDatabase(application).userDao()
 
-    fun getUser(id: Int): LiveData<User> = userDao.getUser(id)
+    fun getUser(id: Int): LiveData<User?> = userDao.getUser(id)
 
     fun updateUser(user: User) {
         userDao.updateUser(user)
