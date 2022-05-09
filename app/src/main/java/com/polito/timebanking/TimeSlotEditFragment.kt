@@ -93,10 +93,12 @@ class TimeSlotEditFragment: Fragment() {
             timeSlot.duration = binding.durationEt.text.toString()
             timeSlot.location = binding.locationEt.text.toString()
             // save the list
-            when (viewModel.editFragmentMode) {
-                ADD_MODE -> viewModel.addTimeSlot(timeSlot)
-                EDIT_MODE -> viewModel.updateTimeSlot(timeSlot)
-                else -> Unit
+            if (!timeSlot.isEmpty()) {
+                when (viewModel.editFragmentMode) {
+                    ADD_MODE -> viewModel.addTimeSlot(timeSlot)
+                    EDIT_MODE -> viewModel.updateTimeSlot(timeSlot)
+                    else -> Unit
+                }
             }
         }
     }

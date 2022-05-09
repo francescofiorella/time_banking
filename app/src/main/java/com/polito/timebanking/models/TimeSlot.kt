@@ -23,4 +23,8 @@ class TimeSlot {
     fun getTime(): String = timeToString(hour, minute).takeIf { it != "99:99" } ?: ""
 
     override fun toString(): String = "{ id: $id, title: \"$title\" }"
+
+    fun isEmpty() : Boolean {
+        return title == ""
+    }
 }
