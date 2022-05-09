@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,6 +37,37 @@ class TimeSlotEditFragment : Fragment() {
         binding.timeSlot = viewModel.currentTimeslot
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+
+        // save timeSlot onBackPressed
+        activity?.onBackPressedDispatcher
+            ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.currentTimeslot?.let { timeSlot ->
+                        timeSlot.title = binding.titleEt.text.toString()
+                        timeSlot.description = binding.descriptionEt.text.toString()
+                        // date and time are saved on positive button click
+                        timeSlot.duration = binding.durationEt.text.toString()
+                        timeSlot.location = binding.locationEt.text.toString()
+                        // save the list
+                        if (!timeSlot.isEmpty()) {
+                            when (viewModel.editFragmentMode) {
+                                ADD_MODE -> {
+                                    viewModel.addTimeSlot(timeSlot)
+                                    activity?.snackBar("Time slot created!")
+                                }
+                                EDIT_MODE -> {
+                                    viewModel.updateTimeSlot(timeSlot)
+                                    activity?.snackBar("Time slot updated!")
+                                }
+                                else -> Unit
+                            }
+                        }
+                        // disable the callback to avoid loops
+                        isEnabled = false
+                        activity?.onBackPressed()
+                    }
+                }
+            })
 
         return binding.root
     }
@@ -85,31 +117,6 @@ class TimeSlotEditFragment : Fragment() {
             // date and time are saved on positive button click
             timeSlot.duration = binding.durationEt.text.toString()
             timeSlot.location = binding.locationEt.text.toString()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.currentTimeslot?.let { timeSlot ->
-            timeSlot.title = binding.titleEt.text.toString()
-            timeSlot.description = binding.descriptionEt.text.toString()
-            // date and time are saved on positive button click
-            timeSlot.duration = binding.durationEt.text.toString()
-            timeSlot.location = binding.locationEt.text.toString()
-            // save the list
-            if (!timeSlot.isEmpty()) {
-                when (viewModel.editFragmentMode) {
-                    ADD_MODE -> {
-                        activity?.snackBar("Time slot created!")
-                        viewModel.addTimeSlot(timeSlot)
-                    }
-                    EDIT_MODE -> {
-                        activity?.snackBar("Time slot updated!")
-                        viewModel.updateTimeSlot(timeSlot)
-                    }
-                    else -> Unit
-                }
-            }
         }
     }
 }
