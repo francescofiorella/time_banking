@@ -8,8 +8,8 @@ import androidx.room.Update
 
 @Dao
 interface TimeSlotDao {
-    @Query("SELECT * FROM timeSlots")
-    fun findAll(): LiveData<List<TimeSlot>>
+    @Query("SELECT * FROM timeSlot WHERE userId = :userId")
+    fun getAllByUserId(userId: Int): LiveData<List<TimeSlot>>
 
     @Insert
     fun addTimeSlot(timeSlot: TimeSlot)

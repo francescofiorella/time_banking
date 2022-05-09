@@ -46,7 +46,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         binding.addFab.setOnClickListener {
             viewModel.editFragmentMode = ADD_MODE
-            viewModel.currentTimeslot = TimeSlot()
+            viewModel.currentTimeslot = TimeSlot(1)
             findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
         }
     }

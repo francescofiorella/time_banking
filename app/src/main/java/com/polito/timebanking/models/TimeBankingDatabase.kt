@@ -5,7 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [TimeSlot::class, User::class, Skill::class, UserSkill::class], version = 1)
+@Database(
+    entities = [TimeSlot::class, User::class, Skill::class, UserSkill::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class TimeBankingDatabase : RoomDatabase() {
     abstract fun timeSlotDao(): TimeSlotDao
     abstract fun userDao(): UserDao
@@ -22,7 +26,7 @@ abstract class TimeBankingDatabase : RoomDatabase() {
                     context.applicationContext,
                     TimeBankingDatabase::class.java,
                     "timeBanking"
-                ).build()
+                ).createFromAsset("database/sampleTimeBanking.db").build()
                 INSTANCE = i
                 INSTANCE
             })!!

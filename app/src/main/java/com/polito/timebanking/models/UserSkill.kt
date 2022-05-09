@@ -21,6 +21,6 @@ import androidx.room.Index
     indices = [Index(value = ["skillId"])]
 )
 data class UserSkill(
-    val userId: Long,
-    val skillId: Long
+    val userId: Int,
+    val skillId: Int
 )

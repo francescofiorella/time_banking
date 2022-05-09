@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 class TimeSlotViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = TimeSlotRepository(application)
-    val timeSlotList = repository.timeSlots()
+    val timeSlotList = repository.timeSlots(1)
     var currentTimeslot: TimeSlot? = null
     var editFragmentMode: Int = NONE
 
