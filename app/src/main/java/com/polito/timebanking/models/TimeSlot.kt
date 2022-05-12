@@ -17,8 +17,8 @@ import com.polito.timebanking.utils.timeToString
     ]
 )
 data class TimeSlot(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    @PrimaryKey(autoGenerate = false)
+    var id: String,
     var title: String,
     var description: String,
     var year: Int,
@@ -32,7 +32,7 @@ data class TimeSlot(
     var userId: Int = 0
 ) {
     constructor(userId: Int) : this(
-        0,
+        "",
         "",
         "",
         0,

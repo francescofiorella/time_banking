@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -21,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
     private val userModel by viewModels<UserViewModel>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        userModel.create();
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 photoIV.setImageBitmap(it)
             }
         }
-
+        /*
         userModel.currentUser.observe(this) {
             if (userModel.currentUserBitmap.value == null) {
                 it?.photoPath?.let { photoPath ->
@@ -56,6 +59,15 @@ class MainActivity : AppCompatActivity() {
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
             emailTV.text = it?.email
         }
+        */
+        userModel.user.observe(this){
+            val header = binding.navView.getHeaderView(0)
+            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
+            fullNameTV.text = it?.fullName
+            val emailTV = header.findViewById<TextView>(R.id.tv_email)
+            emailTV.text = it?.email
+        }
+
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
