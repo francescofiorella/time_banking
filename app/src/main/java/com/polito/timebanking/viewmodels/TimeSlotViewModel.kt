@@ -51,7 +51,6 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     fun DocumentSnapshot.toTimeSlot():TimeSlot?{
         return try {
             val id = this.getId() as String
-            println("Sono un id >>> "+id);
             val title = get("title") as String
             val day = get("day") as Long
             val month = get("month") as Long
@@ -85,7 +84,12 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
 
     fun updateTimeSlot(timeSlot: TimeSlot) {
         thread {
-
+            db
+                .collection("timeslot")
+                .document(timeSlot.id)
+                .set(mapOf("day" to timeSlot.day,"month" to timeSlot.month,"year" to timeSlot.year,"hour" to timeSlot.hour, "minute" to timeSlot.minute,"description" to timeSlot.description, "duration" to timeSlot.duration, "location" to timeSlot.location, "skill" to "franco", "title" to timeSlot.title, "user" to 1))
+                .addOnSuccessListener { Log.d("Firebase","Success") }
+                .addOnFailureListener { Log.d("Firebase",it.message?:"Error")}
             //repository.editTimeSlot(timeSlot)
         }
     }
