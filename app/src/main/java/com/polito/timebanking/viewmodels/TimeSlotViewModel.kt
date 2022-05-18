@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.polito.timebanking.models.TimeSlot
-import com.polito.timebanking.models.TimeSlotRepository
 import com.polito.timebanking.models.User
 import kotlin.concurrent.thread
 

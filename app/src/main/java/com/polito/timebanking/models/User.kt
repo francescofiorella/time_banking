@@ -1,17 +1,11 @@
 package com.polito.timebanking.models
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-
-@Entity(indices = [Index(value = ["email"], unique = true)])
 data class User(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    var uid: String,
     var fullName: String,
     var nickname: String,
     var email: String,
-    var location: String,
-    var description: String?,
-    var photoPath: String?
+    var location: String? = null,
+    var description: String? = null,
+    var photoPath: String? = null
 )

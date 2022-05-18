@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
-import com.polito.timebanking.models.UserSkill
 import com.polito.timebanking.utils.rotateBitmap
 import com.polito.timebanking.utils.saveBitmapToStorage
 import com.polito.timebanking.utils.snackBar
@@ -73,15 +72,15 @@ class EditProfileFragment : Fragment() {
                 chip.text = skill.name
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        userModel.currentUserCheckedSkills.value?.add(skill)
-                        userModel.currentUser.value?.let { currentUser ->
-                            UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }
+//                        userModel.currentUserCheckedSkills.value?.add(skill)
+//                        userModel.currentUser.value?.let { currentUser ->
+//                            UserSkill(currentUser.id, skill.id)
+//                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }
                     } else {
-                        userModel.currentUserCheckedSkills.value?.removeIf { s -> s.name == skill.name }
-                        userModel.currentUser.value?.let { currentUser ->
-                            UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }
+//                        userModel.currentUserCheckedSkills.value?.removeIf { s -> s.name == skill.name }
+//                        userModel.currentUser.value?.let { currentUser ->
+//                            UserSkill(currentUser.id, skill.id)
+//                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }
                     }
                 }
                 binding.skillsCg.addView(chip)
@@ -133,7 +132,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val path = "profilePhoto${userModel.currentUser.value?.id}.png"
+        val path = "profilePhoto${userModel.currentUser.value?.uid}.png"
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SELECT_PHOTO -> {
