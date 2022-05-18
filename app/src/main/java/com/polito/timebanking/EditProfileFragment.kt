@@ -58,7 +58,7 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-        userModel.allSkills.observe(viewLifecycleOwner) {
+        userModel.skills.observe(viewLifecycleOwner) {
             binding.skillsCg.removeAllViews()
             it.forEach { skill ->
                 val chip = layoutInflater.inflate(
@@ -67,20 +67,14 @@ class EditProfileFragment : Fragment() {
                     false
                 ) as Chip
                 chip.isChecked =
-                    userModel.currentUserCheckedSkills.value?.any { s -> s.name == skill.name } == true
+                    userModel.currentUser.value?.skills?.any { s -> s.sid == skill.sid } == true
                 chip.isCheckedIconVisible = true
                 chip.text = skill.name
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-//                        userModel.currentUserCheckedSkills.value?.add(skill)
-//                        userModel.currentUser.value?.let { currentUser ->
-//                            UserSkill(currentUser.id, skill.id)
-//                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }
+                        userModel.currentUser.value?.skills?.add(skill)
                     } else {
-//                        userModel.currentUserCheckedSkills.value?.removeIf { s -> s.name == skill.name }
-//                        userModel.currentUser.value?.let { currentUser ->
-//                            UserSkill(currentUser.id, skill.id)
-//                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }
+                        userModel.currentUser.value?.skills?.removeIf { s -> s.sid == skill.sid }
                     }
                 }
                 binding.skillsCg.addView(chip)
@@ -162,7 +156,7 @@ class EditProfileFragment : Fragment() {
                                 currentUser.photoPath = path
                             }
                             val rotatedBitmap = rotateBitmap(requireContext(), it, path)
-                            userModel.currentUserBitmap.value = rotatedBitmap
+//                            userModel.currentUserBitmap.value = rotatedBitmap
                         }
                     }
                 }
@@ -171,7 +165,7 @@ class EditProfileFragment : Fragment() {
                     saveBitmapToStorage(requireContext(), bitmap, path)
                     userModel.currentUser.value?.let { it.photoPath = path }
                     val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
-                    userModel.currentUserBitmap.value = rotatedBitmap
+//                    userModel.currentUserBitmap.value = rotatedBitmap
                 }
             }
         }

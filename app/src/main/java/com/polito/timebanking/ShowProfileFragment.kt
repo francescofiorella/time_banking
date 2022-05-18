@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -40,25 +39,12 @@ class ShowProfileFragment : Fragment() {
                         photoPath
                     )
                 }.let { bitmap ->
-                    userModel.currentUserBitmap.value = bitmap
+//                    userModel.currentUserBitmap.value = bitmap
                 }
             }
-        }
 
-        userModel.currentUserSkills.observe(viewLifecycleOwner) {
-            binding.skillsTv.isVisible = it.isNotEmpty()
-            userModel.currentUserCheckedSkills.value = it.toMutableList()
-        }
-
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.ivPhoto.setImageBitmap(it)
-            }
-        }
-
-        userModel.currentUserCheckedSkills.observe(viewLifecycleOwner) {
             binding.skillsCg.removeAllViews()
-            it.forEach { skill ->
+            it?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -67,6 +53,12 @@ class ShowProfileFragment : Fragment() {
                 chip.isCheckable = false
                 chip.text = skill.name
                 binding.skillsCg.addView(chip)
+            }
+        }
+
+        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.ivPhoto.setImageBitmap(it)
             }
         }
 

@@ -8,11 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.models.*
-import kotlin.concurrent.thread
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val fAuth: FirebaseAuth = Firebase.auth
@@ -25,43 +24,38 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
 
-    private val _skill = MutableLiveData<List<Skill>>()
-    val skill: LiveData<List<Skill>> = _skill
-    val currentUserSkills: LiveData<List<Skill>> = _skill
+    private val _skills = MutableLiveData<List<Skill>>()
+    val skills: LiveData<List<Skill>> = _skills
 
-    val currentUserBitmap = MutableLiveData<Bitmap>()
-    val currentUserCheckedSkills = MutableLiveData<MutableList<Skill>>()
+    private val _currentUserBitmap = MutableLiveData<Bitmap>()
+    val currentUserBitmap: LiveData<Bitmap> = _currentUserBitmap
 
-    private val _allSkills = MutableLiveData<List<Skill>>()
-    val allSkills: LiveData<List<Skill>> = _allSkills
-
-//    private var lUser: ListenerRegistration
-//    private var lSkills: ListenerRegistration
+    private var skillsListener: ListenerRegistration
 
     init {
         if (fAuth.currentUser != null) {
             getUser(fAuth.currentUser!!.uid)
             loggedIn.value = true
         }
-//        lUser = db.collection("users")
-//            .document("1")
-//            .addSnapshotListener { v, e ->
-//                if (e == null) {
-//                    Log.d(TAG, "Current data: ${v?.data}")
-//                    _user.value = v!!.toUser()
-//
-//                } else {
-//                    Log.w(TAG, "Listen failed", e)
-//                    return@addSnapshotListener
-//                    // _user.value = emptyList()
-//                }
-//            }
-//        lSkills = db.collection("skills").document("DefaultSkills").addSnapshotListener { v, e ->
-//            if (e == null) {
-//                val skills = v?.get("skill") as ArrayList<String>
-//                _allSkills.value = skills!!.mapNotNull { s -> Skill(s.indexOf(s), s) }
-//            }
-//        }
+
+        skillsListener = db.collection("skills")
+            .addSnapshotListener { value, e ->
+                if (e != null) {
+                    Log.w("Firebase", "Skills Listener: failure", e)
+                    return@addSnapshotListener
+                }
+                val skills = ArrayList<Skill>()
+                for (skill in value!!) {
+                    skill.toObject(Skill::class.java).let {
+                        Log.d("Firebase", "Skills Listener: success (skill = ${it})")
+                        if (it.sid != null && it.name != null) {
+                            skills.add(it)
+                        }
+                    }
+                }
+                Log.d("Firebase", "Skills Listener: success (skills = ${skills})")
+                _skills.value = skills
+            }
     }
 
     fun createUserWithEmailAndPassword(email: String, password: String, user: User) {
@@ -72,7 +66,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     user.apply {
                         uid = currentUser.uid
                     }
-                    storeUser(user)
+                    addUser(currentUser.uid, user)
                     loggedIn.value = true
                 }
             } else {
@@ -80,20 +74,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 signUpErrorMessage.value = "Registration failed: ${task.exception?.message}"
             }
         }
-    }
-
-    private fun storeUser(user: User) {
-        db.collection("users")
-            .document(user.uid)
-            .set(user)
-            .addOnSuccessListener {
-                Log.d("Firebase", "storeUser: success")
-                _currentUser.value = user
-            }
-            .addOnFailureListener {
-                Log.w("Firebase", "storeUser: failure", it)
-                signUpErrorMessage.value = "Registration failed: ${it.message}"
-            }
     }
 
     fun signInWithEmailAndPassword(email: String, password: String) {
@@ -111,35 +91,32 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun addUser(uid: String, user: User) {
+        db.collection("users")
+            .document(uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("Firebase", "addUser: success (id = ${uid})")
+                _currentUser.value = user
+            }
+            .addOnFailureListener {
+                Log.w("Firebase", "addUser: failure", it)
+                signUpErrorMessage.value = "Registration failed: ${it.message}"
+            }
+    }
+
     private fun getUser(uid: String) {
         db.collection("users")
             .document(uid)
             .get()
             .addOnSuccessListener {
                 Log.d("Firebase", "getUser: success")
-                Log.d("DEBUG", "UserViewModel - getUser - ${it.toUser()}")
-                _currentUser.value = it.toUser()
+                _currentUser.value = it.toObject(User::class.java)
             }
             .addOnFailureListener {
                 Log.w("Firebase", "getUser: failure", it)
                 signInErrorMessage.value = "Authentication failed: ${it.message}"
             }
-    }
-
-    private fun DocumentSnapshot.toUser(): User? {
-        return try {
-            val uid = get("uid") as String
-            val fullName = get("fullName") as String
-            val nickname = get("nickname") as String
-            val email = get("email") as String
-            val location = get("location") as String?
-            val description = get("description") as String?
-            val photoPath = get("photoPath") as String?
-            User(uid, fullName, nickname, email, location, description, photoPath)
-        } catch (e: Exception) {
-            Log.w("DocumentSnapshot", "toUser: failure", e)
-            null
-        }
     }
 
     fun signOut() {
@@ -150,44 +127,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updateUser(user: User) {
-        println(currentUserSkills.value)
-        thread {
-//            db
-//                .collection("users")
-//                .document(user.id.toString())
-//                .set(
-//                    mapOf(
-//                        "description" to user.description,
-//                        "email" to user.email,
-//                        "nickname" to user.nickname,
-//                        "fullname" to user.fullName,
-//                        "location" to user.location,
-//                        "photo" to user.photoPath,
-//                        "skills" to (currentUserSkills.value?.map { it.name })
-//                    )
-//                )
-//                .addOnSuccessListener { Log.d("Firebase", "Success") }
-//                .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
-//            //userRepository.updateUser(user)
-        }
-    }
-
-//    fun insertUserSkill(userSkill: UserSkill) {
-//        thread {
-//            //userSkillRepository.insertUserSkill(userSkill)
-//        }
-//    }
-//
-//    fun deleteUserSkill(userSkill: UserSkill) {
-//        thread {
-//            //userSkillRepository.deleteUserSkill(userSkill)
-//        }
-//    }
-
-    override fun onCleared() {
-        super.onCleared()
-//        lUser.remove()
-//        lSkills.remove()
+        db.collection("users")
+            .document(user.uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("Firebase", "updateUser: success")
+            }
+            .addOnFailureListener {
+                Log.w("Firebase", "updateUser: failure", it)
+            }
     }
 
     fun clearSignInErrorMessage() {
@@ -196,5 +144,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearSignUpErrorMessage() {
         signUpErrorMessage.value = ""
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        skillsListener.remove()
     }
 }

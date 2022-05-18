@@ -44,16 +44,16 @@ class MainActivity : AppCompatActivity() {
 
         userModel.currentUser.observe(this) {
             Log.d("DEBUG", "MainActivity - userModel.currentUser.observe - $it")
-            if (userModel.currentUserBitmap.value == null) {
-                it?.photoPath?.let { photoPath ->
-                    loadBitmapFromStorage(
-                        applicationContext,
-                        photoPath
-                    )
-                }.let { bitmap ->
-                    userModel.currentUserBitmap.value = bitmap
-                }
-            }
+//            if (userModel.currentUserBitmap.value == null) {
+//                it?.photoPath?.let { photoPath ->
+//                    loadBitmapFromStorage(
+//                        applicationContext,
+//                        photoPath
+//                    )
+//                }.let { bitmap ->
+//                    userModel.currentUserBitmap.value = bitmap
+//                }
+//            }
 
             val header = binding.navView.getHeaderView(0)
             val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
