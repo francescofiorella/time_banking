@@ -17,7 +17,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     //private val userRepository = UserRepository(application)
     //private val userSkillRepository = UserSkillRepository(application)
 
-    private val skillRepository = SkillRepository(application)
+    //private val skillRepository = SkillRepository(application)
 
 
 
@@ -56,7 +56,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             v,e->
             if(e==null){
                 val skills= v?.get("skill") as ArrayList<String>
-                _allskill.value = skills!!.mapNotNull { s -> Skill(s.indexOf(s),s) }
+                _allskill.value = skills!!.mapNotNull { s -> Skill(s.indexOf(s),s, "") }
             }
         }
     }
@@ -80,7 +80,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             val description = get("description") as String
             val photo = get("photo") as String
             val skills = get("skills") as ArrayList<String>
-            _skill.value = skills!!.mapNotNull {s -> Skill(s.indexOf(s),s)}
+            _skill.value = skills!!.mapNotNull {s -> Skill(s.indexOf(s),s, "")}
             User(id,fullname, nickname,email,location,description,photo)
         } catch (e:Exception){
             e.printStackTrace()
@@ -106,7 +106,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun insertUserSkill(userSkill: UserSkill) {
+    /*fun insertUserSkill(userSkill: UserSkill) {
         thread {
             //userSkillRepository.insertUserSkill(userSkill)
         }
@@ -116,5 +116,5 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         thread {
             //userSkillRepository.deleteUserSkill(userSkill)
         }
-    }
+    }*/
 }

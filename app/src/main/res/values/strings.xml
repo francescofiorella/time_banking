@@ -23,5 +23,6 @@
     <string name="edit">Edit</string>
     <string name="navigation_menu_show_profile_fragment">Profile</string>
     <string name="navigation_menu_time_slot_list_fragment">Time Slots</string>
-    <string name="no_time_slots">There are no Time Slots available!</string>
+    <string name="no_time_slots">There are no time slots available!</string>
+    <string name="no_skills">There are no skills available!</string>
 </resources>

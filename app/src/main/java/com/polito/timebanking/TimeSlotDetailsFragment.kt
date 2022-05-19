@@ -28,13 +28,12 @@ class TimeSlotDetailsFragment : Fragment() {
 
         binding.timeSlot = viewModel.currentTimeslot
 
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         viewModel.hasBeenModified = false
         viewModel.editFragmentMode = NONE
     }

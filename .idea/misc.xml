@@ -14,10 +14,12 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/activity_show_profile.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_edit_profile.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_show_profile.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_skill_list.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_time_slot_detail.xml" value="0.131640625" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_time_slot_edit.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_time_slot_list.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_skill_chip.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_skill_item.xml" value="0.3193359375" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_time_slot_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/nav_header_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/edit_photo_menu.xml" value="0.17552083333333332" />
@@ -27,7 +29,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

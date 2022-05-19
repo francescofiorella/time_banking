@@ -31,8 +31,6 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_list, container, false)
 
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-
         viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->
             if (list.isEmpty()) {
                 binding.noTimeSlotsTv.isVisible = true
@@ -54,13 +52,14 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         binding.addFab.setOnClickListener {
             viewModel.editFragmentMode = ADD_MODE
-            viewModel.currentTimeslot = TimeSlot(1)
+            viewModel.currentTimeslot = TimeSlot()
             findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
         }
     }
 
     override fun onResume() {
         super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeslot = null
     }

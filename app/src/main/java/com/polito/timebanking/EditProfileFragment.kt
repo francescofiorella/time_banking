@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
-import com.polito.timebanking.models.UserSkill
 import com.polito.timebanking.utils.rotateBitmap
 import com.polito.timebanking.utils.saveBitmapToStorage
 import com.polito.timebanking.utils.snackBar
@@ -74,14 +73,14 @@ class EditProfileFragment : Fragment() {
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         userModel.currentUserCheckedSkills.value?.add(skill)
-                        userModel.currentUser.value?.let { currentUser ->
+                        /*userModel.currentUser.value?.let { currentUser ->
                             UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }
+                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }*/
                     } else {
                         userModel.currentUserCheckedSkills.value?.removeIf { s -> s.name == skill.name }
-                        userModel.currentUser.value?.let { currentUser ->
+                        /*userModel.currentUser.value?.let { currentUser ->
                             UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }
+                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }*/
                     }
                 }
                 binding.skillsCg.addView(chip)

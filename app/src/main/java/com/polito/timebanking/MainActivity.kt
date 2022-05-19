@@ -8,12 +8,10 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
-import com.polito.timebanking.utils.loadBitmapFromStorage
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
     private val userModel by viewModels<UserViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -30,8 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        navController = navHostFragment.navController
-        binding.navView.setupWithNavController(navController!!)
+        navController = navHostFragment.navController.also {
+            binding.navView.setupWithNavController(it)
+        }
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         userModel.currentUserBitmap.observe(this) {
             if (it != null) {
@@ -67,11 +69,6 @@ class MainActivity : AppCompatActivity() {
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
             emailTV.text = it?.email
         }
-
-
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

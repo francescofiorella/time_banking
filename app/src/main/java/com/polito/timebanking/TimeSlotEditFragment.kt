@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
+import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.utils.snackBar
@@ -36,30 +37,12 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.timeSlot = viewModel.currentTimeslot
 
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher
             ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     viewModel.currentTimeslot?.let { timeSlot ->
-                        val title = binding.titleEt.text.toString()
-                        val description = binding.descriptionEt.text.toString()
-                        val duration = binding.durationEt.text.toString()
-                        val location = binding.locationEt.text.toString()
-
-                        if (timeSlot.title != title
-                            || timeSlot.description != description
-                            || timeSlot.duration != duration
-                            || timeSlot.location != location
-                        ) {
-                            viewModel.hasBeenModified = true
-                            timeSlot.title = title
-                            timeSlot.description = description
-                            // date and time are saved on positive button click
-                            timeSlot.duration = duration
-                            timeSlot.location = location
-                        }
+                        saveTimeSlotDataIn(timeSlot)
                         
                         // save the list
                         if (!timeSlot.isEmpty() && viewModel.hasBeenModified) {
@@ -130,23 +113,32 @@ class TimeSlotEditFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.currentTimeslot?.let { timeSlot ->
-            val title = binding.titleEt.text.toString()
-            val description = binding.descriptionEt.text.toString()
-            val duration = binding.durationEt.text.toString()
-            val location = binding.locationEt.text.toString()
+            saveTimeSlotDataIn(timeSlot)
+        }
+    }
 
-            if (timeSlot.title != title
-                || timeSlot.description != description
-                || timeSlot.duration != duration
-                || timeSlot.location != location
-            ) {
-                viewModel.hasBeenModified = true
-                timeSlot.title = title
-                timeSlot.description = description
-                // date and time are saved on positive button click
-                timeSlot.duration = duration
-                timeSlot.location = location
-            }
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+    }
+
+    private fun saveTimeSlotDataIn(timeSlot: TimeSlot) {
+        val title = binding.titleEt.text.toString()
+        val description = binding.descriptionEt.text.toString()
+        val duration = binding.durationEt.text.toString()
+        val location = binding.locationEt.text.toString()
+
+        if (timeSlot.title != title
+            || timeSlot.description != description
+            || timeSlot.duration != duration
+            || timeSlot.location != location
+        ) {
+            viewModel.hasBeenModified = true
+            timeSlot.title = title
+            timeSlot.description = description
+            // date and time are saved on positive button click
+            timeSlot.duration = duration
+            timeSlot.location = location
         }
     }
 }

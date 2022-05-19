@@ -6,6 +6,16 @@
     app:startDestination="@id/timeSlotListFragment">
 
     <fragment
+        android:id="@+id/skillListFragment"
+        android:name="com.polito.timebanking.SkillListFragment"
+        android:label="Skill list"
+        tools:layout="@layout/fragment_skill_list" >
+        <action
+            android:id="@+id/action_skillListFragment_to_timeSlotListFragment"
+            app:destination="@id/timeSlotListFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/timeSlotListFragment"
         android:name="com.polito.timebanking.TimeSlotListFragment"
         android:label="Time Slot list"
