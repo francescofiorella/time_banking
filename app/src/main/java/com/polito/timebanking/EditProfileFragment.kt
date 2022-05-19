@@ -8,6 +8,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -52,15 +53,23 @@ class EditProfileFragment : Fragment() {
             showMenu(it, R.menu.edit_photo_menu)
         }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.photoIv.setImageBitmap(it)
+        userModel.photoBitmap.observe(viewLifecycleOwner) { photoBitmap ->
+            Log.d(
+                "EditProfileFragment",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            if (photoBitmap != null) {
+                binding.photoIv.setImageBitmap(photoBitmap)
             }
         }
 
-        userModel.skills.observe(viewLifecycleOwner) {
+        userModel.skills.observe(viewLifecycleOwner) { skills ->
+            Log.d(
+                "EditProfileFragment",
+                "userModel.skills.observe (skills = ${skills})"
+            )
             binding.skillsCg.removeAllViews()
-            it.forEach { skill ->
+            skills.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -126,7 +135,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val path = "profilePhoto${userModel.currentUser.value?.uid}.png"
+        val path = "profilePhoto_${userModel.currentUser.value?.uid}.png"
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SELECT_PHOTO -> {
@@ -156,7 +165,7 @@ class EditProfileFragment : Fragment() {
                                 currentUser.photoPath = path
                             }
                             val rotatedBitmap = rotateBitmap(requireContext(), it, path)
-//                            userModel.currentUserBitmap.value = rotatedBitmap
+                            userModel.updatePhotoBitmap(rotatedBitmap)
                         }
                     }
                 }
@@ -165,7 +174,7 @@ class EditProfileFragment : Fragment() {
                     saveBitmapToStorage(requireContext(), bitmap, path)
                     userModel.currentUser.value?.let { it.photoPath = path }
                     val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
-//                    userModel.currentUserBitmap.value = rotatedBitmap
+                    userModel.updatePhotoBitmap(rotatedBitmap)
                 }
             }
         }

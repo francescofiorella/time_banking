@@ -27,8 +27,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _skills = MutableLiveData<List<Skill>>()
     val skills: LiveData<List<Skill>> = _skills
 
-    private val _currentUserBitmap = MutableLiveData<Bitmap>()
-    val currentUserBitmap: LiveData<Bitmap> = _currentUserBitmap
+    private val _photoBitmap = MutableLiveData<Bitmap?>()
+    val photoBitmap: LiveData<Bitmap?> = _photoBitmap
 
     private var skillsListener: ListenerRegistration
 
@@ -70,11 +70,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     } else {
                         val fullName = currentUser.displayName ?: ""
                         val email = currentUser.email ?: ""
-                        val photoUrl = currentUser.photoUrl
-                        Log.d(
-                            "DEBUG",
-                            "isNewUser = $isNewUser, uid = $uid, fullName = $fullName, email = $email, photoUrl = $photoUrl"
-                        )
                         val user = User(
                             uid = uid,
                             fullName = fullName,
@@ -120,13 +115,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    fun signOut() {
-        Log.d("UserViewModel", "signOut")
-        loggedIn.value = false
-        _currentUser.value = null
-        fAuth.signOut()
-    }
-
     fun updateUser(user: User) {
         db.collection("users")
             .document(user.uid)
@@ -137,6 +125,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             .addOnFailureListener {
                 Log.w("Firebase", "updateUser: failure", it)
             }
+    }
+
+    fun updatePhotoBitmap(photoBitmap: Bitmap?) {
+        _photoBitmap.value = photoBitmap
+    }
+
+    fun signOut() {
+        Log.d("UserViewModel", "signOut")
+        loggedIn.value = false
+        _currentUser.value = null
+        _photoBitmap.value = null
+        fAuth.signOut()
     }
 
     fun clearErrorMessage() {

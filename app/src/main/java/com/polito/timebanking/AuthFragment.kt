@@ -62,14 +62,20 @@ class AuthFragment : Fragment() {
         }
 
         userModel.loggedIn.observe(viewLifecycleOwner) {
-            Log.d("DEBUG", "AuthFragment - userModel.loggedIn.observe (loggedIn = ${it})")
+            Log.d(
+                "AuthFragment",
+                "userModel.loggedIn.observe (loggedIn = ${it})"
+            )
             if (it) {
                 findNavController().navigate(R.id.timeSlotListFragment)
             }
         }
 
         userModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            Log.d("DEBUG", "AuthFragment - userModel.errorMessage.observe - $errorMessage")
+            Log.d(
+                "AuthFragment",
+                "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
+            )
             if (errorMessage != "") {
                 showSnackbar(errorMessage)
                 userModel.clearErrorMessage()

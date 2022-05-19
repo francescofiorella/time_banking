@@ -1,6 +1,7 @@
 package com.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,20 +32,24 @@ class ShowProfileFragment : Fragment() {
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
-        userModel.currentUser.observe(viewLifecycleOwner) {
-            if (userModel.currentUserBitmap.value == null) {
-                it?.photoPath?.let { photoPath ->
+        userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            Log.d(
+                "ShowProfileFragment",
+                "userModel.currentUser.observe (currentUser = ${currentUser})"
+            )
+            if (userModel.photoBitmap.value == null) {
+                currentUser?.photoPath?.let { photoPath ->
                     loadBitmapFromStorage(
                         requireContext(),
                         photoPath
                     )
                 }.let { bitmap ->
-//                    userModel.currentUserBitmap.value = bitmap
+                    userModel.updatePhotoBitmap(bitmap)
                 }
             }
 
             binding.skillsCg.removeAllViews()
-            it?.skills?.forEach { skill ->
+            currentUser?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -56,9 +61,13 @@ class ShowProfileFragment : Fragment() {
             }
         }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.ivPhoto.setImageBitmap(it)
+        userModel.photoBitmap.observe(viewLifecycleOwner) { photoBitmap ->
+            Log.d(
+                "ShowProfileFragment",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            if (photoBitmap != null) {
+                binding.ivPhoto.setImageBitmap(photoBitmap)
             }
         }
 

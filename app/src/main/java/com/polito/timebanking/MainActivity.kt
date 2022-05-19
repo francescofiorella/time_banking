@@ -34,33 +34,39 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController!!)
 
-        userModel.currentUserBitmap.observe(this) {
-            Log.d("DEBUG", "MainActivity - userModel.currentUserBitmap.observe - $it")
-            if (it != null) {
+        userModel.photoBitmap.observe(this) { photoBitmap ->
+            Log.d(
+                "MainActivity",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            if (photoBitmap != null) {
                 val header = binding.navView.getHeaderView(0)
                 val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
-                photoIV.setImageBitmap(it)
+                photoIV.setImageBitmap(photoBitmap)
             }
         }
 
-        userModel.currentUser.observe(this) {
-            Log.d("DEBUG", "MainActivity - userModel.currentUser.observe - $it")
-//            if (userModel.currentUserBitmap.value == null) {
-//                it?.photoPath?.let { photoPath ->
-//                    loadBitmapFromStorage(
-//                        applicationContext,
-//                        photoPath
-//                    )
-//                }.let { bitmap ->
-//                    userModel.currentUserBitmap.value = bitmap
-//                }
-//            }
+        userModel.currentUser.observe(this) { currentUser ->
+            Log.d(
+                "MainActivity",
+                "userModel.currentUser.observe (currentUser = ${currentUser})"
+            )
+            if (userModel.photoBitmap.value == null) {
+                currentUser?.photoPath?.let { photoPath ->
+                    loadBitmapFromStorage(
+                        applicationContext,
+                        photoPath
+                    )
+                }.let { bitmap ->
+                    userModel.updatePhotoBitmap(bitmap)
+                }
+            }
 
             val header = binding.navView.getHeaderView(0)
             val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
-            fullNameTV.text = it?.fullName
+            fullNameTV.text = currentUser?.fullName
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
-            emailTV.text = it?.email
+            emailTV.text = currentUser?.email
         }
 
         setSupportActionBar(binding.toolbar)
@@ -90,9 +96,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener { item ->
             if (item.itemId == R.id.signInFragment) {
-                Log.d("DEBUG", "MainActivity - binding.navView.setNavigationItemSelectedListener")
                 userModel.signOut()
-                navController?.navigate(R.id.authFragment)
+                navController?.apply {
+                    navigate(R.id.authFragment)
+                    backQueue.clear()
+                }
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController!!)
             }
