@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -100,9 +101,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val navigationListener = NavController.OnDestinationChangedListener { _, _, _ ->
-        onPrepareOptionsMenu(binding.toolbar.menu)
-    }
+    private val navigationListener =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            onPrepareOptionsMenu(binding.toolbar.menu)
+            when (destination.id) {
+                R.id.authFragment -> {
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    binding.toolbar.navigationIcon = null
+                }
+                else -> {
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                }
+            }
+        }
 
     override fun onResume() {
         super.onResume()
