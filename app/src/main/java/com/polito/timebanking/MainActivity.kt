@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             if (item.itemId == R.id.signInFragment) {
                 Log.d("DEBUG", "MainActivity - binding.navView.setNavigationItemSelectedListener")
                 userModel.signOut()
-                navController?.navigate(R.id.signInFragment)
+                navController?.navigate(R.id.authFragment)
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController!!)
             }

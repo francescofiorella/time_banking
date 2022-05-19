@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,8 +19,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     val loggedIn = MutableLiveData(false)
-    val signInErrorMessage = MutableLiveData("")
-    val signUpErrorMessage = MutableLiveData("")
+    val errorMessage = MutableLiveData("")
 
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
@@ -47,7 +47,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 val skills = ArrayList<Skill>()
                 for (skill in value!!) {
                     skill.toObject(Skill::class.java).let {
-                        Log.d("Firebase", "Skills Listener: success (skill = ${it})")
                         if (it.sid != null && it.name != null) {
                             skills.add(it)
                         }
@@ -58,35 +57,36 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    fun createUserWithEmailAndPassword(email: String, password: String, user: User) {
-        fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+    fun signInWithCredential(firebaseCredential: AuthCredential) {
+        fAuth.signInWithCredential(firebaseCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d("Firebase", "createUserWithEmailAndPassword: success")
+                Log.d("Firebase", "signInWithCredential: success")
+                val isNewUser = task.result.additionalUserInfo?.isNewUser
                 fAuth.currentUser?.also { currentUser ->
-                    user.apply {
-                        uid = currentUser.uid
+                    val uid = currentUser.uid
+                    if (isNewUser == false) {
+                        getUser(uid)
+                        loggedIn.value = true
+                    } else {
+                        val fullName = currentUser.displayName ?: ""
+                        val email = currentUser.email ?: ""
+                        val photoUrl = currentUser.photoUrl
+                        Log.d(
+                            "DEBUG",
+                            "isNewUser = $isNewUser, uid = $uid, fullName = $fullName, email = $email, photoUrl = $photoUrl"
+                        )
+                        val user = User(
+                            uid = uid,
+                            fullName = fullName,
+                            email = email
+                        )
+                        addUser(uid, user)
+                        loggedIn.value = true
                     }
-                    addUser(currentUser.uid, user)
-                    loggedIn.value = true
                 }
             } else {
-                Log.w("Firebase", "createUserWithEmailAndPassword: failure", task.exception)
-                signUpErrorMessage.value = "Registration failed: ${task.exception?.message}"
-            }
-        }
-    }
-
-    fun signInWithEmailAndPassword(email: String, password: String) {
-        fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d("Firebase", "signInWithEmailAndPassword: success")
-                fAuth.currentUser?.also { currentUser ->
-                    getUser(currentUser.uid)
-                    loggedIn.value = true
-                }
-            } else {
-                Log.w("Firebase", "signInWithEmailAndPassword: failure", task.exception)
-                signInErrorMessage.value = "Authentication failed: ${task.exception?.message}"
+                Log.w("Firebase", "signInWithCredential: failure", task.exception)
+                errorMessage.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
@@ -101,7 +101,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
             .addOnFailureListener {
                 Log.w("Firebase", "addUser: failure", it)
-                signUpErrorMessage.value = "Registration failed: ${it.message}"
+                errorMessage.value = "Registration failed: ${it.message}"
             }
     }
 
@@ -110,17 +110,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             .document(uid)
             .get()
             .addOnSuccessListener {
-                Log.d("Firebase", "getUser: success")
-                _currentUser.value = it.toObject(User::class.java)
+                val user = it.toObject(User::class.java)
+                Log.d("Firebase", "getUser: success (user = ${user})")
+                _currentUser.value = user
             }
             .addOnFailureListener {
                 Log.w("Firebase", "getUser: failure", it)
-                signInErrorMessage.value = "Authentication failed: ${it.message}"
+                errorMessage.value = "Authentication failed: ${it.message}"
             }
     }
 
     fun signOut() {
-        Log.d("DEBUG", "UserViewModel - signOut")
+        Log.d("UserViewModel", "signOut")
         loggedIn.value = false
         _currentUser.value = null
         fAuth.signOut()
@@ -138,12 +139,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    fun clearSignInErrorMessage() {
-        signInErrorMessage.value = ""
-    }
-
-    fun clearSignUpErrorMessage() {
-        signUpErrorMessage.value = ""
+    fun clearErrorMessage() {
+        errorMessage.value = ""
     }
 
     override fun onCleared() {
