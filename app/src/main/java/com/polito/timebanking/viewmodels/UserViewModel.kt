@@ -66,6 +66,49 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
+    fun signUpWithEmailAndPassword(email: String, password: String, user: User) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(
+                    "Firebase/Authentication",
+                    "signUpWithEmailAndPassword: success"
+                )
+                auth.currentUser?.also { currentUser ->
+                    user.apply {
+                        uid = currentUser.uid
+                    }
+                    setUser(user, true)
+                }
+            } else {
+                Log.w(
+                    "Firebase/Authentication",
+                    "signUpWithEmailAndPassword: failure", task.exception
+                )
+                errorMessage.value = "Registration failed: ${task.exception?.message}"
+            }
+        }
+    }
+
+    fun signInWithEmailAndPassword(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(
+                    "Firebase/Authentication",
+                    "signInWithEmailAndPassword: success"
+                )
+                auth.currentUser?.also { currentUser ->
+                    getUser(currentUser.uid)
+                }
+            } else {
+                Log.w(
+                    "Firebase/Authentication",
+                    "signInWithEmailAndPassword: failure", task.exception
+                )
+                errorMessage.value = "Authentication failed: ${task.exception?.message}"
+            }
+        }
+    }
+
     fun signInWithCredential(firebaseCredential: AuthCredential) {
         auth.signInWithCredential(firebaseCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {

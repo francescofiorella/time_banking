@@ -6,13 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".AuthFragment">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_btn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_with_email_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:backgroundTint="#d0021b"
+            android:gravity="start|center_vertical"
+            android:paddingVertical="16dp"
+            android:text="@string/sign_in_with_email"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:icon="@drawable/ic_email"
+            app:iconGravity="start"
+            app:iconPadding="16dp"
+            app:iconSize="32dp"
+            app:iconTint="@null" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_with_google_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:backgroundTint="#ffffff"
+            android:gravity="start|center_vertical"
+            android:paddingVertical="16dp"
+            android:text="@string/sign_in_with_google"
+            android:textAllCaps="false"
+            android:textColor="#757575"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:icon="@drawable/googleg_standard_color_18"
+            app:iconGravity="start"
+            app:iconPadding="16dp"
+            app:iconSize="32dp"
+            app:iconTint="@null" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

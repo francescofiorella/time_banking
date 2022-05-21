@@ -79,4 +79,34 @@
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" />
 
+    <fragment
+        android:id="@+id/emailSignInFragment"
+        android:name="com.polito.timebanking.EmailSignInFragment"
+        android:label="EmailSignInFragment">
+
+        <action
+            android:id="@+id/action_emailSignInFragment_to_emailSignUpFragment"
+            app:destination="@id/emailSignUpFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/emailSignUpFragment"
+        android:name="com.polito.timebanking.EmailSignUpFragment"
+        android:label="EmailSignUpFragment">
+
+        <action
+            android:id="@+id/action_emailSignUpFragment_to_emailSignInFragment"
+            app:destination="@id/emailSignInFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
+    </fragment>
+
 </navigation>

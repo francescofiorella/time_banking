@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
+import com.polito.timebanking.utils.showSnackbar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -63,6 +64,20 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.ic_account_circle
                     )
                 )
+            }
+        }
+
+        userModel.errorMessage.observe(this) { errorMessage ->
+            Log.d(
+                "AuthFragment",
+                "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
+            )
+            if (errorMessage != "") {
+                showSnackbar(
+                    this.findViewById(android.R.id.content),
+                    errorMessage
+                )
+                userModel.clearErrorMessage()
             }
         }
 
