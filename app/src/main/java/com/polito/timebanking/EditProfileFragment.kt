@@ -8,6 +8,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -20,14 +21,13 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.utils.rotateBitmap
-import com.polito.timebanking.utils.saveBitmapToStorage
 import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EditProfileFragment : Fragment() {
+    private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentEditProfileBinding
-    private val userModel by activityViewModels<UserViewModel>()
 
     companion object {
         private const val REQUEST_CODE_SELECT_PHOTO = 100
@@ -52,35 +52,37 @@ class EditProfileFragment : Fragment() {
             showMenu(it, R.menu.edit_photo_menu)
         }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.photoIv.setImageBitmap(it)
+        userModel.photoBitmap.observe(viewLifecycleOwner) { photoBitmap ->
+            Log.d(
+                "EditProfileFragment",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            if (photoBitmap != null) {
+                binding.photoIv.setImageBitmap(photoBitmap)
             }
         }
 
-        userModel.allSkills.observe(viewLifecycleOwner) {
+        userModel.skills.observe(viewLifecycleOwner) { skills ->
+            Log.d(
+                "EditProfileFragment",
+                "userModel.skills.observe (skills = ${skills})"
+            )
             binding.skillsCg.removeAllViews()
-            it.forEach { skill ->
+            skills.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
                     false
                 ) as Chip
                 chip.isChecked =
-                    userModel.currentUserCheckedSkills.value?.any { s -> s.name == skill.name } == true
+                    userModel.currentUser.value?.skills?.any { s -> s.sid == skill.sid } == true
                 chip.isCheckedIconVisible = true
                 chip.text = skill.name
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        userModel.currentUserCheckedSkills.value?.add(skill)
-                        /*userModel.currentUser.value?.let { currentUser ->
-                            UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.insertUserSkill(userSkill) }*/
+                        userModel.currentUser.value?.skills?.add(skill)
                     } else {
-                        userModel.currentUserCheckedSkills.value?.removeIf { s -> s.name == skill.name }
-                        /*userModel.currentUser.value?.let { currentUser ->
-                            UserSkill(currentUser.id, skill.id)
-                        }?.let { userSkill -> userModel.deleteUserSkill(userSkill) }*/
+                        userModel.currentUser.value?.skills?.removeIf { s -> s.sid == skill.sid }
                     }
                 }
                 binding.skillsCg.addView(chip)
@@ -132,7 +134,6 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val path = "profilePhoto${userModel.currentUser.value?.id}.png"
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SELECT_PHOTO -> {
@@ -156,22 +157,16 @@ class EditProfileFragment : Fragment() {
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
                         }
-                        bitmap?.let { it ->
-                            saveBitmapToStorage(requireContext(), it, path)
-                            userModel.currentUser.value?.let { currentUser ->
-                                currentUser.photoPath = path
-                            }
-                            val rotatedBitmap = rotateBitmap(requireContext(), it, path)
-                            userModel.currentUserBitmap.value = rotatedBitmap
+                        bitmap?.let {
+                            val rotatedBitmap = rotateBitmap(requireContext(), it)
+                            userModel.setPhoto(rotatedBitmap)
                         }
                     }
                 }
                 REQUEST_CODE_TAKE_PHOTO -> {
                     val bitmap = data?.extras?.get("data") as Bitmap
-                    saveBitmapToStorage(requireContext(), bitmap, path)
-                    userModel.currentUser.value?.let { it.photoPath = path }
-                    val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
-                    userModel.currentUserBitmap.value = rotatedBitmap
+                    val rotatedBitmap = rotateBitmap(requireContext(), bitmap)
+                    userModel.setPhoto(rotatedBitmap)
                 }
             }
         }
@@ -179,7 +174,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        userModel.currentUser.value?.let { userModel.updateUser(it) }
+        userModel.currentUser.value?.let { userModel.setUser(it, false) }
         activity?.snackBar("User updated!")
     }
 }

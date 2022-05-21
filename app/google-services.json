@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "338575471856-dtdghs2h0d1hpfm5diuf3k7joh3k5ufd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polito.timebanking",
+            "certificate_hash": "e6a7e2e796a780eaabd5374231994c5e11604240"
+          }
+        },
+        {
           "client_id": "338575471856-bjp4pkd0knh171vrfbv2qggiq4coa2oj.apps.googleusercontent.com",
           "client_type": 3
         }

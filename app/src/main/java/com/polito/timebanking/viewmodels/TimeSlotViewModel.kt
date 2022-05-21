@@ -1,6 +1,7 @@
 package com.polito.timebanking.viewmodels
 
 import android.app.Application
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.polito.timebanking.models.TimeSlot
+import com.polito.timebanking.models.User
 import kotlin.concurrent.thread
 
 class TimeSlotViewModel(application: Application) : AndroidViewModel(application) {

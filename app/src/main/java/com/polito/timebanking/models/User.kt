@@ -1,11 +1,12 @@
 package com.polito.timebanking.models
 
 data class User(
-    val id: Int,
-    var fullName: String,
-    var nickname: String,
-    var email: String,
-    var location: String,
-    var description: String?,
-    var photoPath: String?
+    var uid: String = "",
+    var fullName: String = "",
+    var email: String = "",
+    var nickname: String? = null,
+    var location: String? = null,
+    var description: String? = null,
+    var photoUrl: String? = null,
+    var skills: MutableList<Skill>? = mutableListOf()
 )

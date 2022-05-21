@@ -1,22 +1,21 @@
 package com.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
-import com.polito.timebanking.utils.loadBitmapFromStorage
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class ShowProfileFragment : Fragment() {
+    private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentShowProfileBinding
-    private val userModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,33 +31,14 @@ class ShowProfileFragment : Fragment() {
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
-        userModel.currentUser.observe(viewLifecycleOwner) {
-            if (userModel.currentUserBitmap.value == null) {
-                it?.photoPath?.let { photoPath ->
-                    loadBitmapFromStorage(
-                        requireContext(),
-                        photoPath
-                    )
-                }.let { bitmap ->
-                    userModel.currentUserBitmap.value = bitmap
-                }
-            }
-        }
+        userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            Log.d(
+                "ShowProfileFragment",
+                "userModel.currentUser.observe (currentUser = ${currentUser})"
+            )
 
-        userModel.currentUserSkills.observe(viewLifecycleOwner) {
-            binding.skillsTv.isVisible = it.isNotEmpty()
-            userModel.currentUserCheckedSkills.value = it.toMutableList()
-        }
-
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.ivPhoto.setImageBitmap(it)
-            }
-        }
-
-        userModel.currentUserCheckedSkills.observe(viewLifecycleOwner) {
             binding.skillsCg.removeAllViews()
-            it.forEach { skill ->
+            currentUser?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -67,6 +47,16 @@ class ShowProfileFragment : Fragment() {
                 chip.isCheckable = false
                 chip.text = skill.name
                 binding.skillsCg.addView(chip)
+            }
+        }
+
+        userModel.photoBitmap.observe(viewLifecycleOwner) { photoBitmap ->
+            Log.d(
+                "ShowProfileFragment",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            if (photoBitmap != null) {
+                binding.ivPhoto.setImageBitmap(photoBitmap)
             }
         }
 

@@ -1,74 +1,89 @@
 package com.polito.timebanking
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
+import com.polito.timebanking.utils.showSnackbar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
+    private val userModel by viewModels<UserViewModel>()
 
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
-    private val userModel by viewModels<UserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        //userModel.create();
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        navController = navHostFragment.navController.also {
-            binding.navView.setupWithNavController(it)
+        navController = navHostFragment.navController
+        binding.navView.setupWithNavController(navController!!)
+
+        userModel.currentUser.observe(this) { currentUser ->
+            Log.d(
+                "MainActivity",
+                "userModel.currentUser.observe (currentUser = ${currentUser})"
+            )
+
+            val header = binding.navView.getHeaderView(0)
+            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
+            fullNameTV.text = currentUser?.fullName
+            val emailTV = header.findViewById<TextView>(R.id.tv_email)
+            emailTV.text = currentUser?.email
+        }
+
+        userModel.photoBitmap.observe(this) { photoBitmap ->
+            Log.d(
+                "MainActivity",
+                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+            )
+            val header = binding.navView.getHeaderView(0)
+            val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
+            if (photoBitmap != null) {
+                photoIV.setImageBitmap(photoBitmap)
+            } else {
+                photoIV.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        this,
+                        R.drawable.ic_account_circle
+                    )
+                )
+            }
+        }
+
+        userModel.errorMessage.observe(this) { errorMessage ->
+            Log.d(
+                "AuthFragment",
+                "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
+            )
+            if (errorMessage != "") {
+                showSnackbar(
+                    this.findViewById(android.R.id.content),
+                    errorMessage
+                )
+                userModel.clearErrorMessage()
+            }
         }
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        userModel.currentUserBitmap.observe(this) {
-            if (it != null) {
-                val header = binding.navView.getHeaderView(0)
-                val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
-                photoIV.setImageBitmap(it)
-            }
-        }
-        /*
-        userModel.currentUser.observe(this) {
-            if (userModel.currentUserBitmap.value == null) {
-                it?.photoPath?.let { photoPath ->
-                    loadBitmapFromStorage(
-                        applicationContext,
-                        photoPath
-                    )
-                }.let { bitmap ->
-                    userModel.currentUserBitmap.value = bitmap
-                }
-            }
-
-            val header = binding.navView.getHeaderView(0)
-            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
-            fullNameTV.text = it?.fullName
-            val emailTV = header.findViewById<TextView>(R.id.tv_email)
-            emailTV.text = it?.email
-        }
-        */
-        userModel.user.observe(this){
-            val header = binding.navView.getHeaderView(0)
-            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
-            fullNameTV.text = it?.fullName
-            val emailTV = header.findViewById<TextView>(R.id.tv_email)
-            emailTV.text = it?.email
-        }
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -90,11 +105,35 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        binding.navView.setNavigationItemSelectedListener { item ->
+            if (item.itemId == R.id.authFragment) {
+                userModel.signOut()
+                navController?.apply {
+                    navigate(R.id.authFragment)
+                    backQueue.clear()
+                }
+            } else {
+                NavigationUI.onNavDestinationSelected(item, navController!!)
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
-    private val navigationListener = NavController.OnDestinationChangedListener { _, _, _ ->
-        onPrepareOptionsMenu(binding.toolbar.menu)
-    }
+    private val navigationListener =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            onPrepareOptionsMenu(binding.toolbar.menu)
+            when (destination.id) {
+                R.id.authFragment -> {
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    binding.toolbar.navigationIcon = null
+                }
+                else -> {
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                }
+            }
+        }
 
     override fun onResume() {
         super.onResume()

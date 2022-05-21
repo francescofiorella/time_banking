@@ -23,6 +23,17 @@
     <string name="edit">Edit</string>
     <string name="navigation_menu_show_profile_fragment">Profile</string>
     <string name="navigation_menu_time_slot_list_fragment">Time Slots</string>
-    <string name="no_time_slots">There are no time slots available!</string>
-    <string name="no_skills">There are no skills available!</string>
+    <string name="navigation_menu_logout">Logout</string>
+    <string name="no_time_slots">There are no Time Slots available!</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_in_with_email">Sign in with email</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="new_user">New user?</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_in">SIGN IN</string>
 </resources>
