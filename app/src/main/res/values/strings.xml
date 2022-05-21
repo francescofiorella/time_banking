@@ -25,6 +25,7 @@
     <string name="navigation_menu_time_slot_list_fragment">Time Slots</string>
     <string name="navigation_menu_logout">Logout</string>
     <string name="no_time_slots">There are no Time Slots available!</string>
+    <string name="no_skills">There are no skills available!</string>
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
     <string name="full_name">Full Name</string>
