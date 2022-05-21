@@ -41,7 +41,7 @@ class EmailSignUpFragment : Fragment() {
                 "userModel.loggedIn.observe (loggedIn = ${it})"
             )
             if (it) {
-                findNavController().navigate(R.id.timeSlotListFragment)
+                findNavController().navigate(R.id.action_emailSignUpFragment_to_skillListFragment)
             }
         }
 
@@ -56,7 +56,7 @@ class EmailSignUpFragment : Fragment() {
         }
 
         signInBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_emailSignUpFragment_to_emailSignInFragment)
+            findNavController().navigateUp()
         }
     }
 

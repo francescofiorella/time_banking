@@ -1,25 +1,22 @@
 package com.polito.timebanking.viewmodels
 
 import android.app.Application
-import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.models.TimeSlot
-import com.polito.timebanking.models.User
 import kotlin.concurrent.thread
 
 class TimeSlotViewModel(application: Application) : AndroidViewModel(application) {
+    private val _timeSlotList = MutableLiveData<List<TimeSlot>>()
+    val timeSlotList: LiveData<List<TimeSlot>> = _timeSlotList
 
-    private val _timeslot= MutableLiveData<List<TimeSlot>>()
-    val timeslot : LiveData<List<TimeSlot>> = _timeslot
-
-    //private val repository = TimeSlotRepository(application)
-    val timeSlotList : LiveData<List<TimeSlot>> = _timeslot
     var currentTimeslot: TimeSlot? = null
     var editFragmentMode: Int = NONE
 
@@ -31,65 +28,100 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
         const val EDIT_MODE = 2
     }
 
-    private val db: FirebaseFirestore
-    private var l: ListenerRegistration
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val auth: FirebaseAuth = Firebase.auth
 
-    init{
-        db = FirebaseFirestore.getInstance()
-        l = db.collection("timeslot")
-            .whereEqualTo("user", 1)
-            .addSnapshotListener{ v,e ->
-                if(e==null){
-                    _timeslot.value = v!!.mapNotNull { t -> t.toTimeSlot() }
-                }else{
-                    _timeslot.value = emptyList()
+    init {
+        db.collection("timeslot")
+            .whereEqualTo("email", auth.currentUser?.email ?: "")
+            .addSnapshotListener { v, e ->
+                if (e == null) {
+                    _timeSlotList.value = v!!.mapNotNull { t -> t.toTimeSlot() }
+                } else {
+                    _timeSlotList.value = emptyList()
                 }
             }
     }
 
-    fun DocumentSnapshot.toTimeSlot():TimeSlot?{
+    private fun DocumentSnapshot.toTimeSlot(): TimeSlot? {
         return try {
-            val id = this.getId() as String
-            val title = get("title") as String
-            val day = get("day") as Long
-            val month = get("month") as Long
-            val year = get("year") as Long
-            val duration = get("duration") as String
-            val location = get("location") as String
-            val description = get("description") as String
-            val userId = get("user") as Long
-            val hour = get("hour") as Long
-            val minute = get("minute") as Long
-            TimeSlot(id,title,description, year.toInt(),month.toInt(),day.toInt(),hour.toInt(),minute.toInt(),duration,location,userId.toInt());
-
-        } catch (e:Exception){
+            val id = this.id
+            val title = getString("title") ?: ""
+            val day = (getLong("day") ?: 0).toInt()
+            val month = (getLong("month") ?: 0).toInt()
+            val year = (getLong("year") ?: 0).toInt()
+            val duration = getString("duration") ?: ""
+            val location = getString("location") ?: ""
+            val description = getString("description") ?: ""
+            val email = getString("email") ?: ""
+            val hour = (getLong("hour") ?: 99).toInt()
+            val minute = (getLong("minute") ?: 99).toInt()
+            val skillId = getString("sid") ?: ""
+            TimeSlot(
+                id,
+                title,
+                description,
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                duration,
+                location,
+                email,
+                skillId
+            )
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }
-
     }
 
     fun addTimeSlot(timeSlot: TimeSlot) {
         thread {
-            db
-                .collection("timeslot")
+            db.collection("timeslot")
                 .document()
-                .set(mapOf("day" to timeSlot.day,"month" to timeSlot.month,"year" to timeSlot.year,"hour" to timeSlot.hour, "minute" to timeSlot.minute,"description" to timeSlot.description, "duration" to timeSlot.duration, "location" to timeSlot.location, "skill" to "franco", "title" to timeSlot.title, "user" to 1))
-                .addOnSuccessListener { Log.d("Firebase","Success") }
-                .addOnFailureListener { Log.d("Firebase",it.message?:"Error")}
-            //repository.add(timeSlot)
+                .set(
+                    mapOf(
+                        "day" to timeSlot.day,
+                        "month" to timeSlot.month,
+                        "year" to timeSlot.year,
+                        "hour" to timeSlot.hour,
+                        "minute" to timeSlot.minute,
+                        "description" to timeSlot.description,
+                        "duration" to timeSlot.duration,
+                        "location" to timeSlot.location,
+                        "sid" to timeSlot.skillId,
+                        "title" to timeSlot.title,
+                        "email" to timeSlot.email
+                    )
+                )
+                .addOnSuccessListener { Log.d("Firebase", "Success") }
+                .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
         }
     }
 
     fun updateTimeSlot(timeSlot: TimeSlot) {
         thread {
-            db
-                .collection("timeslot")
+            db.collection("timeslot")
                 .document(timeSlot.id)
-                .set(mapOf("day" to timeSlot.day,"month" to timeSlot.month,"year" to timeSlot.year,"hour" to timeSlot.hour, "minute" to timeSlot.minute,"description" to timeSlot.description, "duration" to timeSlot.duration, "location" to timeSlot.location, "skill" to "franco", "title" to timeSlot.title, "user" to 1))
-                .addOnSuccessListener { Log.d("Firebase","Success") }
-                .addOnFailureListener { Log.d("Firebase",it.message?:"Error")}
-            //repository.editTimeSlot(timeSlot)
+                .set(
+                    mapOf(
+                        "day" to timeSlot.day,
+                        "month" to timeSlot.month,
+                        "year" to timeSlot.year,
+                        "hour" to timeSlot.hour,
+                        "minute" to timeSlot.minute,
+                        "description" to timeSlot.description,
+                        "duration" to timeSlot.duration,
+                        "location" to timeSlot.location,
+                        "sid" to timeSlot.skillId,
+                        "title" to timeSlot.title,
+                        "email" to timeSlot.email
+                    )
+                )
+                .addOnSuccessListener { Log.d("Firebase", "Success") }
+                .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
         }
     }
 }

@@ -44,6 +44,11 @@ class SkillListFragment : Fragment(), SkillListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+    }
+
     override fun onClickListener(skill: Skill, position: Int) {
         // pass skill id
         findNavController().navigate(R.id.action_skillListFragment_to_timeSlotListFragment)

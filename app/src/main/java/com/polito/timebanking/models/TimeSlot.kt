@@ -14,7 +14,8 @@ data class TimeSlot(
     var minute: Int = 0,
     var duration: String = "",
     var location: String = "",
-    var userId: Int = 0
+    var email: String = "",
+    var skillId: String = ""
 ) {
     fun getDate(): String = dateToString(day, month, year).takeIf { it != "00/00/0" } ?: ""
     fun getTime(): String = timeToString(hour, minute).takeIf { it != "99:99" } ?: ""

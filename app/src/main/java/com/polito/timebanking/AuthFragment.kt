@@ -4,10 +4,10 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -58,20 +58,20 @@ class AuthFragment : Fragment() {
             .build()
 
         view.findViewById<MaterialButton>(R.id.sign_in_with_email_btn).setOnClickListener {
-            findNavController().navigate(R.id.emailSignInFragment)
+            findNavController().navigate(R.id.action_authFragment_to_emailSignInFragment)
         }
 
         view.findViewById<MaterialButton>(R.id.sign_in_with_google_btn).setOnClickListener {
             showSignInClient()
         }
 
-        userModel.loggedIn.observe(viewLifecycleOwner) {
+        userModel.loggedIn.observe(viewLifecycleOwner) { isLogged ->
             Log.d(
                 "AuthFragment",
-                "userModel.loggedIn.observe (loggedIn = ${it})"
+                "userModel.loggedIn.observe (loggedIn = ${isLogged})"
             )
-            if (it) {
-                findNavController().navigate(R.id.timeSlotListFragment)
+            if (isLogged) {
+                findNavController().navigate(R.id.action_authFragment_to_skillListFragment)
             }
         }
 

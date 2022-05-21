@@ -43,7 +43,7 @@ class TimeSlotEditFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     viewModel.currentTimeslot?.let { timeSlot ->
                         saveTimeSlotDataIn(timeSlot)
-                        
+
                         // save the list
                         if (!timeSlot.isEmpty() && viewModel.hasBeenModified) {
                             when (viewModel.editFragmentMode) {

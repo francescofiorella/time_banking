@@ -110,8 +110,9 @@ class MainActivity : AppCompatActivity() {
             if (item.itemId == R.id.authFragment) {
                 userModel.signOut()
                 navController?.apply {
+                    // reset the navGraph (the start destination)
+                    graph = navInflater.inflate(R.navigation.navigation_graph)
                     navigate(R.id.authFragment)
-                    backQueue.clear()
                 }
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController!!)
@@ -164,7 +165,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             when (navController?.currentDestination?.id) {
-                R.id.timeSlotListFragment, R.id.showProfileFragment -> binding.drawerLayout.open()
+                R.id.skillListFragment, R.id.timeSlotListFragment, R.id.showProfileFragment ->
+                    binding.drawerLayout.open()
                 else -> onBackPressed()
             }
         }
