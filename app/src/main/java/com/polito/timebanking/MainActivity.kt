@@ -16,7 +16,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.polito.timebanking.databinding.ActivityMainBinding
-import com.polito.timebanking.utils.loadBitmapFromStorage
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +33,19 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController!!)
 
+        userModel.currentUser.observe(this) { currentUser ->
+            Log.d(
+                "MainActivity",
+                "userModel.currentUser.observe (currentUser = ${currentUser})"
+            )
+
+            val header = binding.navView.getHeaderView(0)
+            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
+            fullNameTV.text = currentUser?.fullName
+            val emailTV = header.findViewById<TextView>(R.id.tv_email)
+            emailTV.text = currentUser?.email
+        }
+
         userModel.photoBitmap.observe(this) { photoBitmap ->
             Log.d(
                 "MainActivity",
@@ -44,29 +56,6 @@ class MainActivity : AppCompatActivity() {
                 val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
                 photoIV.setImageBitmap(photoBitmap)
             }
-        }
-
-        userModel.currentUser.observe(this) { currentUser ->
-            Log.d(
-                "MainActivity",
-                "userModel.currentUser.observe (currentUser = ${currentUser})"
-            )
-            if (userModel.photoBitmap.value == null) {
-                currentUser?.photoPath?.let { photoPath ->
-                    loadBitmapFromStorage(
-                        applicationContext,
-                        photoPath
-                    )
-                }.let { bitmap ->
-                    userModel.updatePhotoBitmap(bitmap)
-                }
-            }
-
-            val header = binding.navView.getHeaderView(0)
-            val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
-            fullNameTV.text = currentUser?.fullName
-            val emailTV = header.findViewById<TextView>(R.id.tv_email)
-            emailTV.text = currentUser?.email
         }
 
         setSupportActionBar(binding.toolbar)

@@ -2,6 +2,7 @@ package com.polito.timebanking.viewmodels
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,11 +13,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.polito.timebanking.models.*
+import java.io.ByteArrayOutputStream
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
-    private val fAuth: FirebaseAuth = Firebase.auth
+    private val auth: FirebaseAuth = Firebase.auth
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val storage = Firebase.storage
 
     val loggedIn = MutableLiveData(false)
     val errorMessage = MutableLiveData("")
@@ -33,15 +37,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private var skillsListener: ListenerRegistration
 
     init {
-        if (fAuth.currentUser != null) {
-            getUser(fAuth.currentUser!!.uid)
-            loggedIn.value = true
+        if (auth.currentUser != null) {
+            getUser(auth.currentUser!!.uid)
         }
 
         skillsListener = db.collection("skills")
             .addSnapshotListener { value, e ->
                 if (e != null) {
-                    Log.w("Firebase", "Skills Listener: failure", e)
+                    Log.w(
+                        "Firebase/Cloud Firestore",
+                        "Skills Listener: failure", e
+                    )
                     return@addSnapshotListener
                 }
                 val skills = ArrayList<Skill>()
@@ -52,21 +58,26 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                Log.d("Firebase", "Skills Listener: success (skills = ${skills})")
+                Log.d(
+                    "Firebase/Cloud Firestore",
+                    "Skills Listener: success (skills = ${skills})"
+                )
                 _skills.value = skills
             }
     }
 
     fun signInWithCredential(firebaseCredential: AuthCredential) {
-        fAuth.signInWithCredential(firebaseCredential).addOnCompleteListener { task ->
+        auth.signInWithCredential(firebaseCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d("Firebase", "signInWithCredential: success")
+                Log.d(
+                    "Firebase/Authentication",
+                    "signInWithCredential: success"
+                )
                 val isNewUser = task.result.additionalUserInfo?.isNewUser
-                fAuth.currentUser?.also { currentUser ->
+                auth.currentUser?.also { currentUser ->
                     val uid = currentUser.uid
                     if (isNewUser == false) {
                         getUser(uid)
-                        loggedIn.value = true
                     } else {
                         val fullName = currentUser.displayName ?: ""
                         val email = currentUser.email ?: ""
@@ -75,28 +86,41 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             fullName = fullName,
                             email = email
                         )
-                        addUser(uid, user)
-                        loggedIn.value = true
+                        setUser(user, true)
                     }
                 }
             } else {
-                Log.w("Firebase", "signInWithCredential: failure", task.exception)
+                Log.w(
+                    "Firebase/Authentication",
+                    "signInWithCredential: failure", task.exception
+                )
                 errorMessage.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
 
-    private fun addUser(uid: String, user: User) {
+    fun setUser(user: User, isSignIn: Boolean) {
         db.collection("users")
-            .document(uid)
+            .document(user.uid)
             .set(user)
             .addOnSuccessListener {
-                Log.d("Firebase", "addUser: success (id = ${uid})")
-                _currentUser.value = user
+                Log.d(
+                    "Firebase/Cloud Firestore",
+                    "setUser: success (uid = ${user.uid})"
+                )
+                if (isSignIn) {
+                    _currentUser.value = user
+                    loggedIn.value = true
+                }
             }
             .addOnFailureListener {
-                Log.w("Firebase", "addUser: failure", it)
-                errorMessage.value = "Registration failed: ${it.message}"
+                Log.w(
+                    "Firebase/Cloud Firestore",
+                    "setUser: failure", it
+                )
+                if (isSignIn) {
+                    errorMessage.value = "Registration failed: ${it.message}"
+                }
             }
     }
 
@@ -106,37 +130,83 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             .get()
             .addOnSuccessListener {
                 val user = it.toObject(User::class.java)
-                Log.d("Firebase", "getUser: success (user = ${user})")
+                Log.d(
+                    "Firebase/Cloud Firestore",
+                    "getUser: success (user = ${user})"
+                )
+                user?.photoUrl?.let { photoUrl ->
+                    getPhoto(photoUrl)
+                }
                 _currentUser.value = user
+                loggedIn.value = true
             }
             .addOnFailureListener {
-                Log.w("Firebase", "getUser: failure", it)
+                Log.w(
+                    "Firebase/Cloud Firestore",
+                    "getUser: failure", it
+                )
                 errorMessage.value = "Authentication failed: ${it.message}"
             }
     }
 
-    fun updateUser(user: User) {
-        db.collection("users")
-            .document(user.uid)
-            .set(user)
-            .addOnSuccessListener {
-                Log.d("Firebase", "updateUser: success")
+    fun setPhoto(photoBitmap: Bitmap) {
+        val baos = ByteArrayOutputStream()
+        photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val photoRef = storage.reference.child("userProfilePhotos/${currentUser.value!!.uid}.jpg")
+        photoRef
+            .putBytes(baos.toByteArray())
+            .continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                photoRef.downloadUrl
             }
-            .addOnFailureListener {
-                Log.w("Firebase", "updateUser: failure", it)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(
+                        "Firebase/Storage",
+                        "setPhoto: success (downloadUrl = ${task.result})"
+                    )
+                    currentUser.value?.apply {
+                        photoUrl = task.result.toString()
+                    }
+                    _photoBitmap.value = photoBitmap
+                } else {
+                    Log.w(
+                        "Firebase/Storage",
+                        "setPhoto: failure", task.exception
+                    )
+                }
             }
     }
 
-    fun updatePhotoBitmap(photoBitmap: Bitmap?) {
-        _photoBitmap.value = photoBitmap
+    private fun getPhoto(photoUrl: String) {
+        val photoRef = storage.getReferenceFromUrl(photoUrl)
+        photoRef
+            .getBytes(10 * 1024 * 1024)
+            .addOnSuccessListener {
+                val photoBitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                _photoBitmap.value = photoBitmap
+            }
+            .addOnFailureListener {
+                Log.w(
+                    "Firebase/Storage",
+                    "getPhoto: failure", it
+                )
+            }
     }
 
     fun signOut() {
-        Log.d("UserViewModel", "signOut")
+        Log.d(
+            "UserViewModel",
+            "signOut: success"
+        )
         loggedIn.value = false
         _currentUser.value = null
         _photoBitmap.value = null
-        fAuth.signOut()
+        auth.signOut()
     }
 
     fun clearErrorMessage() {

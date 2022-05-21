@@ -10,13 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
-import com.polito.timebanking.utils.loadBitmapFromStorage
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class ShowProfileFragment : Fragment() {
+    private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentShowProfileBinding
-    private val userModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,16 +36,6 @@ class ShowProfileFragment : Fragment() {
                 "ShowProfileFragment",
                 "userModel.currentUser.observe (currentUser = ${currentUser})"
             )
-            if (userModel.photoBitmap.value == null) {
-                currentUser?.photoPath?.let { photoPath ->
-                    loadBitmapFromStorage(
-                        requireContext(),
-                        photoPath
-                    )
-                }.let { bitmap ->
-                    userModel.updatePhotoBitmap(bitmap)
-                }
-            }
 
             binding.skillsCg.removeAllViews()
             currentUser?.skills?.forEach { skill ->

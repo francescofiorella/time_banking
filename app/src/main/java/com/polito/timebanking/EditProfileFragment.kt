@@ -21,14 +21,13 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.utils.rotateBitmap
-import com.polito.timebanking.utils.saveBitmapToStorage
 import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EditProfileFragment : Fragment() {
+    private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentEditProfileBinding
-    private val userModel by activityViewModels<UserViewModel>()
 
     companion object {
         private const val REQUEST_CODE_SELECT_PHOTO = 100
@@ -135,7 +134,6 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val path = "profilePhoto_${userModel.currentUser.value?.uid}.png"
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SELECT_PHOTO -> {
@@ -159,22 +157,16 @@ class EditProfileFragment : Fragment() {
                         } catch (e: java.lang.Exception) {
                             e.printStackTrace()
                         }
-                        bitmap?.let { it ->
-                            saveBitmapToStorage(requireContext(), it, path)
-                            userModel.currentUser.value?.let { currentUser ->
-                                currentUser.photoPath = path
-                            }
-                            val rotatedBitmap = rotateBitmap(requireContext(), it, path)
-                            userModel.updatePhotoBitmap(rotatedBitmap)
+                        bitmap?.let {
+                            val rotatedBitmap = rotateBitmap(requireContext(), it)
+                            userModel.setPhoto(rotatedBitmap)
                         }
                     }
                 }
                 REQUEST_CODE_TAKE_PHOTO -> {
                     val bitmap = data?.extras?.get("data") as Bitmap
-                    saveBitmapToStorage(requireContext(), bitmap, path)
-                    userModel.currentUser.value?.let { it.photoPath = path }
-                    val rotatedBitmap = rotateBitmap(requireContext(), bitmap, path)
-                    userModel.updatePhotoBitmap(rotatedBitmap)
+                    val rotatedBitmap = rotateBitmap(requireContext(), bitmap)
+                    userModel.setPhoto(rotatedBitmap)
                 }
             }
         }
@@ -182,7 +174,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        userModel.currentUser.value?.let { userModel.updateUser(it) }
+        userModel.currentUser.value?.let { userModel.setUser(it, false) }
         activity?.snackBar("User updated!")
     }
 }
