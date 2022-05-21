@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navView.setNavigationItemSelectedListener { item ->
-            if (item.itemId == R.id.signInFragment) {
+            if (item.itemId == R.id.authFragment) {
                 userModel.signOut()
                 navController?.apply {
                     navigate(R.id.authFragment)

@@ -24,7 +24,7 @@
         android:checkableBehavior="none">
 
         <item
-            android:id="@+id/signInFragment"
+            android:id="@+id/authFragment"
             android:checkable="true"
             android:title="@string/navigation_menu_logout" />
 
