@@ -70,7 +70,14 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(
+            if (isShowingMyTimeSlots()) {
+                R.drawable.ic_menu
+            } else {
+                R.drawable.ic_arrow_back
+            }
+        )
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeSlot = null
         viewModel.loadList()
@@ -86,5 +93,9 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = EDIT_MODE
         viewModel.currentTimeSlot = timeSlot
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
+    }
+
+    fun isShowingMyTimeSlots(): Boolean {
+        return viewModel.listFragmentMode == MY_LIST
     }
 }

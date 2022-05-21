@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -136,6 +137,11 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 }
             }
+
+            // Not working, the fragment has not been initialized yet
+            /* if (isShowingMyTSList(destination)) {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            } */
         }
 
     override fun onResume() {
@@ -167,11 +173,27 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             when (navController?.currentDestination?.id) {
-                R.id.skillListFragment, R.id.timeSlotListFragment, R.id.showProfileFragment ->
+                R.id.skillListFragment, R.id.showProfileFragment ->
                     binding.drawerLayout.open()
-                else -> onBackPressed()
+                else -> {
+                    if (isShowingMyTSList(navController?.currentDestination!!)) {
+                        binding.drawerLayout.open()
+                    } else {
+                        onBackPressed()
+                    }
+                }
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isShowingMyTSList(destination: NavDestination): Boolean {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+
+        return (destination.id == R.id.timeSlotListFragment
+                && (navHostFragment.childFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_content_main) as TimeSlotListFragment)
+            .isShowingMyTimeSlots())
     }
 }
