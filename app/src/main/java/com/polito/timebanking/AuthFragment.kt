@@ -1,5 +1,6 @@
 package com.polito.timebanking
 
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
@@ -7,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -27,8 +30,74 @@ class AuthFragment : Fragment() {
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var signUpRequest: BeginSignInRequest
 
-    companion object {
-        private const val REQUEST_CODE_ONE_TAP = 10
+    private val signInClientForActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                getSignInCredentialFromIntent(activityResult.data)
+            }
+        }
+
+    private val signUpClientForActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                getSignInCredentialFromIntent(activityResult.data)
+            }
+        }
+
+    private fun getSignInCredentialFromIntent(data: Intent?) {
+        try {
+            val credential = oneTapClient.getSignInCredentialFromIntent(data)
+            val idToken = credential.googleIdToken
+            when {
+                idToken != null -> {
+                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                    userModel.signInWithCredential(firebaseCredential)
+                }
+                else -> {
+                    Log.d(
+                        "Google One Tap Sign-In",
+                        "No ID token!"
+                    )
+                    showSnackbar(
+                        requireActivity().findViewById(android.R.id.content),
+                        "No ID token!"
+                    )
+                }
+            }
+        } catch (e: ApiException) {
+            when (e.statusCode) {
+                CommonStatusCodes.CANCELED -> {
+                    Log.d(
+                        "Google One Tap Sign-In",
+                        "Google One Tap Sign-in dialog was closed"
+                    )
+                    showSnackbar(
+                        requireActivity().findViewById(android.R.id.content),
+                        "Google One Tap Sign-in dialog was closed"
+                    )
+                }
+                CommonStatusCodes.NETWORK_ERROR -> {
+                    Log.d(
+                        "Google One Tap Sign-In",
+                        "Google One Tap Sign-in encountered a network error"
+                    )
+                    showSnackbar(
+                        requireActivity().findViewById(android.R.id.content),
+                        "Google One Tap Sign-in encountered a network error"
+                    )
+                }
+                else -> {
+                    Log.d(
+                        "Google One Tap Sign-In",
+                        "Couldn't get credential from result (Exception = ${e})"
+                    )
+                    showSnackbar(
+                        requireActivity().findViewById(android.R.id.content),
+                        "Couldn't get credential from result"
+                    )
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -82,10 +151,9 @@ class AuthFragment : Fragment() {
         oneTapClient.beginSignIn(signInRequest)
             .addOnSuccessListener { result ->
                 try {
-                    startIntentSenderForResult(
-                        result.pendingIntent.intentSender, REQUEST_CODE_ONE_TAP,
-                        null, 0, 0, 0, null
-                    )
+                    val signInClientIntentSenderRequest =
+                        IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                    signInClientForActivityResult.launch(signInClientIntentSenderRequest)
                 } catch (e: IntentSender.SendIntentException) {
                     Log.e(
                         "Google One Tap Sign-In",
@@ -107,10 +175,9 @@ class AuthFragment : Fragment() {
         oneTapClient.beginSignIn(signUpRequest)
             .addOnSuccessListener { result ->
                 try {
-                    startIntentSenderForResult(
-                        result.pendingIntent.intentSender, REQUEST_CODE_ONE_TAP,
-                        null, 0, 0, 0, null
-                    )
+                    val signUpClientIntentSenderRequest =
+                        IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                    signUpClientForActivityResult.launch(signUpClientIntentSenderRequest)
                 } catch (e: IntentSender.SendIntentException) {
                     Log.e(
                         "Google One Tap Sign-In",
@@ -129,67 +196,5 @@ class AuthFragment : Fragment() {
                     "No Google Accounts found"
                 )
             }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            REQUEST_CODE_ONE_TAP -> {
-                try {
-                    val credential = oneTapClient.getSignInCredentialFromIntent(data)
-                    val idToken = credential.googleIdToken
-                    when {
-                        idToken != null -> {
-                            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                            userModel.signInWithCredential(firebaseCredential)
-                        }
-                        else -> {
-                            Log.d(
-                                "Google One Tap Sign-In",
-                                "No ID token!"
-                            )
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "No ID token!"
-                            )
-                        }
-                    }
-                } catch (e: ApiException) {
-                    when (e.statusCode) {
-                        CommonStatusCodes.CANCELED -> {
-                            Log.d(
-                                "Google One Tap Sign-In",
-                                "Google One Tap Sign-in dialog was closed"
-                            )
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "Google One Tap Sign-in dialog was closed"
-                            )
-                        }
-                        CommonStatusCodes.NETWORK_ERROR -> {
-                            Log.d(
-                                "Google One Tap Sign-In",
-                                "Google One Tap Sign-in encountered a network error"
-                            )
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "Google One Tap Sign-in encountered a network error"
-                            )
-                        }
-                        else -> {
-                            Log.d(
-                                "Google One Tap Sign-In",
-                                "Couldn't get credential from result (Exception = ${e})"
-                            )
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "Couldn't get credential from result"
-                            )
-                        }
-                    }
-                }
-            }
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.polito.timebanking.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -30,7 +31,7 @@ fun rotateBitmap(context: Context, bitmap: Bitmap): Bitmap {
             else -> bitmap
         }
     } catch (e: IOException) {
-        e.printStackTrace()
+        Log.e("BitmapUtils", "rotateBitmap", e)
         return bitmap
     }
 }
