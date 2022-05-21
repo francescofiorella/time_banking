@@ -18,10 +18,10 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     private val _timeSlotList = MutableLiveData<List<TimeSlot>>()
     val timeSlotList: LiveData<List<TimeSlot>> = _timeSlotList
 
+    private var initialTimeSlot: TimeSlot? = null
     var currentTimeSlot: TimeSlot? = null
     var editFragmentMode: Int = NONE
 
-    var hasBeenModified = false
     var listFragmentMode = MY_LIST
     var sid = ""
 
@@ -73,5 +73,16 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
                 .addOnSuccessListener { Log.d("Firebase", "Success") }
                 .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
         }
+    }
+
+    fun isCurrentTimeSlotMine(): Boolean = (initialTimeSlot?.email == auth.currentUser?.email)
+
+    fun setTimeSlot(timeSlot: TimeSlot?) {
+        initialTimeSlot = timeSlot
+        currentTimeSlot = timeSlot?.copy()
+    }
+
+    fun tsHasBeenModified(): Boolean {
+        return (initialTimeSlot != currentTimeSlot)
     }
 }

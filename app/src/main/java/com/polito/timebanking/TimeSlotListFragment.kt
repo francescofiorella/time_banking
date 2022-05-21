@@ -91,7 +91,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
     override fun onEditClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = EDIT_MODE
-        viewModel.currentTimeSlot = timeSlot
+        viewModel.setTimeSlot(timeSlot)
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
     }
 

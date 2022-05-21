@@ -39,7 +39,7 @@
                     android:id="@+id/title_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapWords"
+                    android:inputType="text|textCapSentences"
                     android:text="@{timeSlot.title}" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -120,23 +120,23 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/duration_textInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/duration"
-                app:endIconMode="clear_text"
+                app:endIconDrawable="@drawable/ic_arrow_drop_down"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/time_textInputLayout"
                 app:startIconDrawable="@drawable/ic_av_timer">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/duration_et"
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/duration_auto_complete_TV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textCapSentences|textMultiLine"
+                    android:inputType="none"
                     android:text="@{timeSlot.duration}" />
 
             </com.google.android.material.textfield.TextInputLayout>

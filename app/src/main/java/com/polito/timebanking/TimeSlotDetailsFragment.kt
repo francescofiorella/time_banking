@@ -34,13 +34,14 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-        viewModel.hasBeenModified = false
         viewModel.editFragmentMode = NONE
     }
 
     fun navigateToEdit() {
-        viewModel.hasBeenModified = false
+        viewModel.setTimeSlot(viewModel.currentTimeSlot)
         viewModel.editFragmentMode = EDIT_MODE
         findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
     }
+
+    fun isTimeSlotMine(): Boolean = viewModel.isCurrentTimeSlotMine()
 }

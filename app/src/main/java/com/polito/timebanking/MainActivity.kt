@@ -13,7 +13,6 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -139,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Not working, the fragment has not been initialized yet
-            /* if (isShowingMyTSList(destination)) {
+            /* if (isShowingMyTSList(destination.id)) {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             } */
         }
@@ -162,21 +161,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.edit)?.isVisible = when (navController?.currentDestination?.id) {
-            R.id.timeSlotDetailsFragment -> true
+        val navId = navController?.currentDestination?.id
+        menu?.findItem(R.id.edit)?.isVisible = when (navId) {
             R.id.showProfileFragment -> true
-            else -> false
+            else -> {
+                if (navId == R.id.timeSlotDetailsFragment) {
+                    /*
+                    val navHostFragment = supportFragmentManager
+                        .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+
+                    (navHostFragment.childFragmentManager
+                        .findFragmentById(R.id.nav_host_fragment_content_main) as TimeSlotDetailsFragment)
+                        .isTimeSlotMine() // doesn't work
+                     */
+                    true
+                } else false
+            }
         }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            when (navController?.currentDestination?.id) {
+            when (val navId = navController?.currentDestination?.id) {
                 R.id.skillListFragment, R.id.showProfileFragment ->
                     binding.drawerLayout.open()
                 else -> {
-                    if (isShowingMyTSList(navController?.currentDestination!!)) {
+                    if (isShowingMyTSList(navId)) {
                         binding.drawerLayout.open()
                     } else {
                         onBackPressed()
@@ -187,11 +198,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun isShowingMyTSList(destination: NavDestination): Boolean {
+    private fun isShowingMyTSList(destinationId: Int?): Boolean {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
 
-        return (destination.id == R.id.timeSlotListFragment
+        return (destinationId == R.id.timeSlotListFragment
                 && (navHostFragment.childFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as TimeSlotListFragment)
             .isShowingMyTimeSlots())

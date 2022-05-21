@@ -1,5 +1,6 @@
 package com.polito.timebanking
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
 import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
@@ -37,6 +39,9 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.timeSlot = viewModel.currentTimeSlot
 
+        binding.durationAutoCompleteTV.setOnClickListener(durationListener)
+        binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
+
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher
             ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -45,7 +50,7 @@ class TimeSlotEditFragment : Fragment() {
                         saveTimeSlotDataIn(timeSlot)
 
                         // save the list
-                        if (!timeSlot.isEmpty() && viewModel.hasBeenModified) {
+                        if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
                             when (viewModel.editFragmentMode) {
                                 ADD_MODE -> {
                                     viewModel.addTimeSlot(timeSlot)
@@ -99,7 +104,6 @@ class TimeSlotEditFragment : Fragment() {
                 if (viewModel.currentTimeSlot?.hour != hour
                     || viewModel.currentTimeSlot?.minute != minute
                 ) {
-                    viewModel.hasBeenModified = true
                     viewModel.currentTimeSlot?.hour = hour!!
                     viewModel.currentTimeSlot?.minute = minute!!
                 }
@@ -122,23 +126,33 @@ class TimeSlotEditFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
     }
 
-    private fun saveTimeSlotDataIn(timeSlot: TimeSlot) {
-        val title = binding.titleEt.text.toString()
-        val description = binding.descriptionEt.text.toString()
-        val duration = binding.durationEt.text.toString()
-        val location = binding.locationEt.text.toString()
+    private val durationListener = View.OnClickListener {
+        val durationArray = resources.getStringArray(R.array.durations)
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        builder.setIcon(R.drawable.ic_av_timer)
+        builder.setTitle(getString(R.string.duration))
+        builder.setSingleChoiceItems(
+            durationArray,
+            durationArray.indexOf(binding.durationAutoCompleteTV.text.toString()),
+            durationOnSaveListener
+        )
+        builder.show()
+    }
 
-        if (timeSlot.title != title
-            || timeSlot.description != description
-            || timeSlot.duration != duration
-            || timeSlot.location != location
-        ) {
-            viewModel.hasBeenModified = true
-            timeSlot.title = title
-            timeSlot.description = description
-            // date and time are saved on positive button click
-            timeSlot.duration = duration
-            timeSlot.location = location
+    private val durationOnSaveListener = DialogInterface.OnClickListener { dialog, selectedItem ->
+        val durationArray = resources.getStringArray(R.array.durations)
+        val durationString = durationArray[selectedItem]
+        viewModel.currentTimeSlot?.apply {
+            duration = durationString
         }
+        binding.durationAutoCompleteTV.setText(durationString)
+        dialog.dismiss()
+    }
+
+    private fun saveTimeSlotDataIn(timeSlot: TimeSlot) {
+        timeSlot.title = binding.titleEt.text.toString()
+        timeSlot.description = binding.descriptionEt.text.toString()
+        timeSlot.location = binding.locationEt.text.toString()
+        // date, time and duration are saved on positive button click
     }
 }

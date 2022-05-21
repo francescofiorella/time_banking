@@ -38,4 +38,13 @@
     <string name="sign_up">SIGN UP</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="time_slot_starts_time">Time slot start time</string>
+
+    <string-array name="durations">
+        <item>Half hour</item>
+        <item>One hour</item>
+        <item>Two hours</item>
+        <item>Three hours</item>
+        <item>More then three hours</item>
+    </string-array>
 </resources>
