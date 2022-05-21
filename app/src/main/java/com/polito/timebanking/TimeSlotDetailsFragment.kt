@@ -26,7 +26,7 @@ class TimeSlotDetailsFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
-        binding.timeSlot = viewModel.currentTimeslot
+        binding.timeSlot = viewModel.currentTimeSlot
 
         return binding.root
     }

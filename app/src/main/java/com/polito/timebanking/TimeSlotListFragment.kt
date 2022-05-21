@@ -19,9 +19,15 @@ import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.NONE
 
 class TimeSlotListFragment : Fragment(), TimeSlotListener {
-
     private lateinit var binding: FragmentTimeSlotListBinding
     private val viewModel by activityViewModels<TimeSlotViewModel>()
+
+    companion object {
+        const val SKILL_KEY = "skill_key"
+        const val MODE_KEY = "mode_key"
+        const val MY_LIST = 1
+        const val SKILL_LIST = 2
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
     ): View {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_list, container, false)
+
+        if (savedInstanceState == null) {
+            viewModel.listFragmentMode = arguments?.getInt(MODE_KEY) ?: MY_LIST
+            viewModel.sid = arguments?.getString(SKILL_KEY) ?: ""
+        }
 
         viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->
             if (list.isEmpty()) {
@@ -52,7 +63,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         binding.addFab.setOnClickListener {
             viewModel.editFragmentMode = ADD_MODE
-            viewModel.currentTimeslot = TimeSlot()
+            viewModel.currentTimeSlot = TimeSlot()
             findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
         }
     }
@@ -61,18 +72,19 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
         viewModel.editFragmentMode = NONE
-        viewModel.currentTimeslot = null
+        viewModel.currentTimeSlot = null
+        viewModel.loadList()
     }
 
     override fun onCardClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = NONE
-        viewModel.currentTimeslot = timeSlot
+        viewModel.currentTimeSlot = timeSlot
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
     }
 
     override fun onEditClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = EDIT_MODE
-        viewModel.currentTimeslot = timeSlot
+        viewModel.currentTimeSlot = timeSlot
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
     }
 }

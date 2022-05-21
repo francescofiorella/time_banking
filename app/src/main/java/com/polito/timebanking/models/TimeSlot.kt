@@ -11,11 +11,11 @@ data class TimeSlot(
     var month: Int = 0,
     var day: Int = 0,
     var hour: Int = 99,
-    var minute: Int = 0,
+    var minute: Int = 99,
     var duration: String = "",
     var location: String = "",
     var email: String = "",
-    var skillId: String = ""
+    var sid: String = ""
 ) {
     fun getDate(): String = dateToString(day, month, year).takeIf { it != "00/00/0" } ?: ""
     fun getTime(): String = timeToString(hour, minute).takeIf { it != "99:99" } ?: ""

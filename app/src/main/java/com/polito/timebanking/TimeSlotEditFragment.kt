@@ -35,13 +35,13 @@ class TimeSlotEditFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
 
-        binding.timeSlot = viewModel.currentTimeslot
+        binding.timeSlot = viewModel.currentTimeSlot
 
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher
             ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    viewModel.currentTimeslot?.let { timeSlot ->
+                    viewModel.currentTimeSlot?.let { timeSlot ->
                         saveTimeSlotDataIn(timeSlot)
 
                         // save the list
@@ -78,15 +78,15 @@ class TimeSlotEditFragment : Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.currentTimeslot?.year = year!!
-                viewModel.currentTimeslot?.month = month!!
-                viewModel.currentTimeslot?.day = day!!
+                viewModel.currentTimeSlot?.year = year!!
+                viewModel.currentTimeSlot?.month = month!!
+                viewModel.currentTimeSlot?.day = day!!
             }
         }
 
-        datePickerBtn.year = viewModel.currentTimeslot?.year.takeIf { it != 0 }
-        datePickerBtn.month = viewModel.currentTimeslot?.month.takeIf { it != 0 }
-        datePickerBtn.day = viewModel.currentTimeslot?.day.takeIf { it != 0 }
+        datePickerBtn.year = viewModel.currentTimeSlot?.year.takeIf { it != 0 }
+        datePickerBtn.month = viewModel.currentTimeSlot?.month.takeIf { it != 0 }
+        datePickerBtn.day = viewModel.currentTimeSlot?.day.takeIf { it != 0 }
 
         // init timePicker
         timePickerButton = object : TimePickerButton(
@@ -96,23 +96,23 @@ class TimeSlotEditFragment : Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                if (viewModel.currentTimeslot?.hour != hour
-                    || viewModel.currentTimeslot?.minute != minute
+                if (viewModel.currentTimeSlot?.hour != hour
+                    || viewModel.currentTimeSlot?.minute != minute
                 ) {
                     viewModel.hasBeenModified = true
-                    viewModel.currentTimeslot?.hour = hour!!
-                    viewModel.currentTimeslot?.minute = minute!!
+                    viewModel.currentTimeSlot?.hour = hour!!
+                    viewModel.currentTimeSlot?.minute = minute!!
                 }
             }
         }
 
-        timePickerButton.hour = viewModel.currentTimeslot?.hour.takeIf { it != 99 }
-        timePickerButton.minute = viewModel.currentTimeslot?.minute.takeIf { it != 99 }
+        timePickerButton.hour = viewModel.currentTimeSlot?.hour.takeIf { it != 99 }
+        timePickerButton.minute = viewModel.currentTimeSlot?.minute.takeIf { it != 99 }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewModel.currentTimeslot?.let { timeSlot ->
+        viewModel.currentTimeSlot?.let { timeSlot ->
             saveTimeSlotDataIn(timeSlot)
         }
     }

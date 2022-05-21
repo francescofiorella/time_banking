@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.polito.timebanking.TimeSlotListFragment.Companion.MODE_KEY
+import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_KEY
+import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_LIST
 import com.polito.timebanking.databinding.FragmentSkillListBinding
 import com.polito.timebanking.models.Skill
 import com.polito.timebanking.utils.SkillAdapter
@@ -51,6 +55,7 @@ class SkillListFragment : Fragment(), SkillListener {
 
     override fun onClickListener(skill: Skill, position: Int) {
         // pass skill id
-        findNavController().navigate(R.id.action_skillListFragment_to_timeSlotListFragment)
+        val bundle = bundleOf( MODE_KEY to SKILL_LIST, SKILL_KEY to skill.sid)
+        findNavController().navigate(R.id.action_skillListFragment_to_timeSlotListFragment, bundle)
     }
 }

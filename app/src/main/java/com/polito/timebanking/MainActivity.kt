@@ -126,7 +126,9 @@ class MainActivity : AppCompatActivity() {
         NavController.OnDestinationChangedListener { _, destination, _ ->
             onPrepareOptionsMenu(binding.toolbar.menu)
             when (destination.id) {
-                R.id.authFragment -> {
+                R.id.authFragment, R.id.emailSignInFragment, R.id.emailSignUpFragment,
+                R.id.timeSlotDetailsFragment, R.id.timeSlotEditFragment,
+                R.id.editProfileFragment -> {
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                     binding.toolbar.navigationIcon = null
                 }
