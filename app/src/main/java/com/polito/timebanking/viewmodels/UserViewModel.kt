@@ -134,10 +134,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Cloud Firestore",
                     "getUser: success (user = ${user})"
                 )
+                _currentUser.value = user
                 user?.photoUrl?.let { photoUrl ->
                     getPhoto(photoUrl)
                 }
-                _currentUser.value = user
                 loggedIn.value = true
             }
             .addOnFailureListener {

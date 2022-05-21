@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -51,10 +52,17 @@ class MainActivity : AppCompatActivity() {
                 "MainActivity",
                 "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
             )
+            val header = binding.navView.getHeaderView(0)
+            val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
             if (photoBitmap != null) {
-                val header = binding.navView.getHeaderView(0)
-                val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
                 photoIV.setImageBitmap(photoBitmap)
+            } else {
+                photoIV.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        this,
+                        R.drawable.ic_account_circle
+                    )
+                )
             }
         }
 
