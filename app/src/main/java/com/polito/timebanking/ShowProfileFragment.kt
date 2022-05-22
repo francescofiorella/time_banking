@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
 import com.polito.timebanking.viewmodels.UserViewModel
@@ -28,8 +29,6 @@ class ShowProfileFragment : Fragment() {
         binding.viewmodel = userModel
 
         binding.lifecycleOwner = this.viewLifecycleOwner
-
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
         userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
             Log.d(
@@ -61,5 +60,15 @@ class ShowProfileFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+    }
+
+    fun navigateToEdit() {
+        userModel.setInitialUser()
+        findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
     }
 }

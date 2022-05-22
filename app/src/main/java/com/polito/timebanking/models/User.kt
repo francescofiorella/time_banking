@@ -8,5 +8,5 @@ data class User(
     var location: String? = null,
     var description: String? = null,
     var photoUrl: String? = null,
-    var skills: MutableList<Skill>? = mutableListOf()
+    var skills: List<Skill>? = emptyList()
 )

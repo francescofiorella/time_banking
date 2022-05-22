@@ -67,17 +67,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        userModel.errorMessage.observe(this) { errorMessage ->
+        userModel.message.observe(this) { message ->
             Log.d(
-                "AuthFragment",
-                "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
+                "MainActivity",
+                "userModel.message.observe (message = ${message})"
             )
-            if (errorMessage != "") {
+            if (message != "") {
                 showSnackbar(
                     this.findViewById(android.R.id.content),
-                    errorMessage
+                    message
                 )
-                userModel.clearErrorMessage()
+                userModel.message.value = ""
             }
         }
 
@@ -96,7 +96,9 @@ class MainActivity : AppCompatActivity() {
                             true
                         }
                         R.id.showProfileFragment -> {
-                            navController?.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+                            (navHostFragment.childFragmentManager.findFragmentById(
+                                R.id.nav_host_fragment_content_main
+                            ) as ShowProfileFragment).navigateToEdit()
                             true
                         }
                         else -> false

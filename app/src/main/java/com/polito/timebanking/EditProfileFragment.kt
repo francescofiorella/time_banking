@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
@@ -22,7 +23,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.utils.rotateBitmap
-import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.utils.showSnackbar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EditProfileFragment : Fragment() {
@@ -82,8 +83,6 @@ class EditProfileFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         binding.editPhotoIb.setOnClickListener {
             showMenu(it, R.menu.edit_photo_menu)
         }
@@ -115,17 +114,42 @@ class EditProfileFragment : Fragment() {
                 chip.isCheckedIconVisible = true
                 chip.text = skill.name
                 chip.setOnCheckedChangeListener { _, isChecked ->
+                    val userSkills = userModel.currentUser.value?.skills?.toMutableList()
                     if (isChecked) {
-                        userModel.currentUser.value?.skills?.add(skill)
+                        userSkills?.add(skill)
                     } else {
-                        userModel.currentUser.value?.skills?.removeIf { s -> s.sid == skill.sid }
+                        userSkills?.removeIf { s -> s.sid == skill.sid }
                     }
+                    userModel.currentUser.value?.skills = userSkills?.toList()
                 }
                 binding.skillsCg.addView(chip)
             }
         }
 
+        activity?.onBackPressedDispatcher
+            ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    userModel.currentUser.value?.let {
+                        if (userModel.initialUserHasBeenModified()) {
+                            userModel.setUser(it, false)
+                            showSnackbar(
+                                requireActivity().findViewById(android.R.id.content),
+                                "User updated!"
+                            )
+                        }
+                    }
+                    // disable the callback to avoid loops
+                    isEnabled = false
+                    activity?.onBackPressed()
+                }
+            })
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
@@ -166,11 +190,5 @@ class EditProfileFragment : Fragment() {
         } catch (e: ActivityNotFoundException) {
             Log.e("EditProfileFragment", "dispatchTakePhotoIntent", e)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        userModel.currentUser.value?.let { userModel.setUser(it, false) }
-        activity?.snackBar("User updated!")
     }
 }

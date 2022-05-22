@@ -23,7 +23,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val storage = Firebase.storage
 
     val loggedIn = MutableLiveData(false)
-    val errorMessage = MutableLiveData("")
+    val message = MutableLiveData("")
+
+    private var initialUser: User? = null
 
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
@@ -84,7 +86,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signUpWithEmailAndPassword: failure", task.exception
                 )
-                errorMessage.value = "Registration failed: ${task.exception?.message}"
+                message.value = "Registration failed: ${task.exception?.message}"
             }
         }
     }
@@ -104,7 +106,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signInWithEmailAndPassword: failure", task.exception
                 )
-                errorMessage.value = "Authentication failed: ${task.exception?.message}"
+                message.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
@@ -137,7 +139,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signInWithCredential: failure", task.exception
                 )
-                errorMessage.value = "Authentication failed: ${task.exception?.message}"
+                message.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
@@ -162,7 +164,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "setUser: failure", it
                 )
                 if (isSignIn) {
-                    errorMessage.value = "Registration failed: ${it.message}"
+                    message.value = "Registration failed: ${it.message}"
                 }
             }
     }
@@ -188,7 +190,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Cloud Firestore",
                     "getUser: failure", it
                 )
-                errorMessage.value = "Authentication failed: ${it.message}"
+                message.value = "Authentication failed: ${it.message}"
             }
     }
 
@@ -252,8 +254,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         auth.signOut()
     }
 
-    fun clearErrorMessage() {
-        errorMessage.value = ""
+    fun setInitialUser() {
+        initialUser = _currentUser.value?.copy()
+    }
+
+    fun initialUserHasBeenModified(): Boolean {
+        return (initialUser != _currentUser.value)
     }
 
     override fun onCleared() {
