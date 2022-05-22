@@ -2,6 +2,7 @@ package com.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -93,6 +94,26 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeSlot = null
         viewModel.loadList()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.list_menu, menu)
+
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val adapter = binding.listRecyclerView.adapter as TimeSlotAdapter
+                adapter.filter.filter(newText)
+                return true
+            }
+
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -3,8 +3,11 @@ package com.polito.timebanking.utils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,11 +15,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.R
 import com.polito.timebanking.models.TimeSlot
+import java.util.*
 
 class TimeSlotAdapter(
-    private val data: List<TimeSlot>,
+    private var data: List<TimeSlot>,
     private val listener: TimeSlotListener
-) : RecyclerView.Adapter<TimeSlotAdapter.TimeSlotViewHolder>() {
+) : RecyclerView.Adapter<TimeSlotAdapter.TimeSlotViewHolder>(), Filterable {
+
+    private val dataFiltered: List<TimeSlot> = data
 
     class TimeSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val card: MaterialCardView = v.findViewById(R.id.card_layout)
@@ -53,4 +59,39 @@ class TimeSlotAdapter(
     }
 
     override fun getItemCount(): Int = data.size
+
+    fun updateData(newList: List<TimeSlot>) {
+        val diffUtil = TimeSlotDiffUtil(data, newList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        data = newList
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+
+                if (charSequence.isNullOrEmpty()) {
+                    filterResults.count = dataFiltered.size
+                    filterResults.values = dataFiltered
+                } else {
+                    val list = dataFiltered.filter {
+                        it.title.lowercase(Locale.getDefault()).contains(
+                            charSequence.toString()
+                                .lowercase(Locale.getDefault())
+                        )
+                    }
+
+                    filterResults.values = list
+                    filterResults.count = list.size
+                }
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                updateData(results?.values as List<TimeSlot>)
+            }
+        }
+    }
 }

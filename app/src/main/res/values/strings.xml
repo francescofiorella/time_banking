@@ -40,6 +40,7 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">SIGN IN</string>
     <string name="time_slot_starts_time">Time slot start time</string>
+    <string name="search">Search</string>
 
     <string-array name="durations">
         <item>Half hour</item>
