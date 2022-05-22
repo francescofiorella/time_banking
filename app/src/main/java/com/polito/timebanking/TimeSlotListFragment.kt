@@ -121,7 +121,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val adapter = binding.listRecyclerView.adapter as TimeSlotAdapter
+        val adapter = binding.listRecyclerView.adapter as TimeSlotAdapter?
 
         return when (item.itemId) {
             android.R.id.home -> {
@@ -134,42 +134,42 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             }
 
             R.id.title_sort -> {
-                adapter.sortByTitle()
+                adapter?.sortByTitle()
                 true
             }
 
             R.id.date_sort -> {
-                adapter.sortByDate()
+                adapter?.sortByDate()
                 true
             }
 
             R.id.half_hour -> {
-                adapter.filterDuration(getString(R.string.half_hour))
+                adapter?.filterDuration(getString(R.string.half_hour))
                 true
             }
 
             R.id.one_hour -> {
-                adapter.filterDuration(getString(R.string.one_hour))
+                adapter?.filterDuration(getString(R.string.one_hour))
                 true
             }
 
             R.id.two_hour -> {
-                adapter.filterDuration(getString(R.string.two_hour))
+                adapter?.filterDuration(getString(R.string.two_hour))
                 true
             }
 
             R.id.three_hour -> {
-                adapter.filterDuration(getString(R.string.three_hour))
+                adapter?.filterDuration(getString(R.string.three_hour))
                 true
             }
 
             R.id.more_three_hour -> {
-                adapter.filterDuration(getString(R.string.more_three_hour))
+                adapter?.filterDuration(getString(R.string.more_three_hour))
                 true
             }
 
             R.id.no_filter -> {
-                adapter.clearFilter()
+                adapter?.clearFilter()
                 true
             }
 
