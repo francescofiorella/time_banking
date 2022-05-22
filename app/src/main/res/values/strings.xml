@@ -20,6 +20,7 @@
     <string name="date_time">Date and time</string>
     <string name="duration">Duration</string>
     <string name="location">Location</string>
+    <string name="skill">Skill</string>
     <string name="edit">Edit</string>
     <string name="navigation_menu_show_profile_fragment">Profile</string>
     <string name="navigation_menu_show_skill_fragment">Skills</string>

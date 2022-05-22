@@ -22,10 +22,6 @@ class SkillAdapter(
             nameTV.text = skill.name
             card.setOnClickListener(cardAction)
         }
-
-        fun unbind() {
-            card.setOnClickListener(null)
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillViewHolder {

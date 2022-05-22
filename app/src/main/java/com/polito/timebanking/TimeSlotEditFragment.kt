@@ -44,6 +44,35 @@ class TimeSlotEditFragment : Fragment() {
         binding.durationAutoCompleteTV.setOnClickListener(durationListener)
         binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
 
+        // save timeSlot onBackPressed
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.currentTimeSlot?.let { timeSlot ->
+                        saveTimeSlotDataIn(timeSlot)
+
+                        // save the list
+                        if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
+                            when (viewModel.editFragmentMode) {
+                                ADD_MODE -> {
+                                    viewModel.addTimeSlot(timeSlot)
+                                    activity?.snackBar("Time slot created!")
+                                }
+                                EDIT_MODE -> {
+                                    viewModel.updateTimeSlot(timeSlot)
+                                    activity?.snackBar("Time slot updated!")
+                                }
+                                else -> Unit
+                            }
+                        }
+                        // disable the callback to avoid loops
+                        isEnabled = false
+                        activity?.onBackPressed()
+                    }
+                }
+            })
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -110,24 +139,6 @@ class TimeSlotEditFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                viewModel.currentTimeSlot?.let { timeSlot ->
-                    saveTimeSlotDataIn(timeSlot)
-
-                    // save the list
-                    if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
-                        when (viewModel.editFragmentMode) {
-                            ADD_MODE -> {
-                                viewModel.addTimeSlot(timeSlot)
-                                activity?.snackBar("Time slot created!")
-                            }
-                            EDIT_MODE -> {
-                                viewModel.updateTimeSlot(timeSlot)
-                                activity?.snackBar("Time slot updated!")
-                            }
-                            else -> Unit
-                        }
-                    }
-                }
                 activity?.onBackPressed()
                 true
             }

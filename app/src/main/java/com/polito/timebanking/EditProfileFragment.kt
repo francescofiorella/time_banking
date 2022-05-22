@@ -127,6 +127,25 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    userModel.currentUser.value?.let {
+                        if (userModel.initialUserHasBeenModified()) {
+                            userModel.setUser(it, false)
+                            showSnackbar(
+                                requireActivity().findViewById(android.R.id.content),
+                                "User updated!"
+                            )
+                        }
+                    }
+                    // disable the callback to avoid loops
+                    isEnabled = false
+                    activity?.onBackPressed()
+                }
+            })
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -145,15 +164,6 @@ class EditProfileFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                userModel.currentUser.value?.let {
-                    if (userModel.initialUserHasBeenModified()) {
-                        userModel.setUser(it, false)
-                        showSnackbar(
-                            requireActivity().findViewById(android.R.id.content),
-                            "User updated!"
-                        )
-                    }
-                }
                 activity?.onBackPressed()
                 true
             }

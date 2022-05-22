@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.R
 import com.polito.timebanking.models.TimeSlot
 
@@ -28,11 +31,8 @@ class TimeSlotAdapter(
             date.text = timeSlot.getDate()
             card.setOnClickListener(cardAction)
             edit.setOnClickListener(fabAction)
-        }
 
-        fun unbind() {
-            card.setOnClickListener(null)
-            edit.setOnClickListener(null)
+            edit.isVisible = timeSlot.email == Firebase.auth.currentUser?.email
         }
     }
 
