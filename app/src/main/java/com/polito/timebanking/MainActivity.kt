@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 navController?.apply {
                     // reset the navGraph (the start destination)
                     graph = navInflater.inflate(R.navigation.navigation_graph)
-                    navigate(R.id.authFragment)
                 }
             } else {
                 NavigationUI.onNavDestinationSelected(item, navController!!)

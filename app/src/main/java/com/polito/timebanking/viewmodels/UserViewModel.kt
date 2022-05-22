@@ -48,7 +48,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         skillsListener = db.collection("skills")
             .addSnapshotListener { value, e ->
                 if (e != null) {
-                    Log.w(
+                    Log.e(
                         "Firebase/Cloud Firestore",
                         "Skills Listener: failure", e
                     )
@@ -84,7 +84,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     setUser(user, true)
                 }
             } else {
-                Log.w(
+                Log.e(
                     "Firebase/Authentication",
                     "signUpWithEmailAndPassword: failure", task.exception
                 )
@@ -104,7 +104,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     getUser(currentUser.uid)
                 }
             } else {
-                Log.w(
+                Log.e(
                     "Firebase/Authentication",
                     "signInWithEmailAndPassword: failure", task.exception
                 )
@@ -137,7 +137,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 }
             } else {
-                Log.w(
+                Log.e(
                     "Firebase/Authentication",
                     "signInWithCredential: failure", task.exception
                 )
@@ -161,7 +161,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             .addOnFailureListener {
-                Log.w(
+                Log.e(
                     "Firebase/Cloud Firestore",
                     "setUser: failure", it
                 )
@@ -189,7 +189,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     isLoggedIn.value = true
                     isLoading.value = false
                 } else {
-                    Log.w(
+                    Log.e(
                         "Firebase/Cloud Firestore",
                         "getUser: failure (user = null)"
                     )
@@ -198,7 +198,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             .addOnFailureListener {
-                Log.w(
+                Log.e(
                     "Firebase/Cloud Firestore",
                     "getUser: failure", it
                 )
@@ -232,7 +232,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     _photoBitmap.value = photoBitmap
                 } else {
-                    Log.w(
+                    Log.e(
                         "Firebase/Storage",
                         "setPhoto: failure", task.exception
                     )
@@ -249,7 +249,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 _photoBitmap.value = photoBitmap
             }
             .addOnFailureListener {
-                Log.w(
+                Log.e(
                     "Firebase/Storage",
                     "getPhoto: failure", it
                 )
