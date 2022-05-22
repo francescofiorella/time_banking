@@ -2,7 +2,9 @@ package com.polito.timebanking
 
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -101,6 +103,8 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         inflater.inflate(R.menu.list_menu, menu)
 
         val searchView = menu.findItem(R.id.search).actionView as SearchView
+        val searchET = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        searchET.setTextColor(ContextCompat.getColor(requireContext(), R.color.md_theme_onPrimary))
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -117,6 +121,8 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val adapter = binding.listRecyclerView.adapter as TimeSlotAdapter
+
         return when (item.itemId) {
             android.R.id.home -> {
                 if (viewModel.listFragmentMode == MY_LIST) {
@@ -126,6 +132,47 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 }
                 true
             }
+
+            R.id.title_sort -> {
+                adapter.sortByTitle()
+                true
+            }
+
+            R.id.date_sort -> {
+                adapter.sortByDate()
+                true
+            }
+
+            R.id.half_hour -> {
+                adapter.filterDuration(getString(R.string.half_hour))
+                true
+            }
+
+            R.id.one_hour -> {
+                adapter.filterDuration(getString(R.string.one_hour))
+                true
+            }
+
+            R.id.two_hour -> {
+                adapter.filterDuration(getString(R.string.two_hour))
+                true
+            }
+
+            R.id.three_hour -> {
+                adapter.filterDuration(getString(R.string.three_hour))
+                true
+            }
+
+            R.id.more_three_hour -> {
+                adapter.filterDuration(getString(R.string.more_three_hour))
+                true
+            }
+
+            R.id.no_filter -> {
+                adapter.clearFilter()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

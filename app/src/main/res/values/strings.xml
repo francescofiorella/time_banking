@@ -41,12 +41,21 @@
     <string name="sign_in">SIGN IN</string>
     <string name="time_slot_starts_time">Time slot start time</string>
     <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
+    <string name="no_filter">Clear filter</string>
+
+    <string name="half_hour">Half hour</string>
+    <string name="one_hour">One hour</string>
+    <string name="two_hour">Two hours</string>
+    <string name="three_hour">Three hours</string>
+    <string name="more_three_hour">More then three hours</string>
 
     <string-array name="durations">
-        <item>Half hour</item>
-        <item>One hour</item>
-        <item>Two hours</item>
-        <item>Three hours</item>
-        <item>More then three hours</item>
+        <item>@id/half_hour</item>
+        <item>@string/one_hour</item>
+        <item>@string/two_hour</item>
+        <item>@string/three_hour</item>
+        <item>@string/more_three_hour</item>
     </string-array>
 </resources>

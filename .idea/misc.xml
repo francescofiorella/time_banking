@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_account_circle.xml" value="0.1" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_camera_alt.xml" value="0.184" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_search.xml" value="0.1635" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_sort.xml" value="0.1635" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_show_profile.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/fragment_edit_profile.xml" value="0.1109375" />
@@ -27,6 +29,7 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/insert_photo_menu.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/list_menu.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/navigation_menu.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/sort_menu.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/toolbar_menu.xml" value="0.17552083333333332" />
       </map>
     </option>

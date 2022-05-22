@@ -90,8 +90,38 @@ class TimeSlotAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                @Suppress("UNCHECKED_CAST")
                 updateData(results?.values as List<TimeSlot>)
             }
         }
+    }
+
+    fun sortByTitle() {
+        val list = dataFiltered.sortedBy {
+            it.title
+        }
+        updateData(list)
+    }
+
+    fun sortByDate() {
+        val list = dataFiltered.sortedBy {
+            it.year
+            it.month
+            it.day
+            it.hour
+            it.minute
+        }
+        updateData(list)
+    }
+
+    fun filterDuration(duration: String) {
+        val list = dataFiltered.filter {
+            it.duration == duration
+        }
+        updateData(list)
+    }
+
+    fun clearFilter() {
+        updateData(dataFiltered)
     }
 }
