@@ -2,9 +2,7 @@ package com.polito.timebanking
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -59,6 +57,8 @@ class ShowProfileFragment : Fragment() {
             }
         }
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -67,8 +67,19 @@ class ShowProfileFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
     }
 
-    fun navigateToEdit() {
-        userModel.setInitialUser()
-        findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.edit -> {
+                userModel.setInitialUser()
+                findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

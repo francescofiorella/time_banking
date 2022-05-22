@@ -85,29 +85,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.edit -> {
-                    when (navController?.currentDestination?.id) {
-                        R.id.timeSlotDetailsFragment -> {
-                            (navHostFragment.childFragmentManager.findFragmentById(
-                                R.id.nav_host_fragment_content_main
-                            ) as TimeSlotDetailsFragment).navigateToEdit()
-                            true
-                        }
-                        R.id.showProfileFragment -> {
-                            (navHostFragment.childFragmentManager.findFragmentById(
-                                R.id.nav_host_fragment_content_main
-                            ) as ShowProfileFragment).navigateToEdit()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-                else -> false
-            }
-        }
-
         binding.navView.setNavigationItemSelectedListener { item ->
             if (item.itemId == R.id.authFragment) {
                 userModel.signOut()
@@ -153,34 +130,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         navController?.removeOnDestinationChangedListener(navigationListener)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        super.onPrepareOptionsMenu(menu)
-        val navId = navController?.currentDestination?.id
-        menu?.findItem(R.id.edit)?.isVisible = when (navId) {
-            R.id.showProfileFragment -> true
-            else -> {
-                if (navId == R.id.timeSlotDetailsFragment) {
-                    /*
-                    val navHostFragment = supportFragmentManager
-                        .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-
-                    (navHostFragment.childFragmentManager
-                        .findFragmentById(R.id.nav_host_fragment_content_main) as TimeSlotDetailsFragment)
-                        .isTimeSlotMine() // doesn't work
-                     */
-                    true
-                } else false
-            }
-        }
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

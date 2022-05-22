@@ -1,9 +1,7 @@
 package com.polito.timebanking
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -85,7 +83,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
     override fun onCardClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = NONE
-        viewModel.currentTimeSlot = timeSlot
+        viewModel.setTimeSlot(timeSlot)
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotDetailsFragment)
     }
 

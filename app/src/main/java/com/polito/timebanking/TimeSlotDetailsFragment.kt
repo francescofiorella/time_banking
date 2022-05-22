@@ -1,9 +1,7 @@
 package com.polito.timebanking
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +26,8 @@ class TimeSlotDetailsFragment : Fragment() {
 
         binding.timeSlot = viewModel.currentTimeSlot
 
+        setHasOptionsMenu(viewModel.isCurrentTimeSlotMine())
+
         return binding.root
     }
 
@@ -37,11 +37,21 @@ class TimeSlotDetailsFragment : Fragment() {
         viewModel.editFragmentMode = NONE
     }
 
-    fun navigateToEdit() {
-        viewModel.setTimeSlot(viewModel.currentTimeSlot)
-        viewModel.editFragmentMode = EDIT_MODE
-        findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_menu, menu)
     }
 
-    fun isTimeSlotMine(): Boolean = viewModel.isCurrentTimeSlotMine()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.edit -> {
+                viewModel.setTimeSlot(viewModel.currentTimeSlot)
+                viewModel.editFragmentMode = EDIT_MODE
+                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
