@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
@@ -126,23 +127,12 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-        activity?.onBackPressedDispatcher
-            ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    userModel.currentUser.value?.let {
-                        if (userModel.initialUserHasBeenModified()) {
-                            userModel.setUser(it, false)
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "User updated!"
-                            )
-                        }
-                    }
-                    // disable the callback to avoid loops
-                    isEnabled = false
-                    activity?.onBackPressed()
-                }
-            })
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -150,6 +140,26 @@ class EditProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                userModel.currentUser.value?.let {
+                    if (userModel.initialUserHasBeenModified()) {
+                        userModel.setUser(it, false)
+                        showSnackbar(
+                            requireActivity().findViewById(android.R.id.content),
+                            "User updated!"
+                        )
+                    }
+                }
+                activity?.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {

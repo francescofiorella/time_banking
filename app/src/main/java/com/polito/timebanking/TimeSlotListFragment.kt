@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -53,6 +54,19 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             }
         }
 
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(
+                if (viewModel.listFragmentMode == MY_LIST) {
+                    DrawerLayout.LOCK_MODE_UNLOCKED
+                } else {
+                    DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                }
+            )
+        }
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -70,7 +84,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         super.onResume()
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(
-            if (isShowingMyTimeSlots()) {
+            if (viewModel.listFragmentMode == MY_LIST) {
                 R.drawable.ic_menu
             } else {
                 R.drawable.ic_arrow_back
@@ -79,6 +93,20 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeSlot = null
         viewModel.loadList()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                if (viewModel.listFragmentMode == MY_LIST) {
+                    (activity as MainActivity).getDrawerLayout().open()
+                } else {
+                    activity?.onBackPressed()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCardClickListener(timeSlot: TimeSlot, position: Int) {
@@ -91,9 +119,5 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = EDIT_MODE
         viewModel.setTimeSlot(timeSlot)
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
-    }
-
-    fun isShowingMyTimeSlots(): Boolean {
-        return viewModel.listFragmentMode == MY_LIST
     }
 }

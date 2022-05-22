@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,13 @@ class SkillListFragment : Fragment(), SkillListener {
             }
         }
 
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -51,9 +59,19 @@ class SkillListFragment : Fragment(), SkillListener {
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                (activity as MainActivity).getDrawerLayout().open()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onClickListener(skill: Skill, position: Int) {
         // pass skill id
-        val bundle = bundleOf( MODE_KEY to SKILL_LIST, SKILL_KEY to skill.sid)
+        val bundle = bundleOf(MODE_KEY to SKILL_LIST, SKILL_KEY to skill.sid)
         findNavController().navigate(R.id.action_skillListFragment_to_timeSlotListFragment, bundle)
     }
 }

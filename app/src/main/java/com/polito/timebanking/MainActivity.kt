@@ -2,8 +2,6 @@ package com.polito.timebanking
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -11,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -34,6 +31,8 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController!!)
+
+        setSupportActionBar(binding.toolbar)
 
         userModel.currentUser.observe(this) { currentUser ->
             Log.d(
@@ -81,10 +80,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
         binding.navView.setNavigationItemSelectedListener { item ->
             if (item.itemId == R.id.authFragment) {
                 userModel.signOut()
@@ -101,61 +96,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val navigationListener =
-        NavController.OnDestinationChangedListener { _, destination, _ ->
-            onPrepareOptionsMenu(binding.toolbar.menu)
-            when (destination.id) {
-                R.id.authFragment, R.id.emailSignInFragment, R.id.emailSignUpFragment,
-                R.id.timeSlotDetailsFragment, R.id.timeSlotEditFragment,
-                R.id.editProfileFragment -> {
-                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                    binding.toolbar.navigationIcon = null
-                }
-                else -> {
-                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                }
-            }
-
-            // Not working, the fragment has not been initialized yet
-            /* if (isShowingMyTSList(destination.id)) {
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            } */
-        }
-
-    override fun onResume() {
-        super.onResume()
-        navController?.addOnDestinationChangedListener(navigationListener)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        navController?.removeOnDestinationChangedListener(navigationListener)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            when (val navId = navController?.currentDestination?.id) {
-                R.id.skillListFragment, R.id.showProfileFragment ->
-                    binding.drawerLayout.open()
-                else -> {
-                    if (isShowingMyTSList(navId)) {
-                        binding.drawerLayout.open()
-                    } else {
-                        onBackPressed()
-                    }
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun isShowingMyTSList(destinationId: Int?): Boolean {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-
-        return (destinationId == R.id.timeSlotListFragment
-                && (navHostFragment.childFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_content_main) as TimeSlotListFragment)
-            .isShowingMyTimeSlots())
-    }
+    fun getDrawerLayout() = binding.drawerLayout
 }

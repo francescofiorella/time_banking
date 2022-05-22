@@ -3,6 +3,7 @@ package com.polito.timebanking
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -26,7 +27,12 @@ class TimeSlotDetailsFragment : Fragment() {
 
         binding.timeSlot = viewModel.currentTimeSlot
 
-        setHasOptionsMenu(viewModel.isCurrentTimeSlotMine())
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -39,7 +45,9 @@ class TimeSlotDetailsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.toolbar_menu, menu)
+        if (viewModel.isCurrentTimeSlotMine()) {
+            inflater.inflate(R.menu.toolbar_menu, menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -48,6 +56,11 @@ class TimeSlotDetailsFragment : Fragment() {
                 viewModel.setTimeSlot(viewModel.currentTimeSlot)
                 viewModel.editFragmentMode = EDIT_MODE
                 findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                true
+            }
+
+            android.R.id.home -> {
+                activity?.onBackPressed()
                 true
             }
 

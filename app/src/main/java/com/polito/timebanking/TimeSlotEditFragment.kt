@@ -3,10 +3,12 @@ package com.polito.timebanking
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,33 +44,12 @@ class TimeSlotEditFragment : Fragment() {
         binding.durationAutoCompleteTV.setOnClickListener(durationListener)
         binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
 
-        // save timeSlot onBackPressed
-        activity?.onBackPressedDispatcher
-            ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    viewModel.currentTimeSlot?.let { timeSlot ->
-                        saveTimeSlotDataIn(timeSlot)
-
-                        // save the list
-                        if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
-                            when (viewModel.editFragmentMode) {
-                                ADD_MODE -> {
-                                    viewModel.addTimeSlot(timeSlot)
-                                    activity?.snackBar("Time slot created!")
-                                }
-                                EDIT_MODE -> {
-                                    viewModel.updateTimeSlot(timeSlot)
-                                    activity?.snackBar("Time slot updated!")
-                                }
-                                else -> Unit
-                            }
-                        }
-                        // disable the callback to avoid loops
-                        isEnabled = false
-                        activity?.onBackPressed()
-                    }
-                }
-            })
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -124,6 +105,35 @@ class TimeSlotEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                viewModel.currentTimeSlot?.let { timeSlot ->
+                    saveTimeSlotDataIn(timeSlot)
+
+                    // save the list
+                    if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
+                        when (viewModel.editFragmentMode) {
+                            ADD_MODE -> {
+                                viewModel.addTimeSlot(timeSlot)
+                                activity?.snackBar("Time slot created!")
+                            }
+                            EDIT_MODE -> {
+                                viewModel.updateTimeSlot(timeSlot)
+                                activity?.snackBar("Time slot updated!")
+                            }
+                            else -> Unit
+                        }
+                    }
+                }
+                activity?.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private val durationListener = View.OnClickListener {

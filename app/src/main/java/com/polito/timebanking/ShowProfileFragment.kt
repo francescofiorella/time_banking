@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -57,6 +58,11 @@ class ShowProfileFragment : Fragment() {
             }
         }
 
+        (activity as MainActivity).apply {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
         setHasOptionsMenu(true)
 
         return binding.root
@@ -79,6 +85,12 @@ class ShowProfileFragment : Fragment() {
                 findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
                 true
             }
+
+            android.R.id.home -> {
+                (activity as MainActivity).getDrawerLayout().open()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
