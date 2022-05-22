@@ -67,17 +67,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        userModel.message.observe(this) { message ->
+        userModel.errorMessage.observe(this) { errorMessage ->
             Log.d(
                 "MainActivity",
-                "userModel.message.observe (message = ${message})"
+                "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
             )
-            if (message != "") {
+            if (errorMessage != "") {
                 showSnackbar(
                     this.findViewById(android.R.id.content),
-                    message
+                    errorMessage
                 )
-                userModel.message.value = ""
+                userModel.errorMessage.value = ""
             }
         }
 

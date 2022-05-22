@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.GoogleAuthProvider
 import com.polito.timebanking.utils.showSnackbar
 import com.polito.timebanking.viewmodels.UserViewModel
@@ -134,13 +136,29 @@ class AuthFragment : Fragment() {
             showSignInClient()
         }
 
-        userModel.loggedIn.observe(viewLifecycleOwner) { isLogged ->
+        userModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
             Log.d(
                 "AuthFragment",
-                "userModel.loggedIn.observe (loggedIn = ${isLogged})"
+                "userModel.isLoggedIn.observe (isLoggedIn = ${isLoggedIn})"
             )
-            if (isLogged) {
+            if (isLoggedIn) {
                 findNavController().navigate(R.id.action_authFragment_to_skillListFragment)
+            }
+        }
+
+        userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            Log.d(
+                "AuthFragment",
+                "userModel.isLoading.observe (isLoading = ${isLoading})"
+            )
+            val loadingCPI = view.findViewById<CircularProgressIndicator>(R.id.loading_cpi)
+            val authFragmentLL = view.findViewById<LinearLayout>(R.id.auth_fragment_ll)
+            if (!isLoading && userModel.isLoggedIn.value == false) {
+                loadingCPI.visibility = View.GONE
+                authFragmentLL.visibility = View.VISIBLE
+            } else {
+                loadingCPI.visibility = View.VISIBLE
+                authFragmentLL.visibility = View.GONE
             }
         }
 
