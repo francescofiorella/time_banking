@@ -22,8 +22,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val storage = Firebase.storage
 
-    val loggedIn = MutableLiveData(false)
-    val message = MutableLiveData("")
+    val isLoggedIn = MutableLiveData(false)
+    val isLoading = MutableLiveData(false)
+    val errorMessage = MutableLiveData("")
 
     private var initialUser: User? = null
 
@@ -40,6 +41,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         if (auth.currentUser != null) {
+            isLoading.value = true
             getUser(auth.currentUser!!.uid)
         }
 
@@ -86,7 +88,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signUpWithEmailAndPassword: failure", task.exception
                 )
-                message.value = "Registration failed: ${task.exception?.message}"
+                errorMessage.value = "Registration failed: ${task.exception?.message}"
             }
         }
     }
@@ -106,7 +108,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signInWithEmailAndPassword: failure", task.exception
                 )
-                message.value = "Authentication failed: ${task.exception?.message}"
+                errorMessage.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
@@ -139,7 +141,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "Firebase/Authentication",
                     "signInWithCredential: failure", task.exception
                 )
-                message.value = "Authentication failed: ${task.exception?.message}"
+                errorMessage.value = "Authentication failed: ${task.exception?.message}"
             }
         }
     }
@@ -155,7 +157,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 )
                 if (isSignIn) {
                     _currentUser.value = user
-                    loggedIn.value = true
+                    isLoggedIn.value = true
                 }
             }
             .addOnFailureListener {
@@ -164,7 +166,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     "setUser: failure", it
                 )
                 if (isSignIn) {
-                    message.value = "Registration failed: ${it.message}"
+                    errorMessage.value = "Registration failed: ${it.message}"
                 }
             }
     }
@@ -175,22 +177,33 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             .get()
             .addOnSuccessListener {
                 val user = it.toObject(User::class.java)
-                Log.d(
-                    "Firebase/Cloud Firestore",
-                    "getUser: success (user = ${user})"
-                )
-                _currentUser.value = user
-                user?.photoUrl?.let { photoUrl ->
-                    getPhoto(photoUrl)
+                if (user != null) {
+                    Log.d(
+                        "Firebase/Cloud Firestore",
+                        "getUser: success (user = ${user})"
+                    )
+                    _currentUser.value = user
+                    user.photoUrl?.let { photoUrl ->
+                        getPhoto(photoUrl)
+                    }
+                    isLoggedIn.value = true
+                    isLoading.value = false
+                } else {
+                    Log.w(
+                        "Firebase/Cloud Firestore",
+                        "getUser: failure (user = null)"
+                    )
+                    errorMessage.value = "Authentication failed: user cannot be retrieve"
+                    isLoading.value = false
                 }
-                loggedIn.value = true
             }
             .addOnFailureListener {
                 Log.w(
                     "Firebase/Cloud Firestore",
                     "getUser: failure", it
                 )
-                message.value = "Authentication failed: ${it.message}"
+                errorMessage.value = "Authentication failed: ${it.message}"
+                isLoading.value = false
             }
     }
 
@@ -248,7 +261,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             "UserViewModel",
             "signOut: success"
         )
-        loggedIn.value = false
+        isLoggedIn.value = false
         _currentUser.value = null
         _photoBitmap.value = null
         auth.signOut()
