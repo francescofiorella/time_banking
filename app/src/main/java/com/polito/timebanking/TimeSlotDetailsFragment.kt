@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
+import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.NONE
@@ -16,6 +17,7 @@ import com.polito.timebanking.viewmodels.UserViewModel
 class TimeSlotDetailsFragment : Fragment() {
     private val timeSlotModel by activityViewModels<TimeSlotViewModel>()
     private val userModel by activityViewModels<UserViewModel>()
+    private val skillModel by activityViewModels<SkillViewModel>()
 
     private lateinit var binding: FragmentTimeSlotDetailBinding
 
@@ -28,8 +30,19 @@ class TimeSlotDetailsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
         binding.timeSlot = timeSlotModel.currentTimeSlot
-        binding.skillTv.text = timeSlotModel.currentTimeSlot?.sid
+
         binding.userCard.setOnClickListener(userListener)
+
+        userModel.user.observe(viewLifecycleOwner) { user ->
+            binding.userTv.text = user?.fullName
+        }
+
+        skillModel.skillList.observe(viewLifecycleOwner) { skillList ->
+            binding.skillTv.text =
+                skillList
+                    .find { s -> s.sid == timeSlotModel.currentTimeSlot?.sid }
+                    ?.name
+        }
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -39,6 +52,13 @@ class TimeSlotDetailsFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.timeSlot?.let { timeSlot ->
+            userModel.getUser(timeSlot.uid)
+        }
     }
 
     override fun onResume() {
