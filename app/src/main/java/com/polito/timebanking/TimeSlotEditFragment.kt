@@ -17,6 +17,7 @@ import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
@@ -30,8 +31,9 @@ class TimeSlotEditFragment : Fragment() {
     private lateinit var datePickerBtn: DatePickerButton
     private lateinit var timePickerButton: TimePickerButton
 
-    private val viewModel by activityViewModels<TimeSlotViewModel>()
+    private val timeSlotModel by activityViewModels<TimeSlotViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val skillModel by activityViewModels<SkillViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,29 +43,37 @@ class TimeSlotEditFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_edit, container, false)
 
-        binding.timeSlot = viewModel.currentTimeSlot
+        binding.timeSlot = timeSlotModel.currentTimeSlot
 
         binding.durationAutoCompleteTV.setOnClickListener(durationListener)
         binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
         binding.skillAutoCompleteTV.setOnClickListener(userSkillListener)
+        binding.skillTextInputLayout.setEndIconOnClickListener(userSkillListener)
+
+        skillModel.skillList.observe(viewLifecycleOwner) { skillList ->
+            binding.skillAutoCompleteTV.setText(
+                skillList
+                    .find { s -> s.sid == binding.timeSlot?.sid }
+                    ?.name)
+        }
 
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    viewModel.currentTimeSlot?.let { timeSlot ->
+                    timeSlotModel.currentTimeSlot?.let { timeSlot ->
                         saveTimeSlotDataIn(timeSlot)
 
                         // save the list
-                        if (!timeSlot.isEmpty() && viewModel.tsHasBeenModified()) {
-                            when (viewModel.editFragmentMode) {
+                        if (!timeSlot.isEmpty() && timeSlotModel.tsHasBeenModified()) {
+                            when (timeSlotModel.editFragmentMode) {
                                 ADD_MODE -> {
-                                    viewModel.addTimeSlot(timeSlot)
+                                    timeSlotModel.addTimeSlot(timeSlot)
                                     activity?.snackBar("Time slot created!")
                                 }
                                 EDIT_MODE -> {
-                                    viewModel.updateTimeSlot(timeSlot)
+                                    timeSlotModel.updateTimeSlot(timeSlot)
                                     activity?.snackBar("Time slot updated!")
                                 }
                                 else -> Unit
@@ -88,7 +98,6 @@ class TimeSlotEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // init skillPicker
 
         // init datePicker
         datePickerBtn = object : DatePickerButton(
@@ -98,15 +107,15 @@ class TimeSlotEditFragment : Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                viewModel.currentTimeSlot?.year = year!!
-                viewModel.currentTimeSlot?.month = month!!
-                viewModel.currentTimeSlot?.day = day!!
+                timeSlotModel.currentTimeSlot?.year = year!!
+                timeSlotModel.currentTimeSlot?.month = month!!
+                timeSlotModel.currentTimeSlot?.day = day!!
             }
         }
 
-        datePickerBtn.year = viewModel.currentTimeSlot?.year.takeIf { it != 0 }
-        datePickerBtn.month = viewModel.currentTimeSlot?.month.takeIf { it != 0 }
-        datePickerBtn.day = viewModel.currentTimeSlot?.day.takeIf { it != 0 }
+        datePickerBtn.year = timeSlotModel.currentTimeSlot?.year.takeIf { it != 0 }
+        datePickerBtn.month = timeSlotModel.currentTimeSlot?.month.takeIf { it != 0 }
+        datePickerBtn.day = timeSlotModel.currentTimeSlot?.day.takeIf { it != 0 }
 
         // init timePicker
         timePickerButton = object : TimePickerButton(
@@ -116,24 +125,24 @@ class TimeSlotEditFragment : Fragment() {
         ) {
             override fun onPositiveBtnClickListener() {
                 super.onPositiveBtnClickListener()
-                if (viewModel.currentTimeSlot?.hour != hour
-                    || viewModel.currentTimeSlot?.minute != minute
+                if (timeSlotModel.currentTimeSlot?.hour != hour
+                    || timeSlotModel.currentTimeSlot?.minute != minute
                 ) {
-                    viewModel.currentTimeSlot?.hour = hour!!
-                    viewModel.currentTimeSlot?.minute = minute!!
+                    timeSlotModel.currentTimeSlot?.hour = hour!!
+                    timeSlotModel.currentTimeSlot?.minute = minute!!
                 }
             }
         }
 
 
-        timePickerButton.hour = viewModel.currentTimeSlot?.hour.takeIf { it != 99 }
-        timePickerButton.minute = viewModel.currentTimeSlot?.minute.takeIf { it != 99 }
+        timePickerButton.hour = timeSlotModel.currentTimeSlot?.hour.takeIf { it != 99 }
+        timePickerButton.minute = timeSlotModel.currentTimeSlot?.minute.takeIf { it != 99 }
 
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        viewModel.currentTimeSlot?.let { timeSlot ->
+        timeSlotModel.currentTimeSlot?.let { timeSlot ->
             saveTimeSlotDataIn(timeSlot)
         }
     }
@@ -176,7 +185,7 @@ class TimeSlotEditFragment : Fragment() {
         skillsSid?.also {
             val skillSid = skillsSid[selectedItem]
             skillSid?.also {
-                viewModel.currentTimeSlot?.apply {
+                timeSlotModel.currentTimeSlot?.apply {
                     sid = skillSid
                 }
             }
@@ -203,7 +212,7 @@ class TimeSlotEditFragment : Fragment() {
     private val durationOnSaveListener = DialogInterface.OnClickListener { dialog, selectedItem ->
         val durationArray = resources.getStringArray(R.array.durations)
         val durationString = durationArray[selectedItem]
-        viewModel.currentTimeSlot?.apply {
+        timeSlotModel.currentTimeSlot?.apply {
             duration = durationString
         }
         binding.durationAutoCompleteTV.setText(durationString)
