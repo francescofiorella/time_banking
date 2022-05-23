@@ -26,6 +26,7 @@ class TimeSlotDetailsFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
         binding.timeSlot = viewModel.currentTimeSlot
+        binding.skillTv.text = viewModel.currentTimeSlot?.sid
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)

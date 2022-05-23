@@ -22,6 +22,22 @@
           }
         },
         {
+          "client_id": "338575471856-i112ss55rh1r6u6jtamvqvm692g432g7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polito.timebanking",
+            "certificate_hash": "f0938b6fa00a81d535250f168a5048798b2f18ad"
+          }
+        },
+        {
+          "client_id": "338575471856-nng6mdgduhvo5ok8bjb2edcqi52bo0qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polito.timebanking",
+            "certificate_hash": "3a6c504d62910052858ad9325fcb93b549a94fcd"
+          }
+        },
+        {
           "client_id": "338575471856-bjp4pkd0knh171vrfbv2qggiq4coa2oj.apps.googleusercontent.com",
           "client_type": 3
         }

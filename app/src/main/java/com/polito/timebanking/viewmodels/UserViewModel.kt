@@ -37,6 +37,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _photoBitmap = MutableLiveData<Bitmap?>()
     val photoBitmap: LiveData<Bitmap?> = _photoBitmap
 
+
     private var skillsListener: ListenerRegistration
 
     init {

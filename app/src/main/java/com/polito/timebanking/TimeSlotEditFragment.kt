@@ -20,6 +20,7 @@ import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
+import com.polito.timebanking.viewmodels.UserViewModel
 
 class TimeSlotEditFragment : Fragment() {
 
@@ -30,6 +31,7 @@ class TimeSlotEditFragment : Fragment() {
     private lateinit var timePickerButton: TimePickerButton
 
     private val viewModel by activityViewModels<TimeSlotViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +45,8 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.durationAutoCompleteTV.setOnClickListener(durationListener)
         binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
+
+        binding.skillAutoCompleteTV.setOnClickListener(userskillListener)
 
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher?.addCallback(
@@ -85,6 +89,8 @@ class TimeSlotEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // init skillPicker
+
         // init datePicker
         datePickerBtn = object : DatePickerButton(
             binding.dateTextInputLayout,
@@ -120,8 +126,10 @@ class TimeSlotEditFragment : Fragment() {
             }
         }
 
+
         timePickerButton.hour = viewModel.currentTimeSlot?.hour.takeIf { it != 99 }
         timePickerButton.minute = viewModel.currentTimeSlot?.minute.takeIf { it != 99 }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -145,6 +153,37 @@ class TimeSlotEditFragment : Fragment() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private val userskillListener =  View.OnClickListener {
+
+        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        skillArray?.also {
+            builder.setSingleChoiceItems(
+                skillArray,
+                skillArray?.indexOf(binding.skillAutoCompleteTV.text.toString()),
+                userskillOnSaveListener
+            )
+        }
+
+        builder.show()
+
+    }
+    private val userskillOnSaveListener = DialogInterface.OnClickListener{ dialog, selectedItem ->
+        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+        skillArray?.also {
+            val skillString = skillArray[selectedItem]
+            skillString?.also {
+                viewModel.currentTimeSlot?.apply {
+                    sid = skillString
+                }
+            }
+            binding.skillAutoCompleteTV.setText(skillString)
+        }
+
+        dialog.dismiss()
+
     }
 
     private val durationListener = View.OnClickListener {
