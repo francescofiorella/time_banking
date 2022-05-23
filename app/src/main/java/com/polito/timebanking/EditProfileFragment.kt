@@ -59,7 +59,7 @@ class EditProfileFragment : Fragment() {
                     }
                     bitmap?.let {
                         val rotatedBitmap = rotateBitmap(requireContext(), it)
-                        userModel.setPhoto(rotatedBitmap)
+                        userModel.setCurrentUserPhoto(rotatedBitmap)
                     }
                 }
             }
@@ -70,7 +70,7 @@ class EditProfileFragment : Fragment() {
             if (activityResult.resultCode == Activity.RESULT_OK) {
                 val bitmap = activityResult.data?.extras?.get("data") as Bitmap
                 val rotatedBitmap = rotateBitmap(requireContext(), bitmap)
-                userModel.setPhoto(rotatedBitmap)
+                userModel.setCurrentUserPhoto(rotatedBitmap)
             }
         }
 
@@ -90,13 +90,13 @@ class EditProfileFragment : Fragment() {
             showMenu(it, R.menu.edit_photo_menu)
         }
 
-        userModel.photoBitmap.observe(viewLifecycleOwner) { photoBitmap ->
+        userModel.currentUserBitmap.observe(viewLifecycleOwner) { currentUserBitmap ->
             Log.d(
                 "EditProfileFragment",
-                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
             )
-            if (photoBitmap != null) {
-                binding.photoIv.setImageBitmap(photoBitmap)
+            if (currentUserBitmap != null) {
+                binding.photoIv.setImageBitmap(currentUserBitmap)
             }
         }
 
@@ -135,7 +135,7 @@ class EditProfileFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     userModel.currentUser.value?.let {
                         if (userModel.initialUserHasBeenModified()) {
-                            userModel.setUser(it, false)
+                            userModel.setCurrentUser(it, false)
                             activity?.snackBar("User updated!")
                         }
                     }

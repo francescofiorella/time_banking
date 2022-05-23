@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     tools:context=".TimeSlotDetailsFragment">
 
     <data>
@@ -36,7 +35,7 @@
                 tools:text="Title" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/description_card"
+                android:id="@+id/user_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -45,6 +44,58 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title_tv">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/user_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/user"
+                        android:src="@drawable/ic_account_circle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/user"
+                        app:layout_constraintBottom_toBottomOf="@+id/user_icon"
+                        app:layout_constraintStart_toEndOf="@id/user_icon"
+                        app:layout_constraintTop_toTopOf="@+id/user_icon" />
+
+                    <TextView
+                        android:id="@+id/user_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@{timeSlot.uid}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_icon"
+                        tools:text="User" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/description_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="16dp"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -102,8 +153,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintEnd_toStartOf="@id/guideline"
@@ -335,7 +386,7 @@
                         android:id="@+id/skill_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="Skill"
+                        android:contentDescription="@string/skill"
                         android:src="@drawable/ic_skill_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -344,7 +395,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Skill"
+                        android:text="@string/skill"
                         app:layout_constraintBottom_toBottomOf="@+id/skill_icon"
                         app:layout_constraintStart_toEndOf="@id/skill_icon"
                         app:layout_constraintTop_toTopOf="@+id/skill_icon" />
@@ -363,8 +414,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

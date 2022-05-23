@@ -11,16 +11,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.TimeSlotListFragment.Companion.MY_LIST
 import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_LIST
-import com.polito.timebanking.models.Skill
 import com.polito.timebanking.models.TimeSlot
 import kotlin.concurrent.thread
 
 class TimeSlotViewModel(application: Application) : AndroidViewModel(application) {
     private val _timeSlotList = MutableLiveData<List<TimeSlot>>()
     val timeSlotList: LiveData<List<TimeSlot>> = _timeSlotList
-
-    private val _skills = MutableLiveData<List<Skill>>()
-    val skills: LiveData<List<Skill>> = _skills
 
     private var initialTimeSlot: TimeSlot? = null
     var currentTimeSlot: TimeSlot? = null
@@ -44,7 +40,7 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
                 .whereEqualTo("sid", sid)
         } else {
             db.collection("timeslot")
-                .whereEqualTo("email", auth.currentUser?.email ?: "")
+                .whereEqualTo("uid", auth.currentUser?.uid ?: "")
         }
 
         query.addSnapshotListener { v, e ->
@@ -60,7 +56,7 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
 
     fun addTimeSlot(timeSlot: TimeSlot) {
         thread {
-            timeSlot.email = auth.currentUser?.email ?: ""
+            timeSlot.uid = auth.currentUser?.uid ?: ""
             db.collection("timeslot")
                 .document()
                 .set(timeSlot)
@@ -79,7 +75,7 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun isCurrentTimeSlotMine(): Boolean = (initialTimeSlot?.email == auth.currentUser?.email)
+    fun isCurrentTimeSlotMine(): Boolean = (initialTimeSlot?.uid == auth.currentUser?.uid)
 
     fun setTimeSlot(timeSlot: TimeSlot?) {
         initialTimeSlot = timeSlot

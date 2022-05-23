@@ -7,15 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
-import com.polito.timebanking.databinding.FragmentShowProfileBinding
+import com.polito.timebanking.databinding.FragmentShowUserBinding
 import com.polito.timebanking.viewmodels.UserViewModel
 
-class ShowProfileFragment : Fragment() {
+class ShowUserFragment : Fragment() {
     private val userModel by activityViewModels<UserViewModel>()
 
-    private lateinit var binding: FragmentShowProfileBinding
+    private lateinit var binding: FragmentShowUserBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,20 +22,20 @@ class ShowProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_show_profile, container, false)
+            .inflate(inflater, R.layout.fragment_show_user, container, false)
 
         binding.viewmodel = userModel
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+        userModel.user.observe(viewLifecycleOwner) { user ->
             Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUser.observe (currentUser = ${currentUser})"
+                "ShowUserFragment",
+                "userModel.user.observe (user = ${user})"
             )
 
             binding.skillsCg.removeAllViews()
-            currentUser?.skills?.forEach { skill ->
+            user?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -48,20 +47,20 @@ class ShowProfileFragment : Fragment() {
             }
         }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) { currentUserBitmap ->
+        userModel.userBitmap.observe(viewLifecycleOwner) { userBitmap ->
             Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
+                "ShowUserFragment",
+                "userModel.userBitmap.observe (userBitmap = ${userBitmap})"
             )
-            if (currentUserBitmap != null) {
-                binding.ivPhoto.setImageBitmap(currentUserBitmap)
+            if (userBitmap != null) {
+                binding.ivPhoto.setImageBitmap(userBitmap)
             }
         }
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
-            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
         setHasOptionsMenu(true)
 
@@ -70,24 +69,13 @@ class ShowProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.toolbar_menu, menu)
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.edit -> {
-                userModel.setInitialUser()
-                findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
-                true
-            }
-
             android.R.id.home -> {
-                (activity as MainActivity).getDrawerLayout().open()
+                activity?.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

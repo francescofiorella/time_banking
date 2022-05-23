@@ -45,8 +45,7 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.durationAutoCompleteTV.setOnClickListener(durationListener)
         binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
-
-        binding.skillAutoCompleteTV.setOnClickListener(userskillListener)
+        binding.skillAutoCompleteTV.setOnClickListener(userSkillListener)
 
         // save timeSlot onBackPressed
         activity?.onBackPressedDispatcher?.addCallback(
@@ -126,10 +125,8 @@ class TimeSlotEditFragment : Fragment() {
             }
         }
 
-
         timePickerButton.hour = viewModel.currentTimeSlot?.hour.takeIf { it != 99 }
         timePickerButton.minute = viewModel.currentTimeSlot?.minute.takeIf { it != 99 }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -155,23 +152,23 @@ class TimeSlotEditFragment : Fragment() {
         }
     }
 
-    private val userskillListener =  View.OnClickListener {
-
-        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+    private val userSkillListener = View.OnClickListener {
+        val skillArray =
+            userViewModel.currentUser.value?.skills?.map { skill -> skill.name }?.toTypedArray()
         val builder = MaterialAlertDialogBuilder(requireContext())
         skillArray?.also {
             builder.setSingleChoiceItems(
                 skillArray,
-                skillArray?.indexOf(binding.skillAutoCompleteTV.text.toString()),
-                userskillOnSaveListener
+                skillArray.indexOf(binding.skillAutoCompleteTV.text.toString()),
+                userSkillOnSaveListener
             )
         }
-
         builder.show()
-
     }
-    private val userskillOnSaveListener = DialogInterface.OnClickListener{ dialog, selectedItem ->
-        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+
+    private val userSkillOnSaveListener = DialogInterface.OnClickListener { dialog, selectedItem ->
+        val skillArray =
+            userViewModel.currentUser.value?.skills?.map { skill -> skill.name }?.toTypedArray()
         skillArray?.also {
             val skillString = skillArray[selectedItem]
             skillString?.also {
@@ -181,9 +178,7 @@ class TimeSlotEditFragment : Fragment() {
             }
             binding.skillAutoCompleteTV.setText(skillString)
         }
-
         dialog.dismiss()
-
     }
 
     private val durationListener = View.OnClickListener {

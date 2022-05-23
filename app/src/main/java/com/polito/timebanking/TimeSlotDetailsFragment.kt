@@ -11,11 +11,13 @@ import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.NONE
+import com.polito.timebanking.viewmodels.UserViewModel
 
 class TimeSlotDetailsFragment : Fragment() {
+    private val timeSlotModel by activityViewModels<TimeSlotViewModel>()
+    private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentTimeSlotDetailBinding
-    private val viewModel by activityViewModels<TimeSlotViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,8 +27,9 @@ class TimeSlotDetailsFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_time_slot_detail, container, false)
 
-        binding.timeSlot = viewModel.currentTimeSlot
-        binding.skillTv.text = viewModel.currentTimeSlot?.sid
+        binding.timeSlot = timeSlotModel.currentTimeSlot
+        binding.skillTv.text = timeSlotModel.currentTimeSlot?.sid
+        binding.userCard.setOnClickListener(userListener)
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -41,12 +44,12 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-        viewModel.editFragmentMode = NONE
+        timeSlotModel.editFragmentMode = NONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        if (viewModel.isCurrentTimeSlotMine()) {
+        if (timeSlotModel.isCurrentTimeSlotMine()) {
             inflater.inflate(R.menu.toolbar_menu, menu)
         }
     }
@@ -54,8 +57,8 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.edit -> {
-                viewModel.setTimeSlot(viewModel.currentTimeSlot)
-                viewModel.editFragmentMode = EDIT_MODE
+                timeSlotModel.setTimeSlot(timeSlotModel.currentTimeSlot)
+                timeSlotModel.editFragmentMode = EDIT_MODE
                 findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 true
             }
@@ -66,6 +69,13 @@ class TimeSlotDetailsFragment : Fragment() {
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private val userListener = View.OnClickListener {
+        binding.timeSlot?.uid?.let { uid ->
+            userModel.getUser(uid)
+            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_showUserFragment)
         }
     }
 }

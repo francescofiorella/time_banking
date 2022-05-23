@@ -38,7 +38,7 @@ class TimeSlotAdapter(
             card.setOnClickListener(cardAction)
             edit.setOnClickListener(fabAction)
 
-            edit.isVisible = timeSlot.email == Firebase.auth.currentUser?.email
+            edit.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
         }
     }
 

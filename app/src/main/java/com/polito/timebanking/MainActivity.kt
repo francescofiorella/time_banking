@@ -48,15 +48,15 @@ class MainActivity : AppCompatActivity() {
             emailTV.text = currentUser?.email
         }
 
-        userModel.photoBitmap.observe(this) { photoBitmap ->
+        userModel.currentUserBitmap.observe(this) { currentUserBitmap ->
             Log.d(
                 "MainActivity",
-                "userModel.photoBitmap.observe (photoBitmap = ${photoBitmap})"
+                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
             )
             val header = binding.navView.getHeaderView(0)
             val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
-            if (photoBitmap != null) {
-                photoIV.setImageBitmap(photoBitmap)
+            if (currentUserBitmap != null) {
+                photoIV.setImageBitmap(currentUserBitmap)
             } else {
                 photoIV.setImageDrawable(
                     AppCompatResources.getDrawable(

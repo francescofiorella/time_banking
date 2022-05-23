@@ -1,7 +1,5 @@
 package com.polito.timebanking.models
 
-import com.polito.timebanking.utils.dateToString
-
 data class User(
     var uid: String = "",
     var fullName: String = "",
