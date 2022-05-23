@@ -52,12 +52,6 @@
             </item>
 
             <item
-                android:id="@+id/date"
-                android:icon="@drawable/ic_today"
-                android:title="@string/date"
-                app:iconTint="@color/md_theme_onBackground" />
-
-            <item
                 android:id="@+id/no_filter"
                 android:icon="@drawable/ic_clear"
                 android:title="@string/no_filter"

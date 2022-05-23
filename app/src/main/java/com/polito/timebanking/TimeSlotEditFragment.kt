@@ -171,7 +171,8 @@ class TimeSlotEditFragment : Fragment() {
 
     }
     private val userskillOnSaveListener = DialogInterface.OnClickListener{ dialog, selectedItem ->
-        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+        val skillName = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.sid }?.toTypedArray()
         skillArray?.also {
             val skillString = skillArray[selectedItem]
             skillString?.also {
@@ -179,7 +180,10 @@ class TimeSlotEditFragment : Fragment() {
                     sid = skillString
                 }
             }
-            binding.skillAutoCompleteTV.setText(skillString)
+            skillName?.also{
+                binding.skillAutoCompleteTV.setText(skillName[selectedItem])
+            }
+
         }
 
         dialog.dismiss()
