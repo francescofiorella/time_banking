@@ -13,8 +13,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.polito.timebanking.databinding.ActivityMainBinding
-import com.polito.timebanking.utils.showSnackbar
+import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -72,9 +73,10 @@ class MainActivity : AppCompatActivity() {
                 "userModel.errorMessage.observe (errorMessage = ${errorMessage})"
             )
             if (errorMessage != "") {
-                showSnackbar(
-                    this.findViewById(android.R.id.content),
-                    errorMessage
+                this.snackBar(
+                    errorMessage,
+                    length = BaseTransientBottomBar.LENGTH_LONG,
+                    isDismissible = true
                 )
                 userModel.errorMessage.value = ""
             }

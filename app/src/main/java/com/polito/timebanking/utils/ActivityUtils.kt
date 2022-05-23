@@ -6,12 +6,20 @@ import android.view.ViewGroup
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
-fun Activity.snackBar(message: String, anchor: View? = null) : Snackbar {
-    val root = findViewById<ViewGroup>(android.R.id.content).rootView
+fun Activity.snackBar(
+    message: String,
+    anchor: View? = null,
+    length: Int = BaseTransientBottomBar.LENGTH_SHORT,
+    isDismissible: Boolean = false
+): Snackbar {
+    val root = findViewById<ViewGroup>(android.R.id.content)
 
-    Snackbar.make(root, message, BaseTransientBottomBar.LENGTH_SHORT).also { snackBar ->
+    Snackbar.make(root, message, length).also { snackBar ->
         anchor?.let {
             snackBar.setAnchorView(it)
+        }
+        if (isDismissible) {
+            snackBar.setAction("DISMISS") {}
         }
         snackBar.show()
 

@@ -11,7 +11,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.polito.timebanking.models.*
@@ -31,44 +30,14 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
 
-    private val _skills = MutableLiveData<List<Skill>>()
-    val skills: LiveData<List<Skill>> = _skills
-
     private val _photoBitmap = MutableLiveData<Bitmap?>()
     val photoBitmap: LiveData<Bitmap?> = _photoBitmap
-
-
-    private var skillsListener: ListenerRegistration
 
     init {
         if (auth.currentUser != null) {
             isLoading.value = true
             getUser(auth.currentUser!!.uid)
         }
-
-        skillsListener = db.collection("skills")
-            .addSnapshotListener { value, e ->
-                if (e != null) {
-                    Log.e(
-                        "Firebase/Cloud Firestore",
-                        "Skills Listener: failure", e
-                    )
-                    return@addSnapshotListener
-                }
-                val skills = ArrayList<Skill>()
-                for (skill in value!!) {
-                    skill.toObject(Skill::class.java).let {
-                        if (it.sid != null && it.name != null) {
-                            skills.add(it)
-                        }
-                    }
-                }
-                Log.d(
-                    "Firebase/Cloud Firestore",
-                    "Skills Listener: success (skills = ${skills})"
-                )
-                _skills.value = skills
-            }
     }
 
     fun signUpWithEmailAndPassword(email: String, password: String, user: User) {
@@ -274,10 +243,5 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun initialUserHasBeenModified(): Boolean {
         return (initialUser != _currentUser.value)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        skillsListener.remove()
     }
 }

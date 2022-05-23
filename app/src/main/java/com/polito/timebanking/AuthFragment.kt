@@ -22,8 +22,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.firebase.auth.GoogleAuthProvider
-import com.polito.timebanking.utils.showSnackbar
+import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class AuthFragment : Fragment() {
@@ -61,9 +62,10 @@ class AuthFragment : Fragment() {
                         "Google One Tap Sign-In",
                         "No ID token!"
                     )
-                    showSnackbar(
-                        requireActivity().findViewById(android.R.id.content),
-                        "No ID token!"
+                    activity?.snackBar(
+                        "No ID token!",
+                        length = BaseTransientBottomBar.LENGTH_LONG,
+                        isDismissible = true
                     )
                 }
             }
@@ -74,9 +76,10 @@ class AuthFragment : Fragment() {
                         "Google One Tap Sign-In",
                         "Google One Tap Sign-in dialog was closed"
                     )
-                    showSnackbar(
-                        requireActivity().findViewById(android.R.id.content),
-                        "Google One Tap Sign-in dialog was closed"
+                    activity?.snackBar(
+                        "Google One Tap Sign-in dialog was closed",
+                        length = BaseTransientBottomBar.LENGTH_LONG,
+                        isDismissible = true
                     )
                 }
                 CommonStatusCodes.NETWORK_ERROR -> {
@@ -84,9 +87,10 @@ class AuthFragment : Fragment() {
                         "Google One Tap Sign-In",
                         "Google One Tap Sign-in encountered a network error"
                     )
-                    showSnackbar(
-                        requireActivity().findViewById(android.R.id.content),
-                        "Google One Tap Sign-in encountered a network error"
+                    activity?.snackBar(
+                        "Google One Tap Sign-in encountered a network error",
+                        length = BaseTransientBottomBar.LENGTH_LONG,
+                        isDismissible = true
                     )
                 }
                 else -> {
@@ -94,9 +98,10 @@ class AuthFragment : Fragment() {
                         "Google One Tap Sign-In",
                         "Couldn't get credential from result (Exception = ${e})"
                     )
-                    showSnackbar(
-                        requireActivity().findViewById(android.R.id.content),
-                        "Couldn't get credential from result"
+                    activity?.snackBar(
+                        "Couldn't get credential from result",
+                        length = BaseTransientBottomBar.LENGTH_LONG,
+                        isDismissible = true
                     )
                 }
             }
@@ -217,9 +222,10 @@ class AuthFragment : Fragment() {
                     "Google One Tap Sign-In",
                     "No Google Accounts found (Exception = ${e})"
                 )
-                showSnackbar(
-                    requireActivity().findViewById(android.R.id.content),
-                    "No Google Accounts found"
+                activity?.snackBar(
+                    "No Google Accounts found",
+                    length = BaseTransientBottomBar.LENGTH_LONG,
+                    isDismissible = true
                 )
             }
     }

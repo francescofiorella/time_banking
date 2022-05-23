@@ -24,11 +24,13 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.utils.rotateBitmap
-import com.polito.timebanking.utils.showSnackbar
+import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EditProfileFragment : Fragment() {
     private val userModel by activityViewModels<UserViewModel>()
+    private val skillModel by activityViewModels<SkillViewModel>()
 
     private lateinit var binding: FragmentEditProfileBinding
 
@@ -98,13 +100,13 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-        userModel.skills.observe(viewLifecycleOwner) { skills ->
+        skillModel.skillList.observe(viewLifecycleOwner) { skillList ->
             Log.d(
                 "EditProfileFragment",
-                "userModel.skills.observe (skills = ${skills})"
+                "userModel.skillList.observe (skillList = ${skillList})"
             )
             binding.skillsCg.removeAllViews()
-            skills.forEach { skill ->
+            skillList.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -134,10 +136,7 @@ class EditProfileFragment : Fragment() {
                     userModel.currentUser.value?.let {
                         if (userModel.initialUserHasBeenModified()) {
                             userModel.setUser(it, false)
-                            showSnackbar(
-                                requireActivity().findViewById(android.R.id.content),
-                                "User updated!"
-                            )
+                            activity?.snackBar("User updated!")
                         }
                     }
                     // disable the callback to avoid loops
