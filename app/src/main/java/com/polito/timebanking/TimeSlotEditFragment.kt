@@ -125,8 +125,10 @@ class TimeSlotEditFragment : Fragment() {
             }
         }
 
+
         timePickerButton.hour = viewModel.currentTimeSlot?.hour.takeIf { it != 99 }
         timePickerButton.minute = viewModel.currentTimeSlot?.minute.takeIf { it != 99 }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -163,12 +165,13 @@ class TimeSlotEditFragment : Fragment() {
                 userSkillOnSaveListener
             )
         }
-        builder.show()
-    }
 
-    private val userSkillOnSaveListener = DialogInterface.OnClickListener { dialog, selectedItem ->
-        val skillArray =
-            userViewModel.currentUser.value?.skills?.map { skill -> skill.name }?.toTypedArray()
+        builder.show()
+
+    }
+    private val userskillOnSaveListener = DialogInterface.OnClickListener{ dialog, selectedItem ->
+        val skillName = userViewModel.currentUser.value?.skills?.map { skill->skill.name }?.toTypedArray()
+        val skillArray = userViewModel.currentUser.value?.skills?.map { skill->skill.sid }?.toTypedArray()
         skillArray?.also {
             val skillString = skillArray[selectedItem]
             skillString?.also {
@@ -176,9 +179,14 @@ class TimeSlotEditFragment : Fragment() {
                     sid = skillString
                 }
             }
-            binding.skillAutoCompleteTV.setText(skillString)
+            skillName?.also{
+                binding.skillAutoCompleteTV.setText(skillName[selectedItem])
+            }
+
         }
+
         dialog.dismiss()
+
     }
 
     private val durationListener = View.OnClickListener {
