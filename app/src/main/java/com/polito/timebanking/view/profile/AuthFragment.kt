@@ -117,6 +117,9 @@ class AuthFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_auth, container, false)
 
+        userModel.isLoading.value = true
+        userModel.getCurrentUser()
+
         oneTapClient = Identity.getSignInClient(requireActivity())
         signInRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
