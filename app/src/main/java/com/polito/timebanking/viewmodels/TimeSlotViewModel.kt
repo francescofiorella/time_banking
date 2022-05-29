@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.polito.timebanking.TimeSlotListFragment.Companion.MY_LIST
-import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_LIST
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.MY_LIST
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_LIST
 import com.polito.timebanking.models.TimeSlot
 import kotlin.concurrent.thread
 

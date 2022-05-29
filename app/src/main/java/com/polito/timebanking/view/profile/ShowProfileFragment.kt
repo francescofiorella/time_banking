@@ -1,21 +1,30 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.profile
 
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
+import com.polito.timebanking.view.MainActivity
+import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.USER_ID_KEY
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class ShowProfileFragment : Fragment() {
     private val userModel by activityViewModels<UserViewModel>()
 
     private lateinit var binding: FragmentShowProfileBinding
+
+    companion object {
+        const val JUST_SHOW = 100
+        const val SHOW_AND_EDIT = 101
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +35,16 @@ class ShowProfileFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_show_profile, container, false)
 
         binding.viewmodel = userModel
+        userModel.isLoading.value = true
+
+        val uid = arguments?.getString(USER_ID_KEY)
+        if (uid != null) {
+            userModel.profileMode = JUST_SHOW
+            userModel.getCurrentUser(uid)
+        } else {
+            userModel.profileMode = SHOW_AND_EDIT
+            userModel.getCurrentUser()
+        }
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
@@ -58,10 +77,19 @@ class ShowProfileFragment : Fragment() {
             }
         }
 
+        userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.profileLayout.isVisible = !isLoading
+            binding.loadingCpi.isVisible = isLoading
+        }
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
-            getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            if (userModel.profileMode == SHOW_AND_EDIT) {
+                getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
         }
         setHasOptionsMenu(true)
 
@@ -70,12 +98,18 @@ class ShowProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+        if (userModel.profileMode == SHOW_AND_EDIT) {
+            (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+        } else {
+            (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.toolbar_menu, menu)
+        if (userModel.profileMode == SHOW_AND_EDIT) {
+            inflater.inflate(R.menu.toolbar_menu, menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -87,7 +121,11 @@ class ShowProfileFragment : Fragment() {
             }
 
             android.R.id.home -> {
-                (activity as MainActivity).getDrawerLayout().open()
+                if (userModel.profileMode == SHOW_AND_EDIT) {
+                    (activity as MainActivity).getDrawerLayout().open()
+                } else {
+                    activity?.onBackPressed()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

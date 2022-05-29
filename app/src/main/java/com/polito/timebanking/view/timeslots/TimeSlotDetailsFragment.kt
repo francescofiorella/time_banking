@@ -1,13 +1,16 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.timeslots
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
@@ -20,6 +23,10 @@ class TimeSlotDetailsFragment : Fragment() {
     private val skillModel by activityViewModels<SkillViewModel>()
 
     private lateinit var binding: FragmentTimeSlotDetailBinding
+
+    companion object {
+        const val USER_ID_KEY = "user_id_key"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,7 +102,11 @@ class TimeSlotDetailsFragment : Fragment() {
     private val userListener = View.OnClickListener {
         binding.timeSlot?.uid?.let { uid ->
             userModel.getUser(uid)
-            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_showUserFragment)
+            val bundle = bundleOf(USER_ID_KEY to uid)
+            findNavController().navigate(
+                R.id.action_timeSlotDetailsFragment_to_showProfileFragment,
+                bundle
+            )
         }
     }
 }

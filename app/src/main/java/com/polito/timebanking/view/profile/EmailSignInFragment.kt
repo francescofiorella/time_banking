@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.profile
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.polito.timebanking.R
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class EmailSignInFragment : Fragment() {

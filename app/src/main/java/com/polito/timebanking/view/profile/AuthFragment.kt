@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.profile
 
 import android.app.Activity
 import android.content.Intent
@@ -24,7 +24,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.firebase.auth.GoogleAuthProvider
+import com.polito.timebanking.BuildConfig
+import com.polito.timebanking.R
 import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class AuthFragment : Fragment() {

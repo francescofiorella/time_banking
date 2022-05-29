@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.timeslots
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -12,11 +12,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentTimeSlotEditBinding
 import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.DatePickerButton
 import com.polito.timebanking.utils.TimePickerButton
 import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE

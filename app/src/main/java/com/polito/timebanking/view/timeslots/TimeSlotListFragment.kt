@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.timeslots
 
 import android.os.Bundle
 import android.view.*
@@ -11,10 +11,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentTimeSlotListBinding
 import com.polito.timebanking.models.TimeSlot
 import com.polito.timebanking.utils.TimeSlotAdapter
 import com.polito.timebanking.utils.TimeSlotListener
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE

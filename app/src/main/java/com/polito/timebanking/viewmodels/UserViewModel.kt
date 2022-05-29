@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.polito.timebanking.models.*
+import com.polito.timebanking.view.profile.ShowProfileFragment.Companion.SHOW_AND_EDIT
 import java.io.ByteArrayOutputStream
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,6 +27,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     val errorMessage = MutableLiveData("")
 
     private var initialUser: User? = null
+    var profileMode = SHOW_AND_EDIT
 
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
@@ -38,13 +40,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _userBitmap = MutableLiveData<Bitmap?>()
     val userBitmap: LiveData<Bitmap?> = _userBitmap
-
-    init {
-        if (auth.currentUser != null) {
-            isLoading.value = true
-            getCurrentUser(auth.currentUser!!.uid)
-        }
-    }
 
     fun getUser(uid: String) {
         db.collection("users")
@@ -193,7 +188,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    private fun getCurrentUser(uid: String) {
+    fun getCurrentUser(uid: String = auth.currentUser!!.uid) {
         db.collection("users")
             .document(uid)
             .get()
@@ -205,11 +200,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         "getCurrentUser: success (user = ${user})"
                     )
                     _currentUser.value = user
-                    user.photoUrl?.let { photoUrl ->
-                        getCurrentUserPhoto(photoUrl)
-                    }
                     isLoggedIn.value = true
-                    isLoading.value = false
+                    if (user.photoUrl.isNullOrEmpty()) {
+                        isLoading.value = false
+                    } else {
+                        getCurrentUserPhoto(user.photoUrl!!)
+                    }
                 } else {
                     Log.e(
                         "Firebase/Cloud Firestore",
@@ -269,6 +265,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             .addOnSuccessListener {
                 val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                 _currentUserBitmap.value = bitmap
+                isLoading.value = false
             }
             .addOnFailureListener {
                 Log.e(

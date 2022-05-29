@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.profile
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
@@ -22,9 +22,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
 import com.polito.timebanking.utils.rotateBitmap
 import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.UserViewModel
 

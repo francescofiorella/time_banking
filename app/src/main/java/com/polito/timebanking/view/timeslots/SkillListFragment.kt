@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view.timeslots
 
 import android.os.Bundle
 import android.view.*
@@ -9,13 +9,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.polito.timebanking.TimeSlotListFragment.Companion.MODE_KEY
-import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_KEY
-import com.polito.timebanking.TimeSlotListFragment.Companion.SKILL_LIST
+import com.polito.timebanking.R
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.MODE_KEY
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_KEY
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_LIST
 import com.polito.timebanking.databinding.FragmentSkillListBinding
 import com.polito.timebanking.models.Skill
 import com.polito.timebanking.utils.SkillAdapter
 import com.polito.timebanking.utils.SkillListener
+import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.SkillViewModel
 
 class SkillListFragment : Fragment(), SkillListener {

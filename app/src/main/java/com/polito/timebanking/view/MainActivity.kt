@@ -1,4 +1,4 @@
-package com.polito.timebanking
+package com.polito.timebanking.view
 
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.polito.timebanking.R
 import com.polito.timebanking.databinding.ActivityMainBinding
 import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.viewmodels.UserViewModel
