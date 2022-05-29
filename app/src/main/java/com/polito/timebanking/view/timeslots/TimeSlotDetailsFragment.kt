@@ -101,7 +101,6 @@ class TimeSlotDetailsFragment : Fragment() {
 
     private val userListener = View.OnClickListener {
         binding.timeSlot?.uid?.let { uid ->
-            userModel.getUser(uid)
             val bundle = bundleOf(USER_ID_KEY to uid)
             findNavController().navigate(
                 R.id.action_timeSlotDetailsFragment_to_showProfileFragment,

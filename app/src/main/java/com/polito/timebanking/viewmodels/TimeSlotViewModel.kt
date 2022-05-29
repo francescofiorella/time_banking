@@ -25,6 +25,8 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     var listFragmentMode = MY_LIST
     var sid = ""
 
+    val isLoading = MutableLiveData(false)
+
     companion object {
         const val NONE = 0
         const val ADD_MODE = 1
@@ -35,6 +37,7 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     private val auth: FirebaseAuth = Firebase.auth
 
     fun loadList() {
+        isLoading.value = true
         val query = if (listFragmentMode == SKILL_LIST) {
             db.collection("timeslot")
                 .whereEqualTo("sid", sid)
@@ -51,7 +54,12 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
             } else {
                 _timeSlotList.value = emptyList()
             }
+            isLoading.value = false
         }
+    }
+
+    fun resetList() {
+        _timeSlotList.value = emptyList()
     }
 
     fun addTimeSlot(timeSlot: TimeSlot) {

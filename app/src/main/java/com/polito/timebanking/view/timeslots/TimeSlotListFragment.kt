@@ -42,8 +42,14 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             .inflate(inflater, R.layout.fragment_time_slot_list, container, false)
 
         if (savedInstanceState == null) {
+            viewModel.resetList()
             viewModel.listFragmentMode = arguments?.getInt(MODE_KEY) ?: MY_LIST
             viewModel.sid = arguments?.getString(SKILL_KEY) ?: ""
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.loadingCpi.isVisible = isLoading
+            binding.listRecyclerView.isVisible = !isLoading
         }
 
         viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->

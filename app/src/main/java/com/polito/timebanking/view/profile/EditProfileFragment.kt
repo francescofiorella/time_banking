@@ -17,10 +17,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentEditProfileBinding
@@ -92,13 +95,19 @@ class EditProfileFragment : Fragment() {
             showMenu(it, R.menu.edit_photo_menu)
         }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) { currentUserBitmap ->
-            Log.d(
-                "EditProfileFragment",
-                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
-            )
-            if (currentUserBitmap != null) {
-                binding.photoIv.setImageBitmap(currentUserBitmap)
+        userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if (currentUser?.photoUrl.isNullOrEmpty()) {
+                binding.photoIv.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        binding.photoIv.context,
+                        R.drawable.ic_user
+                    )
+                )
+            } else {
+                Glide.with(binding.photoIv)
+                    .load(currentUser?.photoUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.photoIv)
             }
         }
 

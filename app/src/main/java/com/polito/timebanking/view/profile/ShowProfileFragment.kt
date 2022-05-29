@@ -1,14 +1,16 @@
 package com.polito.timebanking.view.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
@@ -34,13 +36,13 @@ class ShowProfileFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_show_profile, container, false)
 
-        binding.viewmodel = userModel
         userModel.isLoading.value = true
 
         val uid = arguments?.getString(USER_ID_KEY)
+        arguments?.clear()
         if (uid != null) {
             userModel.profileMode = JUST_SHOW
-            userModel.getCurrentUser(uid)
+            userModel.getUser(uid)
         } else {
             userModel.profileMode = SHOW_AND_EDIT
             userModel.getCurrentUser()
@@ -48,14 +50,15 @@ class ShowProfileFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        userModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUser.observe (currentUser = ${currentUser})"
-            )
-
+        val showedUser = if (userModel.profileMode == JUST_SHOW) {
+            userModel.user
+        } else {
+            userModel.currentUser
+        }
+        binding.user = showedUser
+        showedUser.observe(viewLifecycleOwner) { user ->
             binding.skillsCg.removeAllViews()
-            currentUser?.skills?.forEach { skill ->
+            user?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
                     R.layout.layout_skill_chip,
                     binding.skillsCg,
@@ -65,16 +68,21 @@ class ShowProfileFragment : Fragment() {
                 chip.text = skill.name
                 binding.skillsCg.addView(chip)
             }
-        }
 
-        userModel.currentUserBitmap.observe(viewLifecycleOwner) { currentUserBitmap ->
-            Log.d(
-                "ShowProfileFragment",
-                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
-            )
-            if (currentUserBitmap != null) {
-                binding.ivPhoto.setImageBitmap(currentUserBitmap)
+            if (user?.photoUrl.isNullOrEmpty()) {
+                binding.ivPhoto.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        binding.ivPhoto.context,
+                        R.drawable.ic_user
+                    )
+                )
+            } else {
+                Glide.with(binding.ivPhoto)
+                    .load(user?.photoUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.ivPhoto)
             }
+            userModel.isLoading.value = false
         }
 
         userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

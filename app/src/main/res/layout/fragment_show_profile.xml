@@ -6,202 +6,246 @@
 
     <data>
 
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="com.polito.timebanking.models.User" />
+
         <variable
-            name="viewmodel"
-            type="com.polito.timebanking.viewmodels.UserViewModel" />
+            name="user"
+            type="LiveData&lt;User&gt;" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp">
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profile_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
 
-            <ImageView
-                android:id="@+id/iv_photo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/photo_iv_description"
-                android:src="@drawable/ic_account_circle"
-                app:layout_constraintBottom_toTopOf="@id/guideline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.33" />
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <ImageView
+                    android:id="@+id/iv_photo"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/photo_iv_description"
+                    android:src="@drawable/ic_user"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{user.fullName}"
+                    android:textColor="@color/md_theme_onBackground"
+                    android:textSize="26sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_photo"
+                    tools:text="Full Name" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{user.email}"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
+                    tools:text="email@email.com" />
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email"
+                    app:layout_constraintVertical_bias="0.0">
 
-                    <TextView
-                        android:id="@+id/tv_full_name"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="@{viewmodel.currentUser.fullName}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Full Name" />
+                        android:layout_height="match_parent"
+                        android:layout_margin="16dp">
 
-                    <ImageView
-                        android:id="@+id/nickname_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/nickname_et_hint"
-                        android:src="@drawable/ic_alternate_email"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_nickname" />
-
-                    <TextView
-                        android:id="@+id/tv_nickname"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="16dp"
-                        android:layout_marginStart="8dp"
-                        android:text="@{viewmodel.currentUser.nickname}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/nickname_icon"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
-                        tools:text="Nickname" />
-
-                    <ImageView
-                        android:id="@+id/email_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/email_et_hint"
-                        android:src="@drawable/ic_email"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_email"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_email" />
-
-                    <TextView
-                        android:id="@+id/tv_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="16dp"
-                        android:layout_marginStart="8dp"
-                        android:text="@{viewmodel.currentUser.email}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/email_icon"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_nickname"
-                        tools:text="E-Mail" />
-
-                    <ImageView
-                        android:id="@+id/location_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/location"
-                        android:src="@drawable/ic_location_on"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_location"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_location" />
-
-                    <TextView
-                        android:id="@+id/tv_location"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="16dp"
-                        android:layout_marginStart="8dp"
-                        android:text="@{viewmodel.currentUser.location}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/location_icon"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_email"
-                        tools:text="Location" />
-
-                    <TextView
-                        android:id="@+id/skills_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/skills_tv_text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_location" />
-
-                    <HorizontalScrollView
-                        android:id="@+id/skills_hsv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/skills_tv">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/skills_cg"
+                        <TextView
+                            android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:singleLine="true" />
+                            android:text="@string/personal_info"
+                            android:textColor="@color/md_theme_onBackground"
+                            android:textSize="22sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    </HorizontalScrollView>
+                        <ImageView
+                            android:id="@+id/nickname_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/nickname_et_hint"
+                            android:src="@drawable/ic_alternate_email"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-                    <TextView
-                        android:id="@+id/description_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/description"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/skills_hsv" />
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/nickname_et_hint"
+                            app:layout_constraintStart_toEndOf="@id/nickname_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                    <TextView
-                        android:id="@+id/tv_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:justificationMode="inter_word"
-                        android:minLines="3"
-                        android:paddingBottom="16dp"
-                        android:text="@{viewmodel.currentUser.description}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/description_tv"
-                        tools:text="Description" />
+                        <TextView
+                            android:id="@+id/tv_nickname"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{user.nickname}"
+                            android:textColor="@color/md_theme_onBackground"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2"
+                            tools:text="Nickname" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/location_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/location"
+                            android:src="@drawable/ic_location_on"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView3" />
 
-            </ScrollView>
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/location"
+                            app:layout_constraintStart_toEndOf="@id/location_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+
+                        <TextView
+                            android:id="@+id/tv_location"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{user.location}"
+                            android:textColor="@color/md_theme_onBackground"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView3"
+                            tools:text="Location" />
+
+                        <ImageView
+                            android:id="@+id/skill_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/skill"
+                            android:src="@drawable/ic_skill_icon"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/skills_tv_text"
+                            app:layout_constraintStart_toEndOf="@id/skill_icon"
+                            app:layout_constraintTop_toBottomOf="@id/tv_location" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/skills_hsv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textView4">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/skills_cg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:singleLine="true" />
+
+                        </HorizontalScrollView>
+
+                        <ImageView
+                            android:id="@+id/description_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/description"
+                            android:src="@drawable/ic_description"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/description"
+                            app:layout_constraintStart_toEndOf="@id/description_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/skills_hsv" />
+
+                        <TextView
+                            android:id="@+id/tv_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:justificationMode="inter_word"
+                            android:text="@{user.description}"
+                            android:textColor="@color/md_theme_onBackground"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView5"
+                            tools:text="Description" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/loading_cpi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/loading_cpi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

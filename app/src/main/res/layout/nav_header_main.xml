@@ -13,7 +13,7 @@
         android:contentDescription="@string/photo_iv_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_account_circle" />
+        app:srcCompat="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/tv_full_name"

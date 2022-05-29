@@ -7,12 +7,15 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.ActivityMainBinding
@@ -47,24 +50,20 @@ class MainActivity : AppCompatActivity() {
             fullNameTV.text = currentUser?.fullName
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
             emailTV.text = currentUser?.email
-        }
 
-        userModel.currentUserBitmap.observe(this) { currentUserBitmap ->
-            Log.d(
-                "MainActivity",
-                "userModel.currentUserBitmap.observe (currentUserBitmap = ${currentUserBitmap})"
-            )
-            val header = binding.navView.getHeaderView(0)
             val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
-            if (currentUserBitmap != null) {
-                photoIV.setImageBitmap(currentUserBitmap)
-            } else {
+            if (currentUser?.photoUrl.isNullOrEmpty()) {
                 photoIV.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.ic_account_circle
+                    ContextCompat.getDrawable(
+                        photoIV.context,
+                        R.drawable.ic_user
                     )
                 )
+            } else {
+                Glide.with(photoIV)
+                    .load(currentUser?.photoUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(photoIV)
             }
         }
 

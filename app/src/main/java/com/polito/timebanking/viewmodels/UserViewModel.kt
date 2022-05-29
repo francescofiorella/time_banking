@@ -2,7 +2,6 @@ package com.polito.timebanking.viewmodels
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -22,7 +21,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val storage = Firebase.storage
 
-    val isLoggedIn = MutableLiveData(false)
     val isLoading = MutableLiveData(false)
     val errorMessage = MutableLiveData("")
 
@@ -35,56 +33,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
-    private val _currentUserBitmap = MutableLiveData<Bitmap?>()
-    val currentUserBitmap: LiveData<Bitmap?> = _currentUserBitmap
+    fun isUserLogged(): LiveData<Boolean> {
+        val response = MutableLiveData<Boolean>()
 
-    private val _userBitmap = MutableLiveData<Bitmap?>()
-    val userBitmap: LiveData<Bitmap?> = _userBitmap
-
-    fun getUser(uid: String) {
-        db.collection("users")
-            .document(uid)
-            .get()
-            .addOnSuccessListener {
-                val user = it.toObject(User::class.java)
-                if (user != null) {
-                    Log.d(
-                        "Firebase/Cloud Firestore",
-                        "getUser: success (user = ${user})"
-                    )
-                    _user.value = user
-                    user.photoUrl?.let { photoUrl ->
-                        getUserPhoto(photoUrl)
-                    }
-                } else {
-                    Log.e(
-                        "Firebase/Cloud Firestore",
-                        "getUser: failure (user = null)"
-                    )
-                }
-            }
-            .addOnFailureListener {
-                Log.e(
-                    "Firebase/Cloud Firestore",
-                    "getUser: failure", it
-                )
-            }
-    }
-
-    private fun getUserPhoto(photoUrl: String) {
-        val photoRef = storage.getReferenceFromUrl(photoUrl)
-        photoRef
-            .getBytes(10 * 1024 * 1024)
-            .addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                _userBitmap.value = bitmap
-            }
-            .addOnFailureListener {
-                Log.e(
-                    "Firebase/Storage",
-                    "getCurrentUserPhoto: failure", it
-                )
-            }
+        response.value = auth.currentUser != null
+        return response
     }
 
     fun signUpWithEmailAndPassword(email: String, password: String, user: User) {
@@ -174,7 +127,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 )
                 if (isSignIn) {
                     _currentUser.value = user
-                    isLoggedIn.value = true
                 }
             }
             .addOnFailureListener {
@@ -188,7 +140,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    fun getCurrentUser(uid: String = auth.currentUser!!.uid) {
+    fun getUser(uid: String) {
+        getCurrentUser(uid, false)
+    }
+
+    fun getCurrentUser(uid: String? = auth.currentUser?.uid, isCurrent: Boolean = true) {
+        if (uid.isNullOrEmpty()) {
+            _currentUser.value = null
+            return
+        }
         db.collection("users")
             .document(uid)
             .get()
@@ -199,12 +159,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         "Firebase/Cloud Firestore",
                         "getCurrentUser: success (user = ${user})"
                     )
-                    _currentUser.value = user
-                    isLoggedIn.value = true
+                    if (isCurrent) {
+                        _currentUser.value = user
+                    } else {
+                        _user.value = user
+                    }
                     if (user.photoUrl.isNullOrEmpty()) {
                         isLoading.value = false
-                    } else {
-                        getCurrentUserPhoto(user.photoUrl!!)
                     }
                 } else {
                     Log.e(
@@ -248,7 +209,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     currentUser.value?.apply {
                         photoUrl = task.result.toString()
                     }
-                    _currentUserBitmap.value = bitmap
                 } else {
                     Log.e(
                         "Firebase/Storage",
@@ -258,31 +218,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    private fun getCurrentUserPhoto(photoUrl: String) {
-        val photoRef = storage.getReferenceFromUrl(photoUrl)
-        photoRef
-            .getBytes(10 * 1024 * 1024)
-            .addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                _currentUserBitmap.value = bitmap
-                isLoading.value = false
-            }
-            .addOnFailureListener {
-                Log.e(
-                    "Firebase/Storage",
-                    "getCurrentUserPhoto: failure", it
-                )
-            }
-    }
-
     fun signOut() {
-        Log.d(
-            "UserViewModel",
-            "signOut: success"
-        )
-        isLoggedIn.value = false
+        Log.d("UserViewModel", "signOut: success")
         _currentUser.value = null
-        _currentUserBitmap.value = null
         auth.signOut()
     }
 

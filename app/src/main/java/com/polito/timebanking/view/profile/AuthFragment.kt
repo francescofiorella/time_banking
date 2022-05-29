@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -118,7 +119,28 @@ class AuthFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_auth, container, false)
 
         userModel.isLoading.value = true
-        userModel.getCurrentUser()
+
+        userModel.isUserLogged().observe(viewLifecycleOwner) { isLogged ->
+            if (isLogged) {
+                userModel.getCurrentUser()
+                findNavController().navigate(R.id.action_authFragment_to_skillListFragment)
+            } else {
+                userModel.isLoading.value = false
+            }
+        }
+
+        userModel.currentUser.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                findNavController().navigate(R.id.action_authFragment_to_skillListFragment)
+            }
+        }
+
+        userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            val loadingCPI = view.findViewById<CircularProgressIndicator>(R.id.loading_cpi)
+            val authFragmentLL = view.findViewById<LinearLayout>(R.id.auth_fragment_ll)
+            loadingCPI.isVisible = isLoading
+            authFragmentLL.isVisible = !isLoading
+        }
 
         oneTapClient = Identity.getSignInClient(requireActivity())
         signInRequest = BeginSignInRequest.builder()
@@ -146,32 +168,6 @@ class AuthFragment : Fragment() {
 
         view.findViewById<MaterialButton>(R.id.sign_in_with_google_btn).setOnClickListener {
             showSignInClient()
-        }
-
-        userModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
-            Log.d(
-                "AuthFragment",
-                "userModel.isLoggedIn.observe (isLoggedIn = ${isLoggedIn})"
-            )
-            if (isLoggedIn) {
-                findNavController().navigate(R.id.action_authFragment_to_skillListFragment)
-            }
-        }
-
-        userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            Log.d(
-                "AuthFragment",
-                "userModel.isLoading.observe (isLoading = ${isLoading})"
-            )
-            val loadingCPI = view.findViewById<CircularProgressIndicator>(R.id.loading_cpi)
-            val authFragmentLL = view.findViewById<LinearLayout>(R.id.auth_fragment_ll)
-            if (!isLoading && userModel.isLoggedIn.value == false) {
-                loadingCPI.visibility = View.GONE
-                authFragmentLL.visibility = View.VISIBLE
-            } else {
-                loadingCPI.visibility = View.VISIBLE
-                authFragmentLL.visibility = View.GONE
-            }
         }
 
         (activity as MainActivity).apply {

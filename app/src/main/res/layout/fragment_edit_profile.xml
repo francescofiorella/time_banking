@@ -12,199 +12,194 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp">
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/photo_iv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/photo_iv_description"
-            android:src="@drawable/ic_account_circle"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/edit_photo_ib"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/edit_photo_ib_description"
-            android:src="@drawable/ic_camera_alt"
-            app:layout_constraintEnd_toEndOf="@id/photo_iv"
-            app:layout_constraintTop_toTopOf="@id/photo_iv" />
+            android:layout_marginHorizontal="16dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.33" />
+            <ImageView
+                android:id="@+id/photo_iv"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/photo_iv_description"
+                android:src="@drawable/ic_user"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline">
+            <ImageButton
+                android:id="@+id/edit_photo_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/edit_photo_ib_description"
+                android:src="@drawable/ic_camera_alt"
+                app:layout_constraintEnd_toEndOf="@id/photo_iv"
+                app:layout_constraintTop_toTopOf="@id/photo_iv" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/full_name_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/full_name_et_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/photo_iv"
+                app:startIconDrawable="@drawable/ic_person">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/full_name_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/full_name_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/full_name_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_person">
+                    android:inputType="textPersonName|textCapWords"
+                    android:text="@={viewmodel.currentUser.fullName}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/full_name_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName|textCapWords"
-                        android:text="@={viewmodel.currentUser.fullName}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/email_et_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/full_name_til"
+                app:startIconDrawable="@drawable/ic_email">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nickname_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/nickname_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/full_name_til"
-                    app:startIconDrawable="@drawable/ic_alternate_email">
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewmodel.currentUser.email}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nickname_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewmodel.currentUser.nickname}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nickname_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/nickname_et_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_til"
+                app:startIconDrawable="@drawable/ic_alternate_email">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/email_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nickname_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/email_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_til"
-                    app:startIconDrawable="@drawable/ic_email">
+                    android:inputType="text"
+                    android:text="@={viewmodel.currentUser.nickname}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:text="@={viewmodel.currentUser.email}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/location_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/location_et_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nickname_til"
+                app:startIconDrawable="@drawable/ic_location_on">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/location_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/location_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/location_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/email_til"
-                    app:startIconDrawable="@drawable/ic_location_on">
+                    android:inputType="text|textCapSentences"
+                    android:text="@={viewmodel.currentUser.location}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/location_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text|textCapSentences"
-                        android:text="@={viewmodel.currentUser.location}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/skill_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:contentDescription="@string/skill"
+                android:src="@drawable/ic_skill_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/skills_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/skills_tv" />
 
-                <TextView
-                    android:id="@+id/skills_tv"
+            <TextView
+                android:id="@+id/skills_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/skills_tv_text"
+                android:textSize="13sp"
+                app:layout_constraintStart_toEndOf="@id/skill_icon"
+                app:layout_constraintTop_toBottomOf="@id/location_til" />
+
+            <HorizontalScrollView
+                android:id="@+id/skills_hsv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:scrollbars="none"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/skills_tv">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/skills_cg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true" />
+
+            </HorizontalScrollView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description_til"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/description_et_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/skills_hsv"
+                app:layout_constraintVertical_bias="0.0"
+                app:startIconDrawable="@drawable/ic_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/description_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/skills_tv_text"
-                    app:layout_constraintTop_toBottomOf="@id/location_til" />
+                    android:gravity="top"
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:text="@={viewmodel.currentUser.description}" />
 
-                <HorizontalScrollView
-                    android:id="@+id/skills_hsv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:scrollbars="none"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/skills_tv">
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/skills_cg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:singleLine="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </HorizontalScrollView>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/description_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/description_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/skills_hsv"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:startIconDrawable="@drawable/ic_description">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/description_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:inputType="text|textMultiLine|textCapSentences"
-                        android:minLines="3"
-                        android:text="@={viewmodel.currentUser.description}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

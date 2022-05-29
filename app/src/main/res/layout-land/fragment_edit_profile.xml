@@ -20,12 +20,11 @@
             android:id="@+id/photo_iv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
             android:contentDescription="@string/photo_iv_description"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_account_circle"
+            android:src="@drawable/ic_user"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,14 +47,13 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/full_name_til"
@@ -81,29 +79,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nickname_til"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/nickname_et_hint"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/full_name_til"
-                    app:startIconDrawable="@drawable/ic_alternate_email">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nickname_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewmodel.currentUser.nickname}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -114,7 +89,7 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_til"
+                    app:layout_constraintTop_toBottomOf="@id/full_name_til"
                     app:startIconDrawable="@drawable/ic_email">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -123,6 +98,29 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:text="@={viewmodel.currentUser.email}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nickname_til"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/nickname_et_hint"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/email_til"
+                    app:startIconDrawable="@drawable/ic_alternate_email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nickname_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={viewmodel.currentUser.nickname}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,7 +135,7 @@
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/email_til"
+                    app:layout_constraintTop_toBottomOf="@id/nickname_til"
                     app:startIconDrawable="@drawable/ic_location_on">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -199,7 +197,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="top"
                         android:inputType="text|textMultiLine|textCapSentences"
-                        android:minLines="3"
                         android:text="@={viewmodel.currentUser.description}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
