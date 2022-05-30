@@ -50,6 +50,9 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.loadingCpi.isVisible = isLoading
             binding.listRecyclerView.isVisible = !isLoading
+            if (isLoading) {
+                binding.noTimeSlotsTv.isVisible = false
+            }
         }
 
         viewModel.timeSlotList.observe(viewLifecycleOwner) { list ->

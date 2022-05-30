@@ -77,7 +77,9 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         if (timeSlotModel.isCurrentTimeSlotMine()) {
-            inflater.inflate(R.menu.toolbar_menu, menu)
+            inflater.inflate(R.menu.edit_toolbar_menu, menu)
+        } else {
+            inflater.inflate(R.menu.chat_toolbar_menu, menu)
         }
     }
 
@@ -87,6 +89,11 @@ class TimeSlotDetailsFragment : Fragment() {
                 timeSlotModel.setTimeSlot(timeSlotModel.currentTimeSlot)
                 timeSlotModel.editFragmentMode = EDIT_MODE
                 findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                true
+            }
+
+            R.id.chat -> {
+                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_chatFragment)
                 true
             }
 

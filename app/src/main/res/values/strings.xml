@@ -12,7 +12,9 @@
     <string name="edit_photo_menu_select_image_title">Select a photo from gallery</string>
     <string name="edit_photo_menu_take_image_title">Use the camera to take a photo</string>
     <string name="toolbar_menu_edit_description">Edit Menu</string>
+    <string name="toolbar_menu_chat_description">Chat Menu</string>
     <string name="toolbar_menu_edit_title">Edit</string>
+    <string name="toolbar_menu_chat_title">Open Chat</string>
     <string name="title">Title</string>
     <string name="user">User</string>
     <string name="description">Description</string>

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/chat"
+        android:contentDescription="@string/toolbar_menu_chat_description"
+        android:icon="@drawable/ic_forum"
+        android:title="@string/toolbar_menu_chat_title"
+        app:iconTint="@color/md_theme_onPrimary"
+        app:showAsAction="ifRoom" />
+
+</menu>
