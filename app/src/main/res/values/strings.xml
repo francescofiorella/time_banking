@@ -50,6 +50,7 @@
     <string name="personal_info">Personal info</string>
     <string name="send_message">Send a message</string>
     <string name="message">Message</string>
+    <string name="my_chats">My Chats</string>
 
     <string name="half_hour">Half hour</string>
     <string name="one_hour">One hour</string>

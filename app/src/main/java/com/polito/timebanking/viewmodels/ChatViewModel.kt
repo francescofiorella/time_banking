@@ -11,7 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.models.Chat
 import com.polito.timebanking.models.ChatMessage
-import com.polito.timebanking.models.TimeSlot
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _chatMessageList = MutableLiveData<List<ChatMessage>>()
@@ -22,7 +21,6 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
 
-    private var timeSlot: TimeSlot? = null
     private var chat: Chat? = null
 
     fun loadMessages() {
@@ -41,16 +39,6 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                     _chatMessageList.value = emptyList()
                 }
             }
-        // load timestamp and chat
-        tsid?.let {
-            db.collection("timeslot")
-                .document(it)
-                .addSnapshotListener { v, e ->
-                    if (e == null) {
-                        timeSlot = v?.toObject(TimeSlot::class.java)
-                    }
-                }
-        }
 
         db.collection("chat")
             .document("$tsid$uid")
@@ -59,12 +47,22 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                     chat = v?.toObject(Chat::class.java)
                 }
             }
+
+        /*tsid?.let {
+            db.collection("timeslot")
+                .document(it)
+                .addSnapshotListener { v, e ->
+                    if (e == null) {
+                        timeSlot = v?.toObject(TimeSlot::class.java)
+                    }
+                }
+        }*/
     }
 
     fun sendMessage(text: String) {
         val currentUid = auth.currentUser?.uid
         val uid = chat?.uid
-        val ownerUid = timeSlot?.uid
+        val ownerUid = chat?.owner
         val toUid = if (currentUid == ownerUid) {
             uid
         } else {
