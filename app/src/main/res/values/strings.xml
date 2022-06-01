@@ -5,12 +5,12 @@
     <string name="edit_photo_ib_description">Edit Photo</string>
     <string name="full_name_et_hint">Full Name</string>
     <string name="nickname_et_hint">Nickname</string>
-    <string name="email_et_hint">email@address</string>
+    <string name="email_et_hint">Email</string>
     <string name="location_et_hint">Location</string>
     <string name="skills_tv_text">Skills</string>
     <string name="description_et_hint">Description</string>
-    <string name="edit_photo_menu_select_image_title">Select a photo from gallery</string>
-    <string name="edit_photo_menu_take_image_title">Use the camera to take a photo</string>
+    <string name="edit_photo_menu_select_image_title">Select from gallery</string>
+    <string name="edit_photo_menu_take_image_title">Take a picture from camera</string>
     <string name="toolbar_menu_edit_description">Edit Menu</string>
     <string name="toolbar_menu_chat_description">Chat Menu</string>
     <string name="toolbar_menu_edit_title">Edit</string>
@@ -48,6 +48,8 @@
     <string name="sort">Sort</string>
     <string name="no_filter">Clear filter</string>
     <string name="personal_info">Personal info</string>
+    <string name="send_message">Send a message</string>
+    <string name="message">Message</string>
 
     <string name="half_hour">Half hour</string>
     <string name="one_hour">One hour</string>

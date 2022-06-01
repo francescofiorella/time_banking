@@ -28,12 +28,13 @@
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/edit_photo_ib"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/edit_photo_ib_description"
             android:src="@drawable/ic_camera_alt"
+            app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@id/photo_iv"
             app:layout_constraintTop_toTopOf="@id/photo_iv" />
 

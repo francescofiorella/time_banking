@@ -17,44 +17,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/other_user_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Date" />
 
-        <TextView
-            android:id="@+id/other_user_message_tv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/bg_chat"
             android:backgroundTint="@color/md_theme_primaryContainer"
             android:elevation="1dp"
-            android:padding="10dp"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/other_user_date_tv"
-            tools:text="Message" />
-
-        <TextView
-            android:id="@+id/other_user_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:textSize="12sp"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/other_user_message_tv"
-            tools:text="Time" />
+            app:layout_constraintTop_toBottomOf="@+id/other_user_date_tv">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/other_user_message_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/other_user_time_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Message" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/other_user_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="@+id/other_user_message_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Time" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -70,44 +82,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/other_user_layout">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/user_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="30dp"
-            android:paddingBottom="5dp"
+            android:paddingBottom="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Date" />
 
-        <TextView
-            android:id="@+id/user_message_tv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/bg_chat"
             android:backgroundTint="@color/md_theme_tertiaryContainer"
             android:elevation="1dp"
-            android:padding="10dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_date_tv"
-            tools:text="Message" />
-
-        <TextView
-            android:id="@+id/user_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="center"
-            android:textSize="12sp"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_message_tv"
-            tools:text="Time" />
+            app:layout_constraintTop_toBottomOf="@+id/user_date_tv">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/user_message_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/user_time_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Message" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/user_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="@+id/user_message_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Time" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

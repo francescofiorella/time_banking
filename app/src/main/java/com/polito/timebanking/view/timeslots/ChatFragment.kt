@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentChatBinding
 import com.polito.timebanking.utils.ChatMessageAdapter
@@ -29,17 +30,22 @@ class ChatFragment : Fragment() {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_chat, container, false)
 
-        viewModel.getLoggedUserId()?.let { uid ->
-            val tsid = arguments?.getString(TIMESLOT_ID_KEY) ?: ""
-            viewModel.loadMessages(uid, tsid)
-        }
+        viewModel.tsid = arguments?.getString(TIMESLOT_ID_KEY) ?: ""
+        viewModel.loadMessages()
 
         viewModel.chatMessageList.observe(viewLifecycleOwner) { messageList ->
+            (binding.listRecyclerView.layoutManager as LinearLayoutManager?)?.stackFromEnd = true
             viewModel.getLoggedUserId()?.let { uid ->
                 ChatMessageAdapter(messageList, uid).also {
                     binding.listRecyclerView.adapter = it
                 }
             }
+        }
+
+        binding.sendFab.setOnClickListener {
+            val text = binding.writeEt.text.toString()
+            binding.writeEt.setText("")
+            viewModel.sendMessage(text)
         }
 
         (activity as MainActivity).apply {
