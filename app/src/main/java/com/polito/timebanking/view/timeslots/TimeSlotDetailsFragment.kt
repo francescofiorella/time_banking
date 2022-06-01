@@ -26,6 +26,7 @@ class TimeSlotDetailsFragment : Fragment() {
 
     companion object {
         const val USER_ID_KEY = "user_id_key"
+        const val TIMESLOT_ID_KEY = "timeslot_id_key"
     }
 
     override fun onCreateView(
@@ -93,7 +94,13 @@ class TimeSlotDetailsFragment : Fragment() {
             }
 
             R.id.chat -> {
-                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_chatFragment)
+                timeSlotModel.currentTimeSlot?.id?.let {
+                    val bundle = bundleOf(TIMESLOT_ID_KEY to it)
+                    findNavController().navigate(
+                        R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                        bundle
+                    )
+                }
                 true
             }
 

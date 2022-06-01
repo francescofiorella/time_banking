@@ -16,7 +16,7 @@ android {
         minSdk 26
         targetSdk 31
         versionCode 1
-        versionName "1.4"
+        versionName "1.5"
         buildConfigField("String", "WEB_CLIENT_ID", "\"338575471856-bjp4pkd0knh171vrfbv2qggiq4coa2oj.apps.googleusercontent.com\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
