@@ -51,6 +51,9 @@
     <string name="message">Message</string>
     <string name="my_chats">My Chats</string>
     <string name="no_chats">You have not opened any chats</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="accept_request">Do you want to accept this time slot request?</string>
 
     <string name="half_hour">Half hour</string>
     <string name="one_hour">One hour</string>
