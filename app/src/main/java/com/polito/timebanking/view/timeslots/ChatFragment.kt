@@ -15,6 +15,7 @@ import com.polito.timebanking.databinding.FragmentChatBinding
 import com.polito.timebanking.utils.ChatMessageAdapter
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.TIMESLOT_ID_KEY
+import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.USER_ID_KEY
 import com.polito.timebanking.viewmodels.ChatViewModel
 
 class ChatFragment : Fragment() {
@@ -31,6 +32,7 @@ class ChatFragment : Fragment() {
             .inflate(inflater, R.layout.fragment_chat, container, false)
 
         viewModel.tsid = arguments?.getString(TIMESLOT_ID_KEY) ?: ""
+        viewModel.uid = arguments?.getString(USER_ID_KEY) ?: ""
         viewModel.loadMessages()
 
         viewModel.chatMessageList.observe(viewLifecycleOwner) { messageList ->
@@ -44,8 +46,10 @@ class ChatFragment : Fragment() {
 
         binding.sendFab.setOnClickListener {
             val text = binding.writeEt.text.toString()
-            binding.writeEt.setText("")
-            viewModel.sendMessage(text)
+            if (text.isNotEmpty()) {
+                binding.writeEt.setText("")
+                viewModel.sendMessage(text)
+            }
         }
 
         (activity as MainActivity).apply {

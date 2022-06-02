@@ -116,7 +116,7 @@ class ShowProfileFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         if (userModel.profileMode == SHOW_AND_EDIT) {
-            inflater.inflate(R.menu.edit_toolbar_menu, menu)
+            inflater.inflate(R.menu.toolbar_menu, menu)
         }
     }
 

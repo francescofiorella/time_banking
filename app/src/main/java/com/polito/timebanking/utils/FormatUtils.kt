@@ -1,5 +1,8 @@
 package com.polito.timebanking.utils
 
+import java.text.SimpleDateFormat
+import java.util.*
+
 fun dateToString(dayOfMonth: Int?, month: Int?, year: Int?): String? {
     var formattedDate: String? = null
     dayOfMonth?.let {
@@ -25,4 +28,16 @@ fun timeToString(hour: Int?, minute: Int?): String? {
         }
     }
     return formattedTime
+}
+
+fun timestampToDateString(timestamp: Long): String {
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    val date = Date(timestamp)
+    return dateFormat.format(date)
+}
+
+fun timestampToTimeString(timestamp: Long) :String {
+    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    val date = Date(timestamp)
+    return timeFormat.format(date)
 }

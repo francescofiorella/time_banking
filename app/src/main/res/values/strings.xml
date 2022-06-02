@@ -12,9 +12,8 @@
     <string name="edit_photo_menu_select_image_title">Select from gallery</string>
     <string name="edit_photo_menu_take_image_title">Take a picture from camera</string>
     <string name="toolbar_menu_edit_description">Edit Menu</string>
-    <string name="toolbar_menu_chat_description">Chat Menu</string>
     <string name="toolbar_menu_edit_title">Edit</string>
-    <string name="toolbar_menu_chat_title">Open Chat</string>
+    <string name="open_chat">Open Chat</string>
     <string name="title">Title</string>
     <string name="user">User</string>
     <string name="description">Description</string>
@@ -51,6 +50,7 @@
     <string name="send_message">Send a message</string>
     <string name="message">Message</string>
     <string name="my_chats">My Chats</string>
+    <string name="no_chats">You have not opened any chats</string>
 
     <string name="half_hour">Half hour</string>
     <string name="one_hour">One hour</string>

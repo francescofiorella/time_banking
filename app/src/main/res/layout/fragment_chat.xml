@@ -35,7 +35,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/bg_chat"
+                android:background="@drawable/bg_round"
                 android:backgroundTint="@color/md_theme_surfaceVariant"
                 android:hint="@string/message"
                 android:inputType="text|textCapSentences|textMultiLine"
@@ -49,12 +49,15 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/send_fab"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:contentDescription="@string/send_message"
                 app:elevation="0dp"
                 app:fabCustomSize="52dp"
+                app:tint="@color/md_theme_onPrimaryContainer"
+                app:backgroundTint="@color/md_theme_primaryContainer"
                 app:layout_constraintBottom_toBottomOf="@+id/write_et"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_send" />

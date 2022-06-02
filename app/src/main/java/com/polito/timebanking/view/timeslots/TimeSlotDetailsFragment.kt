@@ -3,6 +3,7 @@ package com.polito.timebanking.view.timeslots
 import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -52,6 +53,21 @@ class TimeSlotDetailsFragment : Fragment() {
                     ?.name
         }
 
+        if (timeSlotModel.isCurrentTimeSlotMine()) {
+            binding.openChatFab.isVisible = false
+        } else {
+            binding.openChatFab.setOnClickListener {
+                timeSlotModel.currentTimeSlot?.id?.let {
+                    val bundle = bundleOf(TIMESLOT_ID_KEY to it)
+                    findNavController().navigate(
+                        R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                        bundle
+                    )
+                }
+            }
+            binding.openChatFab.isVisible = true
+        }
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -78,9 +94,7 @@ class TimeSlotDetailsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         if (timeSlotModel.isCurrentTimeSlotMine()) {
-            inflater.inflate(R.menu.edit_toolbar_menu, menu)
-        } else {
-            inflater.inflate(R.menu.chat_toolbar_menu, menu)
+            inflater.inflate(R.menu.toolbar_menu, menu)
         }
     }
 
@@ -90,17 +104,6 @@ class TimeSlotDetailsFragment : Fragment() {
                 timeSlotModel.setTimeSlot(timeSlotModel.currentTimeSlot)
                 timeSlotModel.editFragmentMode = EDIT_MODE
                 findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-                true
-            }
-
-            R.id.chat -> {
-                timeSlotModel.currentTimeSlot?.id?.let {
-                    val bundle = bundleOf(TIMESLOT_ID_KEY to it)
-                    findNavController().navigate(
-                        R.id.action_timeSlotDetailsFragment_to_chatFragment,
-                        bundle
-                    )
-                }
                 true
             }
 

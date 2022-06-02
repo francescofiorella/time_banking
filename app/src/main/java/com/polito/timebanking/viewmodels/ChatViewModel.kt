@@ -16,7 +16,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _chatMessageList = MutableLiveData<List<ChatMessage>>()
     val chatMessageList: LiveData<List<ChatMessage>> = _chatMessageList
 
+    private val _chatList = MutableLiveData<List<Chat>>()
+    val chatList: LiveData<List<Chat>> = _chatList
+
     var tsid: String? = null
+    var uid: String? = null
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
@@ -24,7 +28,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private var chat: Chat? = null
 
     fun loadMessages() {
-        val uid = auth.currentUser?.uid
+        if (uid == "") {
+            uid = auth.currentUser?.uid
+        }
 
         db.collection("chat")
             .document("$tsid$uid")
@@ -59,10 +65,25 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         }*/
     }
 
+    fun loadChats() {
+        val uid = auth.currentUser?.uid ?: ""
+
+        db.collection("chat")
+            .whereArrayContains("uids", uid)
+            .addSnapshotListener { v, e ->
+                if (e == null) {
+                    _chatList.value = v?.mapNotNull { it.toObject(Chat::class.java) }
+                } else {
+                    Log.d("AAAAAA", e.toString())
+                    _chatList.value = emptyList()
+                }
+            }
+    }
+
     fun sendMessage(text: String) {
         val currentUid = auth.currentUser?.uid
-        val uid = chat?.uid
-        val ownerUid = chat?.owner
+        val uid = chat?.uids?.get(1)
+        val ownerUid = chat?.uids?.get(0)
         val toUid = if (currentUid == ownerUid) {
             uid
         } else {
