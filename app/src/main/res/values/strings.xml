@@ -41,6 +41,7 @@
     <string name="sign_up">SIGN UP</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="time_slot_main_info">Time slot main info</string>
     <string name="time_slot_starts_time">Time slot start time</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>

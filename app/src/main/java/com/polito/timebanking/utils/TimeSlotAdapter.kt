@@ -28,7 +28,7 @@ class TimeSlotAdapter(
     class TimeSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-        private val cardLayout: MaterialCardView = v.findViewById(R.id.card_layout)
+        private val cardLayout: MaterialCardView = v.findViewById(R.id.layout)
         private val titleTV: TextView = v.findViewById(R.id.title_tv)
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)

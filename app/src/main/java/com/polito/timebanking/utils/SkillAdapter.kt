@@ -15,12 +15,12 @@ class SkillAdapter(
 ) : RecyclerView.Adapter<SkillAdapter.SkillViewHolder>() {
 
     class SkillViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val card: MaterialCardView = v.findViewById(R.id.card_layout)
+        private val layout: MaterialCardView = v.findViewById(R.id.card_layout)
         private val nameTV: TextView = v.findViewById(R.id.name_tv)
 
-        fun bind(skill: Skill, cardAction: (v: View) -> Unit) {
+        fun bind(skill: Skill, action: (v: View) -> Unit) {
             nameTV.text = skill.name
-            card.setOnClickListener(cardAction)
+            layout.setOnClickListener(action)
         }
     }
 

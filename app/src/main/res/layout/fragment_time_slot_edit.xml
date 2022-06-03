@@ -21,6 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/mainTitle_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/time_slot_main_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/title_icon"
                 android:layout_width="wrap_content"
@@ -42,7 +51,7 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/title_icon"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/mainTitle_tv">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title_et"
@@ -153,8 +162,8 @@
                 android:id="@+id/timeTitle_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/time_slot_starts_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/skill_textInputLayout" />
@@ -175,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/date"
                 android:labelFor="@id/date_auto_complete_TV"
                 app:endIconDrawable="@drawable/ic_arrow_drop_down"
