@@ -44,7 +44,9 @@ class ChatListFragment : Fragment(), ChatListener {
             } else {
                 binding.recView.isVisible = true
                 binding.noChatsTv.isVisible = false
-                binding.recView.adapter = ChatAdapter(list, this)
+                viewModel.getLoggedUserId()?.let {
+                    binding.recView.adapter = ChatAdapter(list, it, this)
+                }
             }
         }
 

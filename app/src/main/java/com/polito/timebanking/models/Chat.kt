@@ -11,5 +11,5 @@ data class Chat(
 // timeslot id + applicant id
 
 // uids: array of:
-// 1) timeslot owner id
-// 2) applicant id
+// 0) timeslot owner id
+// 1) applicant id

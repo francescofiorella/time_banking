@@ -54,6 +54,7 @@
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="accept_request">Do you want to accept this time slot request?</string>
+    <string name="no_messages">Type a message to open a request for this time slot!</string>
 
     <string name="half_hour">Half hour</string>
     <string name="one_hour">One hour</string>

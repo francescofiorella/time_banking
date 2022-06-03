@@ -15,6 +15,7 @@ import com.polito.timebanking.models.Chat
 
 class ChatAdapter(
     private val data: List<Chat>,
+    private val loggedUserId: String,
     private val listener: ChatListener
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
@@ -27,7 +28,7 @@ class ChatAdapter(
         private val timeslotTV = v.findViewById<TextView>(R.id.timeslot_name_tv)
         private val dateTV = v.findViewById<TextView>(R.id.date_tv)
 
-        fun bind(chat: Chat, onClickAction: (v: View) -> Unit) {
+        fun bind(chat: Chat, loggedUserId: String, onClickAction: (v: View) -> Unit) {
             layout.setOnClickListener(onClickAction)
             chat.timestamp?.let {
                 dateTV.text = timestampToDateString(it)
@@ -36,7 +37,12 @@ class ChatAdapter(
                 loadTimeslotInfo(it, timeslotTV)
             }
             chat.uids?.let {
-                loadUserInfo(it[1], userNameTV, userPicIV)
+                val index = if (it[0] == loggedUserId) {
+                    1
+                } else {
+                    0
+                }
+                loadUserInfo(it[index], userNameTV, userPicIV)
             }
         }
 
@@ -56,10 +62,13 @@ class ChatAdapter(
                 .addSnapshotListener { v, e ->
                     if (e == null) {
                         textView.text = v?.getString("fullName")
-                        Glide.with(imageView)
-                            .load(v?.getString("photoUrl"))
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(imageView)
+                        val photoUrl = v?.getString("photoUrl")
+                        photoUrl?.let {
+                            Glide.with(imageView)
+                                .load(it)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(imageView)
+                        }
                     }
                 }
         }
@@ -74,7 +83,7 @@ class ChatAdapter(
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = data[position]
-        holder.bind(chat) { listener.onChatClickListener(chat, position) }
+        holder.bind(chat, loggedUserId) { listener.onChatClickListener(chat, position) }
     }
 
     override fun getItemCount(): Int = data.size

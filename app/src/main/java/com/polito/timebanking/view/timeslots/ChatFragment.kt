@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -36,11 +37,21 @@ class ChatFragment : Fragment() {
         viewModel.loadMessages()
 
         viewModel.chatMessageList.observe(viewLifecycleOwner) { messageList ->
-            (binding.listRecyclerView.layoutManager as LinearLayoutManager?)?.stackFromEnd = true
-            viewModel.getLoggedUserId()?.let { uid ->
-                ChatMessageAdapter(messageList, uid).also {
-                    binding.listRecyclerView.adapter = it
+            if (messageList.isEmpty()) {
+                binding.requestLayout.isVisible = false
+                binding.listRecyclerView.isVisible = false
+                binding.noMessagesTv.isVisible = true
+            } else {
+                binding.noMessagesTv.isVisible = false
+                binding.listRecyclerView.isVisible = true
+                (binding.listRecyclerView.layoutManager as LinearLayoutManager?)
+                    ?.stackFromEnd = true
+                viewModel.getLoggedUserId()?.let { uid ->
+                    ChatMessageAdapter(messageList, uid).also {
+                        binding.listRecyclerView.adapter = it
+                    }
                 }
+                binding.requestLayout.isVisible = viewModel.isChatMine()
             }
         }
 
@@ -48,7 +59,7 @@ class ChatFragment : Fragment() {
             val text = binding.writeEt.text.toString()
             if (text.isNotEmpty()) {
                 binding.writeEt.setText("")
-                viewModel.sendMessage(text)
+                viewModel.sendMessage(text, isChatOpened = binding.listRecyclerView.isVisible)
             }
         }
 
