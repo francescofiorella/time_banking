@@ -10,18 +10,36 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/bg_chat_left.xml" value="0.147" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/bg_chat_right.xml" value="0.147" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/bg_round.xml" value="0.147" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_access_time.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_account_circle.xml" value="0.1" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_add.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_alternate_email.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_arrow_back.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_arrow_drop_down.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_av_timer.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_camera_alt.xml" value="0.184" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_clear.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_description.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_edit.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_email.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_filter_list.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_forum.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_launcher_background.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_location_on.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_menu.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_description.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_email.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_location_on.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_person.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_star.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_today.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_person.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_search.xml" value="0.1635" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_send.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_skill_icon.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_sort.xml" value="0.1635" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_title.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_today.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_show_profile.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/fragment_edit_profile.xml" value="0.14666666666666667" />
@@ -43,7 +61,7 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_chat_message_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_skill_chip.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_skill_item.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_time_slot_item.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/layout_time_slot_item.xml" value="0.17037037037037037" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/nav_header_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/chat_toolbar_menu.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/menu/edit_photo_menu.xml" value="0.17552083333333332" />

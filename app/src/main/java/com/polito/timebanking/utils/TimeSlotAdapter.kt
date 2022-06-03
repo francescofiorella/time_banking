@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.R
 import com.polito.timebanking.models.TimeSlot
@@ -25,20 +26,34 @@ class TimeSlotAdapter(
     private val dataFiltered: List<TimeSlot> = data
 
     class TimeSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val card: MaterialCardView = v.findViewById(R.id.card_layout)
-        private val title: TextView = v.findViewById(R.id.title_tv)
-        private val location: TextView = v.findViewById(R.id.location_tv)
-        private val date: TextView = v.findViewById(R.id.date_tv)
-        private val edit: FloatingActionButton = v.findViewById(R.id.edit_fab)
+        private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-        fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, fabAction: (v: View) -> Unit) {
-            title.text = timeSlot.title
-            location.text = timeSlot.location
-            date.text = timeSlot.getDate()
-            card.setOnClickListener(cardAction)
-            edit.setOnClickListener(fabAction)
+        private val cardLayout: MaterialCardView = v.findViewById(R.id.card_layout)
+        private val titleTV: TextView = v.findViewById(R.id.title_tv)
+        private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
+        private val locationTV: TextView = v.findViewById(R.id.location_tv)
+        private val dateTV: TextView = v.findViewById(R.id.date_tv)
+        private val editFAB: FloatingActionButton = v.findViewById(R.id.edit_btn)
 
-            edit.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
+        fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, editAction: (v: View) -> Unit) {
+            titleTV.text = timeSlot.title
+            loadUserInfo(timeSlot.uid, fullNameTV)
+            locationTV.text = timeSlot.location
+            dateTV.text = timeSlot.getDate()
+            cardLayout.setOnClickListener(cardAction)
+            editFAB.setOnClickListener(editAction)
+
+            editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
+        }
+
+        private fun loadUserInfo(uid: String, textView: TextView) {
+            db.collection("users")
+                .document(uid)
+                .addSnapshotListener { v, e ->
+                    if (e == null) {
+                        textView.text = v?.getString("fullName")
+                    }
+                }
         }
     }
 

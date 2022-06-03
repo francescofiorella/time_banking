@@ -18,54 +18,92 @@
 
         <TextView
             android:id="@+id/title_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 
         <ImageView
-            android:id="@+id/location_iv"
+            android:id="@+id/person_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/title"
-            android:src="@drawable/ic_location_on"
+            android:layout_height="0dp"
+            android:contentDescription="@string/full_name"
+            android:src="@drawable/ic_outline_person"
+            app:layout_constraintBottom_toBottomOf="@+id/person_tv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_tv" />
+            app:layout_constraintTop_toTopOf="@+id/person_tv" />
+
+        <TextView
+            android:id="@+id/person_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+            app:layout_constraintStart_toEndOf="@id/person_icon"
+            app:layout_constraintTop_toBottomOf="@+id/title_tv"
+            tools:text="Full Name" />
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:contentDescription="@string/location"
+            android:src="@drawable/ic_outline_location_on"
+            app:layout_constraintBottom_toBottomOf="@+id/location_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/location_tv" />
 
         <TextView
             android:id="@+id/location_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/location_iv"
-            app:layout_constraintEnd_toStartOf="@+id/edit_fab"
-            app:layout_constraintStart_toEndOf="@id/location_iv"
-            app:layout_constraintTop_toTopOf="@id/location_iv"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+            app:layout_constraintStart_toEndOf="@id/location_icon"
+            app:layout_constraintTop_toBottomOf="@+id/person_tv"
             tools:text="Location" />
+
+        <ImageView
+            android:id="@+id/date_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:contentDescription="@string/location"
+            android:src="@drawable/ic_outline_today"
+            app:layout_constraintBottom_toBottomOf="@+id/date_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/date_tv" />
 
         <TextView
             android:id="@+id/date_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/title_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title_tv"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+            app:layout_constraintStart_toEndOf="@id/location_icon"
+            app:layout_constraintTop_toBottomOf="@+id/location_tv"
             tools:text="Date" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/edit_fab"
+            android:id="@+id/edit_btn"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:contentDescription="@string/edit"
             android:src="@drawable/ic_edit"
+            app:backgroundTint="@color/md_theme_secondaryContainer"
+            app:elevation="0dp"
             app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_tv" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/md_theme_onSecondaryContainer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

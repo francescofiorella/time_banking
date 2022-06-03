@@ -7,14 +7,12 @@
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:iconTint="@color/md_theme_onPrimary"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/filter"
         android:icon="@drawable/ic_filter_list"
         android:title="@string/filter"
-        app:iconTint="@color/md_theme_onPrimary"
         app:showAsAction="ifRoom">
 
         <menu>
@@ -65,7 +63,6 @@
         android:id="@+id/sort"
         android:icon="@drawable/ic_sort"
         android:title="@string/sort"
-        app:iconTint="@color/md_theme_onPrimary"
         app:showAsAction="ifRoom">
 
         <menu>

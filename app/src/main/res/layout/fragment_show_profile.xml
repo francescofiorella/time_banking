@@ -133,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:contentDescription="@string/location"
-                            android:src="@drawable/ic_location_on"
+                            android:src="@drawable/ic_outline_location_on"
                             app:layout_constraintBottom_toBottomOf="@+id/textView3"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textView3" />
@@ -199,7 +199,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:contentDescription="@string/description"
-                            android:src="@drawable/ic_description"
+                            android:src="@drawable/ic_outline_description"
                             app:layout_constraintBottom_toBottomOf="@+id/textView5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textView5" />
