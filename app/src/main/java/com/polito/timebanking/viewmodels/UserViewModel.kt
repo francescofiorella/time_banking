@@ -118,7 +118,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setCurrentUser(user: User, isSignIn: Boolean) {
         db.collection("users")
-            .document(user.uid)
+            .document("${user.uid}")
             .set(user)
             .addOnSuccessListener {
                 Log.d(

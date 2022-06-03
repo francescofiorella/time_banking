@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.models.Chat
 import com.polito.timebanking.models.ChatMessage
 import com.polito.timebanking.models.TimeSlot
+import com.polito.timebanking.models.User
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val _chatMessageList = MutableLiveData<List<ChatMessage>>()
@@ -23,6 +24,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     var tsid: String? = null
     var uid: String? = null
+
+    private val _otherUser = MutableLiveData<User>()
+    val otherUser: LiveData<User> = _otherUser
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
@@ -41,6 +45,20 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             .addSnapshotListener { v, e ->
                 if (e == null) {
                     chat = v?.toObject(Chat::class.java)
+                    // load other_user
+                    val currentUid = auth.currentUser?.uid ?: ""
+                    val otherUid = if (currentUid == chat?.uids?.get(0)) {
+                        chat?.uids?.get(1) ?: ""
+                    } else {
+                        chat?.uids?.get(0) ?: ""
+                    }
+                    db.collection("users")
+                        .document(otherUid)
+                        .addSnapshotListener { value, error ->
+                            if (error == null) {
+                                _otherUser.value = value?.toObject(User::class.java)
+                            }
+                        }
                 }
             }
 

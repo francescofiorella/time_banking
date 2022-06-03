@@ -53,6 +53,7 @@ class ChatListFragment : Fragment(), ChatListener {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = getString(R.string.chats)
             getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         }
         setHasOptionsMenu(true)

@@ -93,6 +93,7 @@ class ShowProfileFragment : Fragment() {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = getString(R.string.profile)
             if (userModel.profileMode == SHOW_AND_EDIT) {
                 getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {

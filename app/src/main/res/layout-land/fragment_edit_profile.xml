@@ -207,6 +207,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/skills_tv_text"
                     android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="@color/md_theme_outline"
                     app:layout_constraintStart_toEndOf="@id/skill_icon"
                     app:layout_constraintTop_toBottomOf="@id/location_til" />
 

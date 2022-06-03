@@ -159,6 +159,7 @@ class EditProfileFragment : Fragment() {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = getString(R.string.edit_profile)
             getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
         setHasOptionsMenu(true)

@@ -63,6 +63,12 @@ class ChatFragment : Fragment() {
             }
         }
 
+        viewModel.otherUser.observe(viewLifecycleOwner) { user ->
+            (activity as MainActivity).apply {
+                supportActionBar?.title = user.fullName ?: getString(R.string.app_name)
+            }
+        }
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)

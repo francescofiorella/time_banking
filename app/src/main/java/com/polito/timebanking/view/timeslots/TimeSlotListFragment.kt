@@ -28,6 +28,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
     companion object {
         const val SKILL_KEY = "skill_key"
+        const val SKILL_NAME_KEY = "skill_name_key"
         const val MODE_KEY = "mode_key"
         const val MY_LIST = 1
         const val SKILL_LIST = 2
@@ -71,6 +72,12 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            val skillName = arguments?.getString(SKILL_NAME_KEY)
+            supportActionBar?.title = if (skillName.isNullOrEmpty()) {
+                getString(R.string.time_slots)
+            } else {
+                skillName
+            }
             getDrawerLayout().setDrawerLockMode(
                 if (viewModel.listFragmentMode == MY_LIST) {
                     DrawerLayout.LOCK_MODE_UNLOCKED
@@ -117,7 +124,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         val searchET = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         searchET.setTextColor(ContextCompat.getColor(requireContext(), R.color.md_theme_onPrimary))
         searchView.maxWidth = Int.MAX_VALUE
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }

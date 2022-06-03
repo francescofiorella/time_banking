@@ -1,9 +1,9 @@
 package com.polito.timebanking.models
 
 data class User(
-    var uid: String = "",
-    var fullName: String = "",
-    var email: String = "",
+    var uid: String? = null,
+    var fullName: String? = null,
+    var email: String? = null,
     var nickname: String? = null,
     var location: String? = null,
     var description: String? = null,

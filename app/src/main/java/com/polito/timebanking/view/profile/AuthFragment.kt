@@ -173,6 +173,7 @@ class AuthFragment : Fragment() {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.setDisplayShowHomeEnabled(false)
+            supportActionBar?.title = getString(R.string.app_name)
             getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
         setHasOptionsMenu(false)

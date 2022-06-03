@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Time Banking</string>
+    <string name="time_slot">Time Slot</string>
+    <string name="edit_time_slot">Edit Time Slot</string>
+    <string name="time_slots">Time Slots</string>
+    <string name="chats">Chats</string>
+    <string name="profile">Profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="photo_iv_description">User Photo</string>
     <string name="edit_photo_ib_description">Edit Photo</string>

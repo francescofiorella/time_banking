@@ -91,6 +91,12 @@ class TimeSlotEditFragment : Fragment() {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title =
+                if (timeSlotModel.currentTimeSlot?.title != null && timeSlotModel.currentTimeSlot?.title != "") {
+                    getString(R.string.edit_time_slot)
+                } else {
+                    getString(R.string.time_slot)
+                }
             getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
         setHasOptionsMenu(true)

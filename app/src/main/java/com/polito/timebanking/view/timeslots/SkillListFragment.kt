@@ -18,6 +18,7 @@ import com.polito.timebanking.models.Skill
 import com.polito.timebanking.utils.SkillAdapter
 import com.polito.timebanking.utils.SkillListener
 import com.polito.timebanking.view.MainActivity
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_NAME_KEY
 import com.polito.timebanking.viewmodels.SkillViewModel
 
 class SkillListFragment : Fragment(), SkillListener {
@@ -49,6 +50,7 @@ class SkillListFragment : Fragment(), SkillListener {
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = getString(R.string.app_name)
             getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         }
         setHasOptionsMenu(true)
@@ -73,7 +75,11 @@ class SkillListFragment : Fragment(), SkillListener {
 
     override fun onClickListener(skill: Skill, position: Int) {
         // pass skill id
-        val bundle = bundleOf(MODE_KEY to SKILL_LIST, SKILL_KEY to skill.sid)
+        val bundle = bundleOf(
+            MODE_KEY to SKILL_LIST,
+            SKILL_KEY to skill.sid,
+            SKILL_NAME_KEY to skill.name
+        )
         findNavController().navigate(R.id.action_skillListFragment_to_timeSlotListFragment, bundle)
     }
 }
