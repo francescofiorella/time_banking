@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:contentDescription="@string/skill"
-                            android:src="@drawable/ic_skill_icon"
+                            android:src="@drawable/ic_outline_star"
                             app:layout_constraintBottom_toBottomOf="@+id/textView4"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textView4" />
