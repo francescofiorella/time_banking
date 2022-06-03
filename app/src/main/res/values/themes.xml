@@ -32,4 +32,14 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="Widget.TimeBanking.Button.TonalButton.IconOnly" parent="Widget.Material3.Button.TonalButton.Icon">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
 </resources>

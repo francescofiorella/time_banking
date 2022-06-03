@@ -11,13 +11,20 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/bg_chat_right.xml" value="0.147" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/bg_round.xml" value="0.147" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_account_circle.xml" value="0.1" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_add.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_alternate_email.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_camera_alt.xml" value="0.184" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_clear.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_description.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_email.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_location_on.xml" value="0.115" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_outline_person.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_search.xml" value="0.1635" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_skill_icon.xml" value="0.115" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/drawable/ic_sort.xml" value="0.1635" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/activity_show_profile.xml" value="0.11927083333333334" />
-        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/fragment_edit_profile.xml" value="0.1109375" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/fragment_edit_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout-land/fragment_show_profile.xml" value="0.1109375" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/activity_edit_profile.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
@@ -25,7 +32,7 @@
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_auth.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_chat.xml" value="0.17037037037037037" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_chat_list.xml" value="0.17552083333333332" />
-        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_edit_profile.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_edit_profile.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_show_profile.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_show_user.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/time_banking/app/src/main/res/layout/fragment_skill_list.xml" value="0.17552083333333332" />

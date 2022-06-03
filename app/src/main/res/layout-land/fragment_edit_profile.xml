@@ -25,18 +25,23 @@
             android:contentDescription="@string/photo_iv_description"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_user"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/edit_photo_ib"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/edit_photo_ib_description"
             android:src="@drawable/ic_camera_alt"
+            app:backgroundTint="@color/md_theme_secondaryContainer"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="@id/photo_iv"
-            app:layout_constraintTop_toTopOf="@id/photo_iv" />
+            app:layout_constraintTop_toTopOf="@id/photo_iv"
+            app:tint="@color/md_theme_onSecondaryContainer" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -56,19 +61,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp">
 
+                <ImageView
+                    android:id="@+id/full_name_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/full_name"
+                    android:src="@drawable/ic_outline_person"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/full_name_til" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/full_name_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:hint="@string/full_name_et_hint"
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:startIconDrawable="@drawable/ic_person">
+                    app:layout_constraintStart_toEndOf="@id/full_name_icon"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/full_name_et"
@@ -79,19 +93,28 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/email"
+                    android:src="@drawable/ic_outline_email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/email_til" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:hint="@string/email_et_hint"
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/full_name_til"
-                    app:startIconDrawable="@drawable/ic_email">
+                    app:layout_constraintStart_toEndOf="@id/email_icon"
+                    app:layout_constraintTop_toBottomOf="@id/full_name_til">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_et"
@@ -102,19 +125,28 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <ImageView
+                    android:id="@+id/nickname_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nickname_et_hint"
+                    android:src="@drawable/ic_alternate_email"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/nickname_til" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nickname_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:hint="@string/nickname_et_hint"
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/email_til"
-                    app:startIconDrawable="@drawable/ic_alternate_email">
+                    app:layout_constraintStart_toEndOf="@id/nickname_icon"
+                    app:layout_constraintTop_toBottomOf="@id/email_til">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nickname_et"
@@ -125,19 +157,28 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <ImageView
+                    android:id="@+id/location_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/location"
+                    android:src="@drawable/ic_outline_location_on"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/location_til" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/location_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:hint="@string/location_et_hint"
                     app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nickname_til"
-                    app:startIconDrawable="@drawable/ic_location_on">
+                    app:layout_constraintStart_toEndOf="@id/location_icon"
+                    app:layout_constraintTop_toBottomOf="@id/nickname_til">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/location_et"
@@ -148,25 +189,38 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <ImageView
+                    android:id="@+id/skill_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/skill"
+                    android:src="@drawable/ic_outline_star"
+                    app:layout_constraintBottom_toBottomOf="@+id/skills_tv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/skills_tv" />
+
                 <TextView
                     android:id="@+id/skills_tv"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/skills_tv_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    app:layout_constraintStart_toEndOf="@id/skill_icon"
                     app:layout_constraintTop_toBottomOf="@id/location_til" />
 
                 <HorizontalScrollView
                     android:id="@+id/skills_hsv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginBottom="16dp"
                     android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/skills_tv">
+                    app:layout_constraintStart_toEndOf="@id/skill_icon"
+                    app:layout_constraintTop_toBottomOf="@id/skills_tv"
+                    tools:layout_height="40dp">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/skills_cg"
@@ -176,21 +230,30 @@
 
                 </HorizontalScrollView>
 
+                <ImageView
+                    android:id="@+id/description_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/description"
+                    android:src="@drawable/ic_outline_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/description_til" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/description_til"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:hint="@string/description_et_hint"
                     app:endIconMode="clear_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/description_icon"
                     app:layout_constraintTop_toBottomOf="@id/skills_hsv"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:startIconDrawable="@drawable/ic_description">
+                    app:layout_constraintVertical_bias="0.0">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_et"
