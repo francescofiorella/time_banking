@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.models.Chat
 import com.polito.timebanking.models.ChatMessage
@@ -75,7 +76,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
         db.collection("chat")
             .whereArrayContains("uids", uid)
-            .orderBy("timestamp")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { v, e ->
                 if (e == null) {
                     _chatList.value = v?.mapNotNull { it.toObject(Chat::class.java) }
