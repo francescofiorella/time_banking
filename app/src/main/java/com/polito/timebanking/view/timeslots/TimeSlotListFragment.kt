@@ -74,7 +74,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             supportActionBar?.setDisplayShowHomeEnabled(true)
             val skillName = arguments?.getString(SKILL_NAME_KEY)
             supportActionBar?.title = if (skillName.isNullOrEmpty()) {
-                getString(R.string.time_slots)
+                "My Time Slots"
             } else {
                 skillName
             }
@@ -205,5 +205,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         viewModel.editFragmentMode = EDIT_MODE
         viewModel.setTimeSlot(timeSlot)
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
+    }
+
+    override fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int){
+        viewModel.editFragmentMode = NONE
+        viewModel.setTimeSlot(timeSlot)
+        findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment)
     }
 }

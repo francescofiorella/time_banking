@@ -8,11 +8,25 @@
 
         <import type="androidx.lifecycle.LiveData" />
 
+
         <import type="com.polito.timebanking.models.User" />
 
         <variable
             name="user"
             type="LiveData&lt;User&gt;" />
+
+        <import type="com.polito.timebanking.models.Feedback" />
+
+        <variable
+            name="feedback"
+            type="LiveData&lt;Feedback&gt;" />
+
+        <import type="com.polito.timebanking.models.TimeSlot" />
+
+        <variable
+            name="timeslot"
+            type="TimeSlot" />
+
 
     </data>
 
@@ -37,10 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0">
 
-                <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/timeslot"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/timeslot_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/tv_email"
@@ -60,31 +72,30 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:text="Title" />
+                            tools:text="@{timeslot.title}" />
 
                         <ImageView
                             android:id="@+id/person_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
+                            android:layout_marginStart="4dp"
                             android:contentDescription="@string/full_name"
                             android:src="@drawable/ic_outline_person"
                             app:layout_constraintBottom_toBottomOf="@+id/person_tv"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/person_tv" />
+                            app:layout_constraintTop_toTopOf="@+id/person_tv"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
                             android:id="@+id/person_tv"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:layout_marginEnd="8dp"
-                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
                             app:layout_constraintStart_toEndOf="@id/person_icon"
                             app:layout_constraintTop_toBottomOf="@+id/title_tv"
-                            tools:text="Full Name" />
+                            tools:text="@{user.fullName}" />
 
                         <ImageView
                             android:id="@+id/location_icon"
@@ -102,10 +113,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
-                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
                             app:layout_constraintStart_toEndOf="@id/location_icon"
                             app:layout_constraintTop_toBottomOf="@+id/person_tv"
-                            tools:text="Location" />
+                            tools:text="@{timeslot.location}" />
 
                         <ImageView
                             android:id="@+id/date_icon"
@@ -123,10 +133,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
-                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
                             app:layout_constraintStart_toEndOf="@id/location_icon"
                             app:layout_constraintTop_toBottomOf="@+id/location_tv"
-                            tools:text="Date" />
+                            tools:text="@{timeslot.date}" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,7 +186,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/timeslot"
+                    app:layout_constraintTop_toBottomOf="@id/timeslot_layout"
                     app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -213,12 +222,13 @@
                             android:justificationMode="inter_word"
                             android:textColor="@color/md_theme_onBackground"
                             android:textSize="20sp"
+                            android:text="Comment"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/ratingbar"
-                            tools:text="Comment:" />
+                             />
 
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -228,7 +238,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
-                            android:hint="Leave a comment about the user (optional)"
+                            android:hint="Review the user (optional)"
                             app:endIconMode="clear_text"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

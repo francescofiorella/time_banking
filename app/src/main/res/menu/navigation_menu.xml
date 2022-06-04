@@ -18,9 +18,16 @@
             android:title="@string/navigation_menu_time_slot_list_fragment" />
 
         <item
+            android:id="@+id/timeSlotRequiredListFragment"
+            android:checkable="true"
+            android:title = "Required Time Slots"/>
+
+        <item
             android:id="@+id/chatListFragment"
             android:checkable="true"
             android:title="@string/my_chats" />
+
+
 
     </group>
 

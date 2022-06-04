@@ -15,8 +15,11 @@ data class TimeSlot(
     var duration: String = "",
     var location: String = "",
     var uid: String = "",
-    var sid: String = ""
+    var sid: String = "",
+    var state: String = "",
+    var cid: String = ""
 ) {
+
     fun getDate(): String = dateToString(day, month, year).takeIf { it != "00/00/0" } ?: ""
     fun getTime(): String = timeToString(hour, minute).takeIf { it != "99:99" } ?: ""
 

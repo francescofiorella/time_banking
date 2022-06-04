@@ -3,6 +3,7 @@ package com.polito.timebanking.utils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
@@ -34,16 +35,19 @@ class TimeSlotAdapter(
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
         private val dateTV: TextView = v.findViewById(R.id.date_tv)
         private val editFAB: FloatingActionButton = v.findViewById(R.id.edit_btn)
+        private val feedbackBTN : Button = v.findViewById(R.id.feedback_btn)
 
-        fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, editAction: (v: View) -> Unit) {
+        fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, editAction: (v: View) -> Unit, FeedbackAction : (v:View)->Unit) {
             titleTV.text = timeSlot.title
             loadUserInfo(timeSlot.uid, fullNameTV)
             locationTV.text = timeSlot.location
             dateTV.text = timeSlot.getDate()
             cardLayout.setOnClickListener(cardAction)
             editFAB.setOnClickListener(editAction)
+            feedbackBTN.setOnClickListener(FeedbackAction)
 
             editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
+            feedbackBTN.isVisible = timeSlot.state == "completed"
         }
 
         private fun loadUserInfo(uid: String, textView: TextView) {
@@ -55,7 +59,11 @@ class TimeSlotAdapter(
                     }
                 }
         }
+
+
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeSlotViewHolder {
         val vg = LayoutInflater
@@ -69,7 +77,9 @@ class TimeSlotAdapter(
         holder.bind(
             timeSlot,
             { listener.onCardClickListener(timeSlot, position) },
-            { listener.onEditClickListener(timeSlot, position) }
+            { listener.onEditClickListener(timeSlot, position) },
+            { listener.onFeedbackClickListener(timeSlot, position)}
+
         )
     }
 

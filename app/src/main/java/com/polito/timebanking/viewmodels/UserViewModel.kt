@@ -10,6 +10,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.polito.timebanking.models.*
@@ -142,6 +143,19 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUser(uid: String) {
         getCurrentUser(uid, false)
+    }
+
+    fun loadUserName(uid: String) : String? {
+        var name : String? = ""
+        db.collection("users")
+            .document(uid)
+            .get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                println(user)
+                name = user!!.fullName
+            }
+        return name
     }
 
     fun getCurrentUser(uid: String? = auth.currentUser?.uid, isCurrent: Boolean = true) {
