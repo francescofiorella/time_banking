@@ -37,6 +37,102 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0">
 
+                <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/timeslot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email"
+                    android:layout_marginVertical="16dp"
+                    app:cardCornerRadius="20dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/title_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Title" />
+
+                        <ImageView
+                            android:id="@+id/person_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/full_name"
+                            android:src="@drawable/ic_outline_person"
+                            app:layout_constraintBottom_toBottomOf="@+id/person_tv"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/person_tv" />
+
+                        <TextView
+                            android:id="@+id/person_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+                            app:layout_constraintStart_toEndOf="@id/person_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/title_tv"
+                            tools:text="Full Name" />
+
+                        <ImageView
+                            android:id="@+id/location_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/location"
+                            android:src="@drawable/ic_outline_location_on"
+                            app:layout_constraintBottom_toBottomOf="@+id/location_tv"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/location_tv" />
+
+                        <TextView
+                            android:id="@+id/location_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+                            app:layout_constraintStart_toEndOf="@id/location_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/person_tv"
+                            tools:text="Location" />
+
+                        <ImageView
+                            android:id="@+id/date_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:contentDescription="@string/location"
+                            android:src="@drawable/ic_outline_today"
+                            app:layout_constraintBottom_toBottomOf="@+id/date_tv"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/date_tv" />
+
+                        <TextView
+                            android:id="@+id/date_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+                            app:layout_constraintStart_toEndOf="@id/location_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/location_tv"
+                            tools:text="Date" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
                 <ImageView
                     android:id="@+id/iv_photo"
                     android:layout_width="150dp"
@@ -81,7 +177,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_email"
+                    app:layout_constraintTop_toBottomOf="@id/timeslot"
                     app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -132,18 +228,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
-                            android:hint="Review the received service"
+                            android:hint="Leave a comment about the user (optional)"
                             app:endIconMode="clear_text"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_comment">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/comment_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName|textCapWords"
-                            android:text="" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/comment_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName|textCapWords"
+                                android:text="" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
