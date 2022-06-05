@@ -15,6 +15,11 @@
             name="user"
             type="LiveData&lt;User&gt;" />
 
+        <variable
+            name="userTimeslot"
+            type="LiveData&lt;User>" />
+
+
         <import type="com.polito.timebanking.models.Feedback" />
 
         <variable
@@ -94,7 +99,7 @@
                             android:layout_marginTop="4dp"
                             app:layout_constraintStart_toEndOf="@id/person_icon"
                             app:layout_constraintTop_toBottomOf="@+id/title_tv"
-                            tools:text="@{user.fullName}" />
+                            tools:text="@{userTimeslot.fullName}" />
 
                         <ImageView
                             android:id="@+id/location_icon"
