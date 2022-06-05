@@ -63,18 +63,8 @@
     <string name="decline">Decline</string>
     <string name="accept_request">Do you want to accept this time slot request?</string>
     <string name="no_messages">Type a message to open a request for this time slot!</string>
-
-<!--    <string name="half_hour">Half hour</string>-->
-<!--    <string name="one_hour">One hour</string>-->
-<!--    <string name="two_hour">Two hours</string>-->
-<!--    <string name="three_hour">Three hours</string>-->
-<!--    <string name="more_three_hour">More then three hours</string>-->
-
-<!--    <string-array name="durations">-->
-<!--        <item>@string/half_hour</item>-->
-<!--        <item>@string/one_hour</item>-->
-<!--        <item>@string/two_hour</item>-->
-<!--        <item>@string/three_hour</item>-->
-<!--        <item>@string/more_three_hour</item>-->
-<!--    </string-array>-->
+    <string name="eq_one_hour">1 hour</string>
+    <string name="le_three_hours">&#8804;3 hours</string>
+    <string name="le_five_hours">&#8804;5 hours</string>
+    <string name="gt_five_hours">&#62;5 hours</string>
 </resources>

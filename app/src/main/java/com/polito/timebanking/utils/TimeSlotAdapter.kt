@@ -140,14 +140,14 @@ class TimeSlotAdapter(
         updateData(list)
     }
 
-//    fun filterDuration(duration: String) {
-//        val list = dataFiltered.filter {
-//            it.duration == duration
-//        }
-//        updateData(list)
-//    }
-//
-//    fun clearFilter() {
-//        updateData(dataFiltered)
-//    }
+    fun filterTimeCredit(filter: (Int) -> Boolean) {
+        val list = dataFiltered.filter {
+            filter(it.timeCredit)
+        }
+        updateData(list)
+    }
+
+    fun clearFilter() {
+        updateData(dataFiltered)
+    }
 }
