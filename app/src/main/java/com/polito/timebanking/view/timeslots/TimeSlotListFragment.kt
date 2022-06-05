@@ -161,35 +161,35 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 true
             }
 
-            R.id.half_hour -> {
-                adapter?.filterDuration(getString(R.string.half_hour))
-                true
-            }
-
-            R.id.one_hour -> {
-                adapter?.filterDuration(getString(R.string.one_hour))
-                true
-            }
-
-            R.id.two_hour -> {
-                adapter?.filterDuration(getString(R.string.two_hour))
-                true
-            }
-
-            R.id.three_hour -> {
-                adapter?.filterDuration(getString(R.string.three_hour))
-                true
-            }
-
-            R.id.more_three_hour -> {
-                adapter?.filterDuration(getString(R.string.more_three_hour))
-                true
-            }
-
-            R.id.no_filter -> {
-                adapter?.clearFilter()
-                true
-            }
+//            R.id.half_hour -> {
+//                adapter?.filterDuration(getString(R.string.half_hour))
+//                true
+//            }
+//
+//            R.id.one_hour -> {
+//                adapter?.filterDuration(getString(R.string.one_hour))
+//                true
+//            }
+//
+//            R.id.two_hour -> {
+//                adapter?.filterDuration(getString(R.string.two_hour))
+//                true
+//            }
+//
+//            R.id.three_hour -> {
+//                adapter?.filterDuration(getString(R.string.three_hour))
+//                true
+//            }
+//
+//            R.id.more_three_hour -> {
+//                adapter?.filterDuration(getString(R.string.more_three_hour))
+//                true
+//            }
+//
+//            R.id.no_filter -> {
+//                adapter?.clearFilter()
+//                true
+//            }
 
             else -> super.onOptionsItemSelected(item)
         }

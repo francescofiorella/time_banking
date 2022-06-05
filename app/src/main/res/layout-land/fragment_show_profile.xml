@@ -58,8 +58,8 @@
                     android:textColor="@color/md_theme_onBackground"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_email"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_email"
-                    app:layout_constraintStart_toStartOf="@+id/tv_email"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:text="Full Name" />
 
                 <TextView
@@ -67,14 +67,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="16dp"
                     android:text="@{user.email}"
                     android:textColor="@color/md_theme_onSurfaceVariant"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/iv_photo"
-                    app:layout_constraintStart_toStartOf="@+id/iv_photo"
+                    app:layout_constraintBottom_toTopOf="@id/tv_time_credit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:text="email@email.com" />
+
+                <TextView
+                    android:id="@+id/tv_time_credit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/time_credit_tv_text"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_time_credit_value"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_time_credit_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text=""
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_time_credit_text"
+                    tools:text="2 hours" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

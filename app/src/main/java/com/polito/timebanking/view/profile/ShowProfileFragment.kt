@@ -57,6 +57,11 @@ class ShowProfileFragment : Fragment() {
         }
         binding.user = showedUser
         showedUser.observe(viewLifecycleOwner) { user ->
+            user?.timeCredit?.let { timeCredit ->
+                val timeCreditValue = "$timeCredit ${if (timeCredit == 1) "hour" else "hours"}"
+                binding.tvTimeCreditValue.text = timeCreditValue
+            }
+
             binding.skillsCg.removeAllViews()
             user?.skills?.forEach { skill ->
                 val chip = layoutInflater.inflate(
