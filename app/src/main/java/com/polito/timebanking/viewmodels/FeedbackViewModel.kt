@@ -56,4 +56,8 @@ class FeedbackViewModel(application: Application) : AndroidViewModel(application
                 .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
         }
     }
+
+    fun setFeedback(feedback: Feedback) {
+        currentFeedback = feedback
+    }
 }

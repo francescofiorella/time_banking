@@ -31,6 +31,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _currentUser = MutableLiveData<User?>()
     val currentUser: LiveData<User?> = _currentUser
 
+    private val _feedbackList = MutableLiveData<List<Feedback?>>()
+    val feedbackList: LiveData<List<Feedback?>> = _feedbackList
+
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
@@ -145,18 +148,48 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         getCurrentUser(uid, false)
     }
 
-    fun loadUserName(uid: String) : String? {
-        var name : String? = ""
-        db.collection("users")
-            .document(uid)
-            .get()
-            .addOnSuccessListener {
-                val user = it.toObject(User::class.java)
-                println(user)
-                name = user!!.fullName
+
+     fun getRatings (uid: String, type : String){
+
+        var sum = 0.0
+        var count = 0
+        var result = 0.0
+        println("type: "+type+"uid: "+uid)
+        db.collection("feedback")
+            .whereEqualTo(type,uid)
+            .addSnapshotListener { v, e ->
+                if (e == null) {
+                      _feedbackList.value = v!!.mapNotNull {  f ->
+                        f.toObject(Feedback::class.java).apply {
+                            println("sono il rate: "+this.rate)
+                            sum += this.rate!!
+                            count++
+                        }
+                    }
+
+                   if (count == 0){
+                       count = 1
+                   }
+
+                    if(type=="writeruid"){
+                        db.collection("users")
+                            .document(uid)
+                            .update(mapOf("givenRatings" to (sum/count)))
+                    }else{
+                        db.collection("users")
+                            .document(uid)
+                            .update(mapOf("userRating" to (sum/count)))
+                    }
+
+
+                } else {
+                    _feedbackList.value = emptyList()
+                }
+
+
             }
-        return name
     }
+
 
     fun getCurrentUser(uid: String? = auth.currentUser?.uid, isCurrent: Boolean = true) {
         if (uid.isNullOrEmpty()) {

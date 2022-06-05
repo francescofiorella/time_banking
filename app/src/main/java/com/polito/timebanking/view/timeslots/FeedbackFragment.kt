@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -32,6 +33,8 @@ class FeedbackFragment: Fragment() {
     private val userModel by activityViewModels<UserViewModel>()
     private val feedbackModel by activityViewModels<FeedbackViewModel>()
 
+    val feedback = Feedback();
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,23 +42,33 @@ class FeedbackFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        //binding.sendFeedbackBtn.setOnClickListener(feedbackListener)
 
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_feedback, container, false)
 
+        binding.sendFeedbackBtn.setOnClickListener(feedbackListener)
+        feedbackModel.setFeedback(feedback)
+
+        //setting feedback time slot id
+        feedbackModel.currentFeedback!!.tsid = timeSlotModel.currentTimeSlot!!.id
+
         //send timeslot and user full info
         binding.timeslot = timeSlotModel.currentTimeSlot
 
-
         userModel.isLoading.value = true
-        // if coming from My TimeSlot option, set uid as cid
-        // if coming from Required, then remains uid
-        userModel.getUser(timeSlotModel.currentTimeSlot!!.uid)
 
-        // saving feedback uid and cid
-        //feedbackModel.currentFeedback!!.writeruid = timeSlotModel.currentTimeSlot!!.uid
-        //feedbackModel.currentFeedback!!.destuid = timeSlotModel.currentTimeSlot!!.uid
+        val dest = arguments?.getString(TimeSlotListFragment.SOURCE)
+        if(dest=="MINE"){
+            // if coming from My TimeSlot option, set uid as cid
+            userModel.getUser(timeSlotModel.currentTimeSlot!!.cid)
+            feedbackModel.currentFeedback!!.destuid = timeSlotModel.currentTimeSlot!!.cid
+        }else{
+            // if coming from Required, then remains uid
+            userModel.getUser(timeSlotModel.currentTimeSlot!!.uid)
+            feedbackModel.currentFeedback!!.destuid = timeSlotModel.currentTimeSlot!!.uid
+
+        }
+
 
 
         binding.lifecycleOwner = this.viewLifecycleOwner
@@ -113,12 +126,13 @@ class FeedbackFragment: Fragment() {
 
     private fun saveFeedbackDataIn(feedback: Feedback?) {
         feedback!!.comment = binding.commentEt.text.toString()
-        feedback!!.rate = binding.ratingbar.numStars
+        feedback!!.rate = binding.ratingbar.rating
     }
 
     private val feedbackListener = View.OnClickListener {
         saveFeedbackDataIn(feedbackModel.currentFeedback)
         feedbackModel.addFeedback(feedbackModel.currentFeedback!!)
+        findNavController().navigate(R.id.timeSlotListFragment)
     }
 
 

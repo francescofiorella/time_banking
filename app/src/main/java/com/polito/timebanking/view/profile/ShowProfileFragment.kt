@@ -85,12 +85,33 @@ class ShowProfileFragment : Fragment() {
             userModel.isLoading.value = false
         }
 
+        if (userModel.profileMode == JUST_SHOW) {
+            // Others profile (user)
+            userModel.getRatings(uid!!,"writeruid")
+            userModel.getRatings(uid!!,"destuid")
+
+            binding.userRatingbar.rating = userModel.user.value!!.userRating!!
+            binding.givenRatingbar.rating = userModel.user.value!!.givenRatings!!
+
+        } else {
+            // My profile (currentUser)
+            userModel.getRatings(userModel.currentUser.value!!.uid!!,"writeruid")
+            userModel.getRatings(userModel.currentUser.value!!.uid!!,"destuid")
+
+            binding.userRatingbar.rating = userModel.currentUser.value!!.userRating!!
+            binding.givenRatingbar.rating = userModel.currentUser.value!!.givenRatings!!
+        }
+
+
+
+
+
         userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.profileLayout.isVisible = !isLoading
             binding.loadingCpi.isVisible = isLoading
         }
 
-        (activity as MainActivity).apply {
+        (activity as MainActivity).apply(fun MainActivity.() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             supportActionBar?.title = getString(R.string.profile)
@@ -99,7 +120,7 @@ class ShowProfileFragment : Fragment() {
             } else {
                 getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
-        }
+        })
         setHasOptionsMenu(true)
 
         return binding.root

@@ -8,5 +8,7 @@ data class User(
     var location: String? = null,
     var description: String? = null,
     var photoUrl: String? = null,
-    var skills: List<Skill>? = emptyList()
+    var skills: List<Skill>? = emptyList(),
+    var userRating : Float? = null,
+    var givenRatings : Float? = null
 )

@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -32,6 +33,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         const val MODE_KEY = "mode_key"
         const val MY_LIST = 1
         const val SKILL_LIST = 2
+        const val SOURCE = "MINE"
     }
 
     override fun onCreateView(
@@ -210,6 +212,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
     override fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int){
         viewModel.editFragmentMode = NONE
         viewModel.setTimeSlot(timeSlot)
-        findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment)
+        val bundle = bundleOf( SOURCE to "MINE")
+        findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
     }
 }
