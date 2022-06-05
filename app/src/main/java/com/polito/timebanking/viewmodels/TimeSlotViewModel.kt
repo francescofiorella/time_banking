@@ -36,6 +36,22 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = Firebase.auth
 
+    fun loadRequiredList(){
+        isLoading.value = true
+        val query = db.collection("timeslot")
+            .whereEqualTo("cid", auth.currentUser?.uid ?: "")
+        query.addSnapshotListener { v, e ->
+            if (e == null) {
+                _timeSlotList.value = v!!.mapNotNull { t ->
+                    t.toObject(TimeSlot::class.java).apply { id = t.id }
+                }
+            } else {
+                _timeSlotList.value = emptyList()
+            }
+            isLoading.value = false
+        }
+    }
+
     fun loadList() {
         isLoading.value = true
         val query = if (listFragmentMode == SKILL_LIST) {

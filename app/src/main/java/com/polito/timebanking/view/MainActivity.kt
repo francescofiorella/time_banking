@@ -7,11 +7,13 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
@@ -21,12 +23,14 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.polito.timebanking.R
 import com.polito.timebanking.utils.snackBar
+import com.polito.timebanking.view.timeslots.TimeSlotListFragment
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     private val userModel by viewModels<UserViewModel>()
 
     private var navController: NavController? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +96,14 @@ class MainActivity : AppCompatActivity() {
                     graph = navInflater.inflate(R.navigation.navigation_graph)
                 }
             } else {
-                    NavigationUI.onNavDestinationSelected(item, navController!!)
+                if(item.itemId == R.id.timeSlotRequiredListFragment){
+                    val bundle = bundleOf(TimeSlotListFragment.FROM to "REQUIRED")
+                    navController?.navigate(R.id.timeSlotListFragment,bundle)
+                }else{
+                    val bundle = bundleOf(TimeSlotListFragment.FROM to null)
+                    navController?.navigate(item.itemId,bundle)
+                    //NavigationUI.onNavDestinationSelected(item, navController!!)
+                }
             }
             val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
             drawerLayout.closeDrawer(GravityCompat.START)

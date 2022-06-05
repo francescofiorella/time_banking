@@ -33,7 +33,8 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         const val MODE_KEY = "mode_key"
         const val MY_LIST = 1
         const val SKILL_LIST = 2
-        const val SOURCE = "MINE"
+        const val SOURCE = ""
+        const val FROM = ""
     }
 
     override fun onCreateView(
@@ -75,11 +76,19 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             val skillName = arguments?.getString(SKILL_NAME_KEY)
-            supportActionBar?.title = if (skillName.isNullOrEmpty()) {
-                "My Time Slots"
-            } else {
-                skillName
+            val from = arguments?.getString(FROM)
+            if (from.isNullOrEmpty()){
+                supportActionBar?.title = if (skillName.isNullOrEmpty()) {
+                    "My Time Slots"
+                } else {
+                    skillName
+                }
+            }else{
+                // If Required Time Slot list
+                supportActionBar?.title = "Required Time Slots"
+                binding.addFab.isVisible = false
             }
+
             getDrawerLayout().setDrawerLockMode(
                 if (viewModel.listFragmentMode == MY_LIST) {
                     DrawerLayout.LOCK_MODE_UNLOCKED
@@ -107,7 +116,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         super.onResume()
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(
-            if (viewModel.listFragmentMode == MY_LIST) {
+            if (viewModel.listFragmentMode == MY_LIST||!arguments?.getString(FROM).isNullOrEmpty()) {
                 R.drawable.ic_menu
             } else {
                 R.drawable.ic_arrow_back
@@ -115,7 +124,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         )
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeSlot = null
-        viewModel.loadList()
+        if(arguments?.getString(FROM).isNullOrEmpty()){
+            viewModel.loadList()
+        }else{
+            viewModel.loadRequiredList()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -145,7 +158,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         return when (item.itemId) {
             android.R.id.home -> {
-                if (viewModel.listFragmentMode == MY_LIST) {
+                if (viewModel.listFragmentMode == MY_LIST || !arguments?.getString(FROM).isNullOrEmpty()) {
                     (activity as MainActivity).getDrawerLayout().open()
                 } else {
                     activity?.onBackPressed()
@@ -212,7 +225,13 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
     override fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int){
         viewModel.editFragmentMode = NONE
         viewModel.setTimeSlot(timeSlot)
-        val bundle = bundleOf( SOURCE to "MINE")
-        findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
+        if(arguments?.getString(FROM)=="REQUIRED"){
+            val bundle = bundleOf( SOURCE to "REQUIRED")
+            findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
+        }else{
+            val bundle = bundleOf( SOURCE to "MINE")
+            findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
+        }
+
     }
 }
