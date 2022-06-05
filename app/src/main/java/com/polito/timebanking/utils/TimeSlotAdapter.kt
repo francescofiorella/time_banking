@@ -115,6 +115,13 @@ class TimeSlotAdapter(
         }
     }
 
+    fun sortByTimeCredit() {
+        val list = dataFiltered.sortedBy {
+            it.timeCredit
+        }
+        updateData(list)
+    }
+
     fun sortByTitle() {
         val list = dataFiltered.sortedBy {
             it.title

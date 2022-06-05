@@ -68,6 +68,12 @@
         <menu>
 
             <item
+                android:id="@+id/time_credit_sort"
+                android:icon="@drawable/ic_av_timer"
+                android:title="@string/time_credit"
+                app:iconTint="@color/md_theme_onBackground" />
+
+            <item
                 android:id="@+id/title_sort"
                 android:icon="@drawable/ic_title"
                 android:title="@string/title"

@@ -151,6 +151,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 true
             }
 
+            R.id.time_credit_sort -> {
+                adapter?.sortByTimeCredit()
+                true
+            }
+
             R.id.title_sort -> {
                 adapter?.sortByTitle()
                 true
