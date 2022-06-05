@@ -33,6 +33,7 @@ class TimeSlotAdapter(
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
         private val dateTV: TextView = v.findViewById(R.id.date_tv)
+        private val timeCreditTV: TextView = v.findViewById(R.id.time_credit_tv)
         private val editFAB: FloatingActionButton = v.findViewById(R.id.edit_btn)
 
         fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, editAction: (v: View) -> Unit) {
@@ -40,6 +41,9 @@ class TimeSlotAdapter(
             loadUserInfo(timeSlot.uid, fullNameTV)
             locationTV.text = timeSlot.location
             dateTV.text = timeSlot.getDate()
+            val timeCredit =
+                "${timeSlot.timeCredit} ${if (timeSlot.timeCredit == 1) "hour" else "hours"}"
+            timeCreditTV.text = timeCredit
             cardLayout.setOnClickListener(cardAction)
             editFAB.setOnClickListener(editAction)
 
