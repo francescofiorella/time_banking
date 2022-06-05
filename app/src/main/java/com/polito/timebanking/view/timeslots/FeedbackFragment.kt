@@ -58,13 +58,16 @@ class FeedbackFragment: Fragment() {
         userModel.isLoading.value = true
 
         val dest = arguments?.getString(TimeSlotListFragment.SOURCE)
+
         if(dest=="MINE"){
             // if coming from My TimeSlot option, set uid as cid
             userModel.getUser(timeSlotModel.currentTimeSlot!!.cid)
+            binding.userTimeslot = userModel.currentUser
             feedbackModel.currentFeedback!!.destuid = timeSlotModel.currentTimeSlot!!.cid
         }else{
             // if coming from Required, then remains uid
             userModel.getUser(timeSlotModel.currentTimeSlot!!.uid)
+            binding.userTimeslot = userModel.user
             feedbackModel.currentFeedback!!.destuid = timeSlotModel.currentTimeSlot!!.uid
 
         }

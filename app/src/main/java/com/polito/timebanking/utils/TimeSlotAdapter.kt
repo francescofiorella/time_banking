@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.R
+import com.polito.timebanking.models.Feedback
 import com.polito.timebanking.models.TimeSlot
 import java.util.*
 
@@ -47,7 +48,13 @@ class TimeSlotAdapter(
             feedbackBTN.setOnClickListener(FeedbackAction)
 
             editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
-            feedbackBTN.isVisible = timeSlot.state == "completed"
+
+            if(timeSlot.state == "completed"){
+                isReviewed(Firebase.auth.currentUser?.uid,timeSlot.id,feedbackBTN)
+            }else{
+                feedbackBTN.isVisible=false
+            }
+
         }
 
         private fun loadUserInfo(uid: String, textView: TextView) {
@@ -60,6 +67,23 @@ class TimeSlotAdapter(
                 }
         }
 
+        private fun isReviewed(uid: String?, tsid: String, feedbackbtn: Button){
+            db.collection("feedback")
+                .whereEqualTo("tsid",tsid)
+                .whereEqualTo("writeruid",uid)
+                .get()
+                .addOnSuccessListener {
+                    val feedback = it.toObjects(Feedback::class.java)
+                    if(feedback.size!=0){
+                        println("Ho letto: "+feedback)
+                        feedbackbtn.setAlpha(.5f);
+                        feedbackbtn.isClickable = false
+                        feedbackbtn.setText("Feedback sent")
+                    }else{
+                        feedbackbtn.isVisible
+                    }
+                }
+        }
 
     }
 
