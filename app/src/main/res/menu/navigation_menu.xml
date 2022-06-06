@@ -13,14 +13,14 @@
             android:title="@string/navigation_menu_show_skill_fragment" />
 
         <item
-            android:id="@+id/timeSlotListFragment"
+            android:id="@+id/mytimeSlotListFragment"
             android:checkable="true"
             android:title="@string/navigation_menu_time_slot_list_fragment" />
 
         <item
             android:id="@+id/timeSlotRequiredListFragment"
             android:checkable="true"
-            android:title = "Required Time Slots"/>
+            android:title = "@string/requested_ts"/>
 
         <item
             android:id="@+id/chatListFragment"
