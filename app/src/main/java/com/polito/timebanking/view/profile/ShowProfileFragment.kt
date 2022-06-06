@@ -39,7 +39,6 @@ class ShowProfileFragment : Fragment() {
         userModel.isLoading.value = true
 
         val uid = arguments?.getString(USER_ID_KEY)
-        arguments?.clear()
         if (uid != null) {
             userModel.profileMode = JUST_SHOW
             userModel.getUser(uid)

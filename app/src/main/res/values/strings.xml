@@ -52,6 +52,7 @@
     <string name="sign_in">SIGN IN</string>
     <string name="time_slot_main_info">Time slot main info</string>
     <string name="time_slot_starts_time">Time slot start time</string>
+    <string name="timeslot_owner">Time slot owner</string>
     <string name="time_slot_credit">Time slot credit</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
