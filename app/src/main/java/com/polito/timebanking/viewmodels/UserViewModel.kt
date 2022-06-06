@@ -37,11 +37,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
-    fun isUserLogged(): LiveData<Boolean> {
-        val response = MutableLiveData<Boolean>()
+    private val _isUserLogged = MutableLiveData<Boolean>()
+    val isUserLogged: LiveData<Boolean> = _isUserLogged
 
-        response.value = auth.currentUser != null
-        return response
+    init {
+        checkUserLogged()
+    }
+
+    private fun checkUserLogged() {
+        _isUserLogged.value = auth.currentUser != null
     }
 
     fun signUpWithEmailAndPassword(email: String, password: String, user: User) {
@@ -57,6 +61,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         timeCredit = INITIAL_TIME_CREDIT
                     }
                     setCurrentUser(user, true)
+                    checkUserLogged()
                 }
             } else {
                 Log.e(
@@ -78,6 +83,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 auth.currentUser?.also { currentUser ->
                     getCurrentUser(currentUser.uid)
                 }
+                checkUserLogged()
             } else {
                 Log.e(
                     "Firebase/Authentication",
@@ -110,6 +116,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             timeCredit = INITIAL_TIME_CREDIT
                         )
                         setCurrentUser(user, true)
+                        checkUserLogged()
                     }
                 }
             } else {
@@ -134,6 +141,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 if (isSignIn) {
                     _currentUser.value = user
                 }
+                checkUserLogged()
             }
             .addOnFailureListener {
                 Log.e(
@@ -151,36 +159,36 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-     fun getRatings (uid: String, type : String){
+    fun getRatings(uid: String, type: String) {
 
         var sum = 0.0
         var count = 0
         var result = 0.0
-        println("type: "+type+"uid: "+uid)
+        println("type: " + type + "uid: " + uid)
         db.collection("feedback")
-            .whereEqualTo(type,uid)
+            .whereEqualTo(type, uid)
             .addSnapshotListener { v, e ->
                 if (e == null) {
-                      _feedbackList.value = v!!.mapNotNull {  f ->
+                    _feedbackList.value = v!!.mapNotNull { f ->
                         f.toObject(Feedback::class.java).apply {
-                            println("sono il rate: "+this.rate)
+                            println("sono il rate: " + this.rate)
                             sum += this.rate!!
                             count++
                         }
                     }
 
-                   if (count == 0){
-                       count = 1
-                   }
+                    if (count == 0) {
+                        count = 1
+                    }
 
-                    if(type=="writeruid"){
+                    if (type == "writeruid") {
                         db.collection("users")
                             .document(uid)
-                            .update(mapOf("givenRatings" to (sum/count)))
-                    }else{
+                            .update(mapOf("givenRatings" to (sum / count)))
+                    } else {
                         db.collection("users")
                             .document(uid)
-                            .update(mapOf("userRating" to (sum/count)))
+                            .update(mapOf("userRating" to (sum / count)))
                     }
 
 
@@ -270,6 +278,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         Log.d("UserViewModel", "signOut: success")
         _currentUser.value = null
         auth.signOut()
+        checkUserLogged()
     }
 
     fun setInitialUser() {

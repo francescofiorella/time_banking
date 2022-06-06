@@ -33,7 +33,7 @@ class EmailSignInFragment : Fragment() {
         signInBtn = view.findViewById(R.id.sign_in_btn)
         signUpBtn = view.findViewById(R.id.sign_up_btn)
 
-        userModel.isUserLogged().observe(viewLifecycleOwner) { isLogged ->
+        userModel.isUserLogged.observe(viewLifecycleOwner) { isLogged ->
             if (isLogged) {
                 findNavController().navigate(R.id.action_emailSignInFragment_to_skillListFragment)
             }
