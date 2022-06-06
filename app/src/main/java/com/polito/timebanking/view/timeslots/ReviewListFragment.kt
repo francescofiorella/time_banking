@@ -54,19 +54,23 @@ class ReviewListFragment : Fragment() {
         }
         binding.user = userModel.currentUser
         var user = userModel.currentUser
-        if (user?.value?.photoUrl.isNullOrEmpty()) {
-            binding.photoIv?.setImageDrawable(
-                ContextCompat.getDrawable(
-                    binding!!.photoIv!!.context,
-                    R.drawable.ic_user
+
+        if(binding.photoIv!=null){
+            if (user?.value?.photoUrl.isNullOrEmpty()) {
+                binding.photoIv?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        binding!!.photoIv!!.context,
+                        R.drawable.ic_user
+                    )
                 )
-            )
-        } else {
-            Glide.with(binding.photoIv!!)
-                .load(user?.value?.photoUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.photoIv!!)
+            } else {
+                Glide.with(binding.photoIv!!)
+                    .load(user?.value?.photoUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.photoIv!!)
+            }
         }
+
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
