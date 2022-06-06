@@ -109,4 +109,6 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     fun tsHasBeenModified(): Boolean {
         return (initialTimeSlot != currentTimeSlot)
     }
+
+    fun isTimeSlotAvailable(): Boolean = currentTimeSlot?.state == ""
 }
