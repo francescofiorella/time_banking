@@ -57,6 +57,7 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
         val query = if (listFragmentMode == SKILL_LIST) {
             db.collection("timeslot")
                 .whereEqualTo("sid", sid)
+                .whereEqualTo("state", "")
         } else {
             db.collection("timeslot")
                 .whereEqualTo("uid", auth.currentUser?.uid ?: "")
