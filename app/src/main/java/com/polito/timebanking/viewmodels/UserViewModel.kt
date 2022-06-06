@@ -192,7 +192,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-
     fun getCurrentUser(uid: String? = auth.currentUser?.uid, isCurrent: Boolean = true) {
         if (uid.isNullOrEmpty()) {
             _currentUser.value = null

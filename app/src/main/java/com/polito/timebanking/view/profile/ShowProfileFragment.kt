@@ -20,7 +20,6 @@ import com.polito.timebanking.viewmodels.UserViewModel
 
 class ShowProfileFragment : Fragment() {
     private val userModel by activityViewModels<UserViewModel>()
-
     private lateinit var binding: FragmentShowProfileBinding
 
     companion object {

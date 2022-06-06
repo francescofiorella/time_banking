@@ -17,10 +17,13 @@ import com.polito.timebanking.utils.ReviewAdapter
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.profile.ShowProfileFragment
 import com.polito.timebanking.viewmodels.FeedbackViewModel
+import com.polito.timebanking.viewmodels.UserViewModel
 
 class ReviewListFragment : Fragment() {
     private lateinit var binding: FragmentReviewListBinding
     private val viewModel by activityViewModels<FeedbackViewModel>()
+    private val userModel by activityViewModels<UserViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +32,6 @@ class ReviewListFragment : Fragment() {
     ): View {
         binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_review_list, container, false)
-
         viewModel.feedbackList.observe(viewLifecycleOwner) { list ->
             var listFiltered = emptyList<Feedback>()
             arguments?.getString(ShowProfileFragment.USER_ID_KEY)?.let { uid ->
