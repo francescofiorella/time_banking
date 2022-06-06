@@ -37,7 +37,6 @@
     <string name="navigation_menu_logout">Logout</string>
     <string name="no_time_slots">There are no Time Slots available!</string>
     <string name="no_skills">There are no skills available!</string>
-    <string name="no_feedbacks">There are no feedbacks available!</string>
     <string name="no_reviews">There are no reviews available!</string>
     <string name="email">E-Mail</string>
     <string name="password">Password</string>
@@ -66,6 +65,7 @@
     <string name="decline">Decline</string>
     <string name="accept_request">Do you want to accept this time slot request?</string>
     <string name="no_messages">Type a message to open a request for this time slot!</string>
+    <string name="leave_a_feedback">Leave a feedback</string>
     <string name="stars">Stars</string>
     <string name="one_star">&#9733;</string>
     <string name="two_stars">&#9733;&#9733;</string>
