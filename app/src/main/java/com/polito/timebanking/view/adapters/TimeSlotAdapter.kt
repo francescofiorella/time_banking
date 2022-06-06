@@ -1,4 +1,4 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -37,9 +37,14 @@ class TimeSlotAdapter(
         private val dateTV: TextView = v.findViewById(R.id.date_tv)
         private val timeCreditTV: TextView = v.findViewById(R.id.time_credit_tv)
         private val editFAB: FloatingActionButton = v.findViewById(R.id.edit_btn)
-        private val feedbackBTN : Button = v.findViewById(R.id.feedback_btn)
+        private val feedbackBTN: Button = v.findViewById(R.id.feedback_btn)
 
-        fun bind(timeSlot: TimeSlot, cardAction: (v: View) -> Unit, editAction: (v: View) -> Unit, FeedbackAction : (v:View)->Unit) {
+        fun bind(
+            timeSlot: TimeSlot,
+            cardAction: (v: View) -> Unit,
+            editAction: (v: View) -> Unit,
+            FeedbackAction: (v: View) -> Unit
+        ) {
             titleTV.text = timeSlot.title
             loadUserInfo(timeSlot.uid, fullNameTV)
             locationTV.text = timeSlot.location
@@ -53,10 +58,10 @@ class TimeSlotAdapter(
 
             editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
 
-            if(timeSlot.state == "completed"){
-                isReviewed(Firebase.auth.currentUser?.uid,timeSlot.id,feedbackBTN)
-            }else{
-                feedbackBTN.isVisible=false
+            if (timeSlot.state == "completed") {
+                isReviewed(Firebase.auth.currentUser?.uid, timeSlot.id, feedbackBTN)
+            } else {
+                feedbackBTN.isVisible = false
             }
 
         }
@@ -71,27 +76,24 @@ class TimeSlotAdapter(
                 }
         }
 
-        private fun isReviewed(uid: String?, tsid: String, feedbackbtn: Button){
+        private fun isReviewed(uid: String?, tsid: String, feedbackbtn: Button) {
             db.collection("feedback")
-                .whereEqualTo("tsid",tsid)
-                .whereEqualTo("writeruid",uid)
+                .whereEqualTo("tsid", tsid)
+                .whereEqualTo("writeruid", uid)
                 .get()
                 .addOnSuccessListener {
                     val feedback = it.toObjects(Feedback::class.java)
-                    if(feedback.size!=0){
-                        println("Ho letto: "+feedback)
-                        feedbackbtn.setAlpha(.5f);
+                    if (feedback.size != 0) {
+                        println("Ho letto: $feedback")
+                        feedbackbtn.alpha = .5f
                         feedbackbtn.isClickable = false
-                        feedbackbtn.setText("Feedback sent")
-                    }else{
+                        feedbackbtn.text = "Feedback sent"
+                    } else {
                         feedbackbtn.isVisible
                     }
                 }
         }
-
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeSlotViewHolder {
         val vg = LayoutInflater
@@ -106,7 +108,7 @@ class TimeSlotAdapter(
             timeSlot,
             { listener.onCardClickListener(timeSlot, position) },
             { listener.onEditClickListener(timeSlot, position) },
-            { listener.onFeedbackClickListener(timeSlot, position)}
+            { listener.onFeedbackClickListener(timeSlot, position) }
 
         )
     }

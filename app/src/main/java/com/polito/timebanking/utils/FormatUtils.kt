@@ -36,7 +36,7 @@ fun timestampToDateString(timestamp: Long): String {
     return dateFormat.format(date)
 }
 
-fun timestampToTimeString(timestamp: Long) :String {
+fun timestampToTimeString(timestamp: Long): String {
     val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     val date = Date(timestamp)
     return timeFormat.format(date)

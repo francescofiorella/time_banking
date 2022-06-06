@@ -92,24 +92,20 @@ class ShowProfileFragment : Fragment() {
 
         if (userModel.profileMode == JUST_SHOW) {
             // Others profile (user)
-            userModel.getRatings(uid!!,"writeruid")
-            userModel.getRatings(uid,"destuid")
+            userModel.getRatings(uid!!, "writeruid")
+            userModel.getRatings(uid, "destuid")
 
-            binding.userRatingbar.rating = userModel.user.value!!.userRating!!
-            binding.givenRatingbar.rating = userModel.user.value!!.givenRatings!!
+            binding.userRatingbar.rating = userModel.user.value!!.userRating
+            binding.givenRatingbar.rating = userModel.user.value!!.givenRatings
 
         } else {
             // My profile (currentUser)
-            userModel.getRatings(userModel.currentUser.value!!.uid!!,"writeruid")
-            userModel.getRatings(userModel.currentUser.value!!.uid!!,"destuid")
+            userModel.getRatings(userModel.currentUser.value!!.uid!!, "writeruid")
+            userModel.getRatings(userModel.currentUser.value!!.uid!!, "destuid")
 
-            binding.userRatingbar.rating = userModel.currentUser.value!!.userRating!!
-            binding.givenRatingbar.rating = userModel.currentUser.value!!.givenRatings!!
+            binding.userRatingbar.rating = userModel.currentUser.value!!.userRating
+            binding.givenRatingbar.rating = userModel.currentUser.value!!.givenRatings
         }
-
-
-
-
 
         userModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.profileLayout.isVisible = !isLoading

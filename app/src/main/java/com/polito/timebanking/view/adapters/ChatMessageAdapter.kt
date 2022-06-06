@@ -1,4 +1,4 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.polito.timebanking.R
 import com.polito.timebanking.models.ChatMessage
+import com.polito.timebanking.utils.timestampToDateString
+import com.polito.timebanking.utils.timestampToTimeString
 
 class ChatMessageAdapter(
     private val data: List<ChatMessage>,
@@ -18,7 +20,8 @@ class ChatMessageAdapter(
     class ChatMessageViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val otherUserLayout: ConstraintLayout = v.findViewById(R.id.other_user_layout)
         private val otherUserDateTV: MaterialTextView = v.findViewById(R.id.other_user_date_tv)
-        private val otherUserMessageTV: MaterialTextView = v.findViewById(R.id.other_user_message_tv)
+        private val otherUserMessageTV: MaterialTextView =
+            v.findViewById(R.id.other_user_message_tv)
         private val otherUserTimeTV: MaterialTextView = v.findViewById(R.id.other_user_time_tv)
 
         private val userLayout: ConstraintLayout = v.findViewById(R.id.user_layout)

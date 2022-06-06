@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentChatBinding
-import com.polito.timebanking.utils.ChatMessageAdapter
+import com.polito.timebanking.view.adapters.ChatMessageAdapter
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.TIMESLOT_ID_KEY
 import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.USER_ID_KEY
@@ -53,7 +53,7 @@ class ChatFragment : Fragment() {
                 }
             }
             viewModel.timeSlot.observe(viewLifecycleOwner) {
-                if (binding.listRecyclerView.isVisible){
+                if (binding.listRecyclerView.isVisible) {
                     if (viewModel.isChatMine()) {
                         binding.requestLayout.isVisible = true
                         if (viewModel.isTimeSlotAvailable()) {

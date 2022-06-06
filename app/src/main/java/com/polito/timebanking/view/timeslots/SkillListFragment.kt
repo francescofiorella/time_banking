@@ -15,8 +15,8 @@ import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKIL
 import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_LIST
 import com.polito.timebanking.databinding.FragmentSkillListBinding
 import com.polito.timebanking.models.Skill
-import com.polito.timebanking.utils.SkillAdapter
-import com.polito.timebanking.utils.SkillListener
+import com.polito.timebanking.view.adapters.SkillAdapter
+import com.polito.timebanking.view.adapters.SkillListener
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.timeslots.TimeSlotListFragment.Companion.SKILL_NAME_KEY
 import com.polito.timebanking.viewmodels.SkillViewModel

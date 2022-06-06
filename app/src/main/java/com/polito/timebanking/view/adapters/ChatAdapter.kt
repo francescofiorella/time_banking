@@ -1,4 +1,4 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.polito.timebanking.R
 import com.polito.timebanking.models.Chat
+import com.polito.timebanking.utils.timestampToDateString
 
 class ChatAdapter(
     private val data: List<Chat>,

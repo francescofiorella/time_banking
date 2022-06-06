@@ -6,5 +6,5 @@ class Feedback {
     var comment: String? = null
     var destuid: String = ""
     var writeruid: String = ""
-    var rate : Float = 0.0f
+    var rate: Float = 0.0f
 }

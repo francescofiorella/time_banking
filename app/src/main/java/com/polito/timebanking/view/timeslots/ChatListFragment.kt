@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentChatListBinding
 import com.polito.timebanking.models.Chat
-import com.polito.timebanking.utils.ChatAdapter
-import com.polito.timebanking.utils.ChatListener
+import com.polito.timebanking.view.adapters.ChatAdapter
+import com.polito.timebanking.view.adapters.ChatListener
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.TIMESLOT_ID_KEY
 import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.USER_ID_KEY

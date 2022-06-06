@@ -21,6 +21,7 @@
     <string name="toolbar_menu_edit_description">Edit Menu</string>
     <string name="toolbar_menu_edit_title">Edit</string>
     <string name="open_chat">Open Chat</string>
+    <string name="new_feedback">New Feedback</string>
     <string name="title">Title</string>
     <string name="user">User</string>
     <string name="description">Description</string>

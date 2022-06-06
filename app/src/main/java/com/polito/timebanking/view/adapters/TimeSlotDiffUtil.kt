@@ -1,11 +1,11 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.polito.timebanking.models.Feedback
+import com.polito.timebanking.models.TimeSlot
 
-class ReviewDiffUtil(
-    private val oldList: List<Feedback>,
-    private val newList: List<Feedback>
+class TimeSlotDiffUtil(
+    private val oldList: List<TimeSlot>,
+    private val newList: List<TimeSlot>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size

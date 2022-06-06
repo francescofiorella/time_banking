@@ -1,11 +1,9 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,21 +31,21 @@ class ReviewAdapter(
         fun bind(feedback: Feedback) {
             reviewRB.rating = feedback.rate
             reviewTV.text = feedback.comment
-            getWriterInfo(feedback.writeruid,writerTV,writerIV)
+            getWriterInfo(feedback.writeruid, writerTV, writerIV)
 
         }
 
 
-        private fun getWriterInfo(uid: String, writerTV: TextView, writerIV: ImageView){
+        private fun getWriterInfo(uid: String, writerTV: TextView, writerIV: ImageView) {
             db.collection("users")
                 .document(uid)
                 .get()
                 .addOnSuccessListener {
                     val writer = it.toObject(User::class.java)
-                    if(writer!=null){
-                        writerTV.setText(writer.fullName)
+                    if (writer != null) {
+                        writerTV.text = writer.fullName
                         Glide.with(writerIV)
-                            .load(writer?.photoUrl)
+                            .load(writer.photoUrl)
                             .apply(RequestOptions.circleCropTransform())
                             .into(writerIV)
                     }

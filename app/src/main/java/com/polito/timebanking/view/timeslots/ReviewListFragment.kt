@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentReviewListBinding
 import com.polito.timebanking.models.Feedback
-import com.polito.timebanking.utils.ReviewAdapter
+import com.polito.timebanking.view.adapters.ReviewAdapter
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.view.profile.ShowProfileFragment
 import com.polito.timebanking.viewmodels.FeedbackViewModel
@@ -25,7 +25,6 @@ class ReviewListFragment : Fragment() {
     private lateinit var binding: FragmentReviewListBinding
     private val viewModel by activityViewModels<FeedbackViewModel>()
     private val userModel by activityViewModels<UserViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +54,7 @@ class ReviewListFragment : Fragment() {
         binding.user = userModel.currentUser
         val user = userModel.currentUser
 
-        if(binding.photoIv!=null){
+        if (binding.photoIv != null) {
             if (user.value?.photoUrl.isNullOrEmpty()) {
                 binding.photoIv?.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -70,7 +69,6 @@ class ReviewListFragment : Fragment() {
                     .into(binding.photoIv!!)
             }
         }
-
 
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)

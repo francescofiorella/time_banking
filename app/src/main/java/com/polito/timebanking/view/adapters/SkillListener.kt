@@ -1,4 +1,4 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import com.polito.timebanking.models.Skill
 

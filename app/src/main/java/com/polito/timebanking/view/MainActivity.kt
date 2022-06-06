@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private var navController: NavController? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -96,12 +95,12 @@ class MainActivity : AppCompatActivity() {
                     graph = navInflater.inflate(R.navigation.navigation_graph)
                 }
             } else {
-                if(item.itemId == R.id.timeSlotRequiredListFragment){
+                if (item.itemId == R.id.timeSlotRequiredListFragment) {
                     val bundle = bundleOf(TimeSlotListFragment.FROM to "REQUIRED")
-                    navController?.navigate(R.id.timeSlotListFragment,bundle)
-                }else{
+                    navController?.navigate(R.id.timeSlotListFragment, bundle)
+                } else {
                     val bundle = bundleOf(TimeSlotListFragment.FROM to null)
-                    navController?.navigate(item.itemId,bundle)
+                    navController?.navigate(item.itemId, bundle)
                     //NavigationUI.onNavDestinationSelected(item, navController!!)
                 }
             }

@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentTimeSlotListBinding
 import com.polito.timebanking.models.TimeSlot
-import com.polito.timebanking.utils.TimeSlotAdapter
-import com.polito.timebanking.utils.TimeSlotListener
+import com.polito.timebanking.view.adapters.TimeSlotAdapter
+import com.polito.timebanking.view.adapters.TimeSlotListener
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
@@ -77,13 +77,13 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             supportActionBar?.setDisplayShowHomeEnabled(true)
             val skillName = arguments?.getString(SKILL_NAME_KEY)
             val from = arguments?.getString(FROM)
-            if (from.isNullOrEmpty()){
+            if (from.isNullOrEmpty()) {
                 supportActionBar?.title = if (skillName.isNullOrEmpty()) {
                     "My Time Slots"
                 } else {
                     skillName
                 }
-            }else{
+            } else {
                 // If Required Time Slot list
                 supportActionBar?.title = "Required Time Slots"
                 binding.addFab.isVisible = false
@@ -116,7 +116,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         super.onResume()
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(
-            if (arguments?.getInt(MODE_KEY)!=2||!arguments?.getString(FROM).isNullOrEmpty()) {
+            if (arguments?.getInt(MODE_KEY) != 2 || !arguments?.getString(FROM).isNullOrEmpty()) {
                 R.drawable.ic_menu
             } else {
                 R.drawable.ic_arrow_back
@@ -124,9 +124,9 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         )
         viewModel.editFragmentMode = NONE
         viewModel.currentTimeSlot = null
-        if(arguments?.getString(FROM).isNullOrEmpty()){
+        if (arguments?.getString(FROM).isNullOrEmpty()) {
             viewModel.loadList()
-        }else{
+        } else {
             viewModel.loadRequiredList()
         }
     }
@@ -158,7 +158,9 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         return when (item.itemId) {
             android.R.id.home -> {
-                if (arguments?.getInt(MODE_KEY)!=2 || !arguments?.getString(FROM).isNullOrEmpty()) {
+                if (arguments?.getInt(MODE_KEY) != 2 || !arguments?.getString(FROM)
+                        .isNullOrEmpty()
+                ) {
                     (activity as MainActivity).getDrawerLayout().open()
                 } else {
                     activity?.onBackPressed()
@@ -222,15 +224,21 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         findNavController().navigate(R.id.action_timeSlotListFragment_to_timeSlotEditFragment)
     }
 
-    override fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int){
+    override fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int) {
         viewModel.editFragmentMode = NONE
         viewModel.setTimeSlot(timeSlot)
-        if(arguments?.getString(FROM)=="REQUIRED"){
-            val bundle = bundleOf( SOURCE to "REQUIRED")
-            findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
-        }else{
-            val bundle = bundleOf( SOURCE to "MINE")
-            findNavController().navigate(R.id.action_timeSlotListFragment_to_feedbackFragment, bundle)
+        if (arguments?.getString(FROM) == "REQUIRED") {
+            val bundle = bundleOf(SOURCE to "REQUIRED")
+            findNavController().navigate(
+                R.id.action_timeSlotListFragment_to_feedbackFragment,
+                bundle
+            )
+        } else {
+            val bundle = bundleOf(SOURCE to "MINE")
+            findNavController().navigate(
+                R.id.action_timeSlotListFragment_to_feedbackFragment,
+                bundle
+            )
         }
 
     }

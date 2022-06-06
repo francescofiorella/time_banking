@@ -10,6 +10,6 @@ data class User(
     var description: String? = null,
     var photoUrl: String? = null,
     var skills: List<Skill>? = emptyList(),
-    var userRating : Float? = null,
-    var givenRatings : Float? = null
+    var userRating: Float = 0f,
+    var givenRatings: Float = 0f
 )

@@ -1,4 +1,4 @@
-package com.polito.timebanking.utils
+package com.polito.timebanking.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
