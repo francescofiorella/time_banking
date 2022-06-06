@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -48,7 +47,6 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.timeSlot = timeSlotModel.currentTimeSlot
 
-        binding.creditNumberPicker.setOnValueChangedListener(creditListener)
         binding.skillAutoCompleteTV.setOnClickListener(userSkillListener)
         binding.skillTextInputLayout.setEndIconOnClickListener(userSkillListener)
 
@@ -145,13 +143,6 @@ class TimeSlotEditFragment : Fragment() {
 
         timePickerButton.hour = timeSlotModel.currentTimeSlot?.hour.takeIf { it != 99 }
         timePickerButton.minute = timeSlotModel.currentTimeSlot?.minute.takeIf { it != 99 }
-
-        // init numberPicker
-        binding.creditNumberPicker.apply {
-            minValue = 1
-            maxValue = Int.MAX_VALUE
-            wrapSelectorWheel = false
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -210,16 +201,11 @@ class TimeSlotEditFragment : Fragment() {
         dialog.dismiss()
     }
 
-    private val creditListener = NumberPicker.OnValueChangeListener { _, _, newVal ->
-        timeSlotModel.currentTimeSlot?.apply {
-            timeCredit = newVal
-        }
-    }
-
     private fun saveTimeSlotDataIn(timeSlot: TimeSlot) {
         timeSlot.title = binding.titleEt.text.toString()
         timeSlot.description = binding.descriptionEt.text.toString()
         timeSlot.location = binding.locationEt.text.toString()
-        // date, time and timeCredit are saved in listeners
+        timeSlot.timeCredit = binding.timeCreditEt.text.toString().toInt()
+        // date and time are saved in listeners
     }
 }

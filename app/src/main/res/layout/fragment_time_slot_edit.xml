@@ -253,21 +253,31 @@
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/time_credit"
                 android:src="@drawable/ic_av_timer"
-                app:layout_constraintBottom_toBottomOf="@id/credit_numberPicker"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/credit_numberPicker" />
+                app:layout_constraintTop_toTopOf="@id/time_credit_textInputLayout" />
 
-            <NumberPicker
-                android:id="@+id/credit_numberPicker"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/time_credit_textInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
-                android:value="@{timeSlot.timeCredit}"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/time_credit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/duration_icon"
-                app:layout_constraintTop_toBottomOf="@id/creditTitle_tv" />
+                app:layout_constraintTop_toBottomOf="@id/creditTitle_tv"
+                app:suffixText="hours">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/time_credit_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="@{Integer.toString(timeSlot.timeCredit)}"
+                    tools:text="3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
