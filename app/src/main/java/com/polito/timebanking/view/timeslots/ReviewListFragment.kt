@@ -51,8 +51,8 @@ class ReviewListFragment : Fragment() {
                 }
             }
         }
-        binding.user = userModel.currentUser
-        val user = userModel.currentUser
+        binding.user = userModel.user
+        val user = userModel.user
 
         if (binding.photoIv != null) {
             if (user.value?.photoUrl.isNullOrEmpty()) {
