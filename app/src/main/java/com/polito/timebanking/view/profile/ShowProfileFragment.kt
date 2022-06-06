@@ -3,6 +3,7 @@ package com.polito.timebanking.view.profile
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +16,6 @@ import com.google.android.material.chip.Chip
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentShowProfileBinding
 import com.polito.timebanking.view.MainActivity
-import com.polito.timebanking.view.timeslots.TimeSlotDetailsFragment.Companion.USER_ID_KEY
 import com.polito.timebanking.viewmodels.UserViewModel
 
 class ShowProfileFragment : Fragment() {
@@ -26,6 +26,7 @@ class ShowProfileFragment : Fragment() {
     companion object {
         const val JUST_SHOW = 100
         const val SHOW_AND_EDIT = 101
+        const val USER_ID_KEY = "user_id_key"
     }
 
     override fun onCreateView(
@@ -111,6 +112,8 @@ class ShowProfileFragment : Fragment() {
             binding.loadingCpi.isVisible = isLoading
         }
 
+        binding.card2.setOnClickListener(feedbackListener)
+
         (activity as MainActivity).apply(fun MainActivity.() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -159,6 +162,16 @@ class ShowProfileFragment : Fragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private val feedbackListener = View.OnClickListener {
+        binding.user?.value?.uid?.let { uid ->
+            val bundle = bundleOf(USER_ID_KEY to uid)
+            findNavController().navigate(
+                R.id.action_showProfileFragment_to_reviewListFragment,
+                bundle
+            )
         }
     }
 }

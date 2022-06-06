@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_filter_list"
+        android:title="@string/filter"
+        app:showAsAction="ifRoom">
+
+        <menu>
+
+            <item
+                android:id="@+id/stars"
+                android:icon="@drawable/ic_av_timer"
+                android:title="@string/stars"
+                app:iconTint="@color/md_theme_onBackground">
+
+                <menu>
+
+                    <item
+                        android:id="@+id/one_star"
+                        android:title="@string/one_star" />
+
+                    <item
+                        android:id="@+id/two_stars"
+                        android:title="@string/two_stars" />
+
+                    <item
+                        android:id="@+id/three_stars"
+                        android:title="@string/three_stars" />
+
+                    <item
+                        android:id="@+id/four_stars"
+                        android:title="@string/four_stars" />
+
+                    <item
+                        android:id="@+id/five_stars"
+                        android:title="@string/five_stars" />
+
+                </menu>
+
+            </item>
+
+            <item
+                android:id="@+id/no_filter"
+                android:icon="@drawable/ic_clear"
+                android:title="@string/no_filter"
+                app:iconTint="@color/md_theme_onBackground" />
+
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/ic_sort"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom">
+
+        <menu>
+
+            <item
+                android:id="@+id/rate_sort"
+                android:icon="@drawable/ic_title"
+                android:title="@string/stars"
+                app:iconTint="@color/md_theme_onBackground" />
+
+        </menu>
+
+    </item>
+
+</menu>

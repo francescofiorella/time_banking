@@ -1,14 +1,10 @@
 package com.polito.timebanking.models
 
-import com.polito.timebanking.utils.timeToString
-
 class Feedback {
-    var tsid: String? = null
+    var id: String = ""
+    var tsid: String = ""
     var comment: String? = null
-    var destuid: String? = null
-    var writeruid: String? = null
-    var rate : Float? = null
-
+    var destuid: String = ""
+    var writeruid: String = ""
+    var rate : Float = 0.0f
 }
-
-

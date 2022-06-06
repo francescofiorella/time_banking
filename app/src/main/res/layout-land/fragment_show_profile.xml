@@ -89,12 +89,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Profilo" />
+                    android:text="@string/profile" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recensioni" />
+                    android:text="@string/reviews" />
 
             </com.google.android.material.tabs.TabLayout>
 
@@ -300,7 +300,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
-                                android:text="User rating"
+                                android:text="@string/user_rating"
                                 app:layout_constraintBottom_toBottomOf="@id/user_rating_icon"
                                 app:layout_constraintStart_toEndOf="@id/user_rating_icon" />
 
@@ -347,7 +347,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
-                                android:text="Given ratings"
+                                android:text="@string/given_ratings"
                                 app:layout_constraintBottom_toBottomOf="@id/given_ratings"
                                 app:layout_constraintStart_toEndOf="@id/given_ratings" />
 

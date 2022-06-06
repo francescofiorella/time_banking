@@ -42,9 +42,14 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+
         <action
             android:id="@+id/action_timeSlotListFragment_to_feedbackFragment"
-            app:destination="@id/feedbackFragment" />
+            app:destination="@id/feedbackFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
 
     </fragment>
 
@@ -69,6 +74,7 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_chatFragment"
             app:destination="@id/chatFragment"
@@ -94,6 +100,14 @@
         <action
             android:id="@+id/action_showProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+
+        <action
+            android:id="@+id/action_showProfileFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
@@ -198,9 +212,16 @@
             app:popExitAnim="@android:anim/fade_out" />
 
     </fragment>
+
     <fragment
         android:id="@+id/feedbackFragment"
         android:name="com.polito.timebanking.view.timeslots.FeedbackFragment"
         android:label="FeedbackFragment" />
+
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="com.polito.timebanking.view.timeslots.ReviewListFragment"
+        android:label="fragment_review_list"
+        tools:layout="@layout/fragment_review_list" />
 
 </navigation>
