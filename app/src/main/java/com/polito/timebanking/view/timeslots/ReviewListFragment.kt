@@ -121,8 +121,13 @@ class ReviewListFragment : Fragment() {
                 true
             }
 
-            R.id.rate_sort -> {
-                adapter?.sortByRate()
+            R.id.highest_rating_sort -> {
+                adapter?.sortByHighestRating()
+                true
+            }
+
+            R.id.lowest_rating_sort -> {
+                adapter?.sortByLowestRating()
                 true
             }
 

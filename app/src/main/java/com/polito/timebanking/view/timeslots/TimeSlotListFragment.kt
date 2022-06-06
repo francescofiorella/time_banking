@@ -79,13 +79,13 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             val from = arguments?.getString(FROM)
             if (from.isNullOrEmpty()) {
                 supportActionBar?.title = if (skillName.isNullOrEmpty()) {
-                    "My Time Slots"
+                    getString(R.string.my_time_slots)
                 } else {
                     skillName
                 }
             } else {
                 // If Required Time Slot list
-                supportActionBar?.title = "Required Time Slots"
+                supportActionBar?.title = getString(R.string.required_time_slots)
                 binding.addFab.isVisible = false
             }
 

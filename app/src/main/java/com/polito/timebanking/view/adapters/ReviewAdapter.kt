@@ -105,7 +105,14 @@ class ReviewAdapter(
         }
     }
 
-    fun sortByRate() {
+    fun sortByHighestRating() {
+        val list = dataFiltered.sortedByDescending {
+            it.rate
+        }
+        updateData(list)
+    }
+
+    fun sortByLowestRating() {
         val list = dataFiltered.sortedBy {
             it.rate
         }
