@@ -18,9 +18,9 @@
         <menu>
 
             <item
-                android:id="@+id/stars"
-                android:icon="@drawable/ic_av_timer"
-                android:title="@string/stars"
+                android:id="@+id/rating_filter"
+                android:icon="@drawable/ic_star"
+                android:title="@string/rating"
                 app:iconTint="@color/md_theme_onBackground">
 
                 <menu>
@@ -68,9 +68,15 @@
         <menu>
 
             <item
-                android:id="@+id/rate_sort"
-                android:icon="@drawable/ic_title"
-                android:title="@string/stars"
+                android:id="@+id/highest_rating_sort"
+                android:icon="@drawable/ic_star"
+                android:title="@string/highest_rating"
+                app:iconTint="@color/md_theme_onBackground" />
+
+            <item
+                android:id="@+id/lowest_rating_sort"
+                android:icon="@drawable/ic_outline_star"
+                android:title="@string/lowest_rating"
                 app:iconTint="@color/md_theme_onBackground" />
 
         </menu>

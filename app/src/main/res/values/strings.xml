@@ -71,7 +71,9 @@
     <string name="request_accepted">You have accepted this request!</string>
     <string name="no_messages">Type a message to open a request for this time slot!</string>
     <string name="leave_a_feedback">Leave a feedback</string>
-    <string name="stars">Stars</string>
+    <string name="rating">Rating</string>
+    <string name="highest_rating">Highest rating</string>
+    <string name="lowest_rating">Lowest rating</string>
     <string name="one_star">&#9733;</string>
     <string name="two_stars">&#9733;&#9733;</string>
     <string name="three_stars">&#9733;&#9733;&#9733;</string>
