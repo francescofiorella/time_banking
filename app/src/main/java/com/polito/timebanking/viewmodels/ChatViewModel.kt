@@ -32,7 +32,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val auth: FirebaseAuth = Firebase.auth
 
     private var chat: Chat? = null
-    private var timeSlot: TimeSlot? = null
+    private var _timeSlot = MutableLiveData<TimeSlot>()
+    val timeSlot: LiveData<TimeSlot> = _timeSlot
 
     fun loadMessages() {
         if (uid == "") {
@@ -83,7 +84,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 .document(it)
                 .addSnapshotListener { v, e ->
                     if (e == null) {
-                        timeSlot = v?.toObject(TimeSlot::class.java)
+                        _timeSlot.value = v?.toObject(TimeSlot::class.java)
                     }
                 }
         }
@@ -120,7 +121,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 ownerUid ?: ""
             }
         } else {
-            val ownerId = timeSlot?.uid ?: ""
+            val ownerId = _timeSlot.value?.uid ?: ""
             uid = this.uid ?: ""
             toUid = ownerId
             chat = Chat("$tsid$currentUid", tsid, listOf(ownerId, currentUid), timestamp)
@@ -153,5 +154,18 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     fun isChatMine(): Boolean {
         return chat?.uids?.get(0) == auth.currentUser?.uid
+    }
+
+    fun isTimeSlotAvailable(): Boolean = _timeSlot.value?.state == ""
+
+    fun acceptTimeSlot() {
+        _timeSlot.value?.let { timeslot ->
+            timeslot.state = "accepted"
+            db.collection("timeslot")
+                .document(timeslot.id)
+                .set(timeslot)
+                .addOnSuccessListener { Log.d("Firebase", "Success") }
+                .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
+        }
     }
 }

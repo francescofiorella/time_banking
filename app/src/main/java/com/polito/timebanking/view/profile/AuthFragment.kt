@@ -120,7 +120,7 @@ class AuthFragment : Fragment() {
 
         userModel.isLoading.value = true
 
-        userModel.isUserLogged().observe(viewLifecycleOwner) { isLogged ->
+        userModel.isUserLogged.observe(viewLifecycleOwner) { isLogged ->
             if (isLogged) {
                 userModel.getCurrentUser()
                 findNavController().navigate(R.id.action_authFragment_to_skillListFragment)

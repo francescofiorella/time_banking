@@ -51,7 +51,27 @@ class ChatFragment : Fragment() {
                         binding.listRecyclerView.adapter = it
                     }
                 }
-                binding.requestLayout.isVisible = viewModel.isChatMine()
+            }
+            viewModel.timeSlot.observe(viewLifecycleOwner) {
+                if (binding.listRecyclerView.isVisible){
+                    if (viewModel.isChatMine()) {
+                        binding.requestLayout.isVisible = true
+                        if (viewModel.isTimeSlotAvailable()) {
+                            binding.acceptBtn.setOnClickListener {
+                                viewModel.acceptTimeSlot()
+                                binding.acceptBtn.isVisible = false
+                                binding.requestTv.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                binding.requestTv.text = getString(R.string.request_accepted)
+                            }
+                        } else {
+                            binding.acceptBtn.isVisible = false
+                            binding.requestTv.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                            binding.requestTv.text = getString(R.string.request_accepted)
+                        }
+                    } else {
+                        binding.requestLayout.isVisible = false
+                    }
+                }
             }
         }
 
