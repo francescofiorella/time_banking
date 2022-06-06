@@ -40,20 +40,20 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             uid = auth.currentUser?.uid
         }
 
-        // load the timeSlot
         tsid?.let {
-            db.collection("timeslot")
-                .document(it)
-                .addSnapshotListener { v, e ->
-                    if (e == null) {
-                        _timeSlot.value = v?.toObject(TimeSlot::class.java)
+            // load chat info
+            db.collection("chat")
+                .document("$tsid$uid")
+                .addSnapshotListener { va, err ->
+                    if (err == null) {
+                        chat = va?.toObject(Chat::class.java)
+                        // load the timeSlot
+                        db.collection("timeslot")
+                            .document(it)
+                            .addSnapshotListener { v, e ->
+                                if (e == null) {
+                                    _timeSlot.value = v?.toObject(TimeSlot::class.java)
 
-                        // load chat info
-                        db.collection("chat")
-                            .document("$tsid$uid")
-                            .addSnapshotListener { va, err ->
-                                if (err == null) {
-                                    chat = va?.toObject(Chat::class.java)
                                     val otherUid = if (chat != null) {
                                         // load other_user
                                         val currentUid = auth.currentUser?.uid ?: ""
