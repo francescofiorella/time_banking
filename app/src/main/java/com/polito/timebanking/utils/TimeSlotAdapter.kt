@@ -35,6 +35,7 @@ class TimeSlotAdapter(
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
         private val dateTV: TextView = v.findViewById(R.id.date_tv)
+        private val timeCreditTV: TextView = v.findViewById(R.id.time_credit_tv)
         private val editFAB: FloatingActionButton = v.findViewById(R.id.edit_btn)
         private val feedbackBTN : Button = v.findViewById(R.id.feedback_btn)
 
@@ -43,6 +44,9 @@ class TimeSlotAdapter(
             loadUserInfo(timeSlot.uid, fullNameTV)
             locationTV.text = timeSlot.location
             dateTV.text = timeSlot.getDate()
+            val timeCredit =
+                "${timeSlot.timeCredit} ${if (timeSlot.timeCredit == 1) "hour" else "hours"}"
+            timeCreditTV.text = timeCredit
             cardLayout.setOnClickListener(cardAction)
             editFAB.setOnClickListener(editAction)
             feedbackBTN.setOnClickListener(FeedbackAction)
@@ -145,6 +149,13 @@ class TimeSlotAdapter(
         }
     }
 
+    fun sortByTimeCredit() {
+        val list = dataFiltered.sortedBy {
+            it.timeCredit
+        }
+        updateData(list)
+    }
+
     fun sortByTitle() {
         val list = dataFiltered.sortedBy {
             it.title
@@ -163,9 +174,9 @@ class TimeSlotAdapter(
         updateData(list)
     }
 
-    fun filterDuration(duration: String) {
+    fun filterTimeCredit(filter: (Int) -> Boolean) {
         val list = dataFiltered.filter {
-            it.duration == duration
+            filter(it.timeCredit)
         }
         updateData(list)
     }

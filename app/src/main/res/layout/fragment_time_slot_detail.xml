@@ -286,7 +286,7 @@
                             android:id="@+id/duration_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:contentDescription="@string/duration"
+                            android:contentDescription="@string/time_credit"
                             android:src="@drawable/ic_av_timer"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -295,21 +295,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:text="@string/duration"
+                            android:text="@string/time_credit"
                             app:layout_constraintBottom_toBottomOf="@+id/duration_icon"
                             app:layout_constraintStart_toEndOf="@id/duration_icon"
                             app:layout_constraintTop_toTopOf="@+id/duration_icon" />
 
                         <TextView
-                            android:id="@+id/duration_tv"
+                            android:id="@+id/time_credit_tv"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="@{timeSlot.duration}"
+                            android:text=""
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/duration_icon"
-                            tools:text="Duration" />
+                            tools:text="3 hours" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

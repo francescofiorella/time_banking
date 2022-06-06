@@ -18,32 +18,28 @@
         <menu>
 
             <item
-                android:id="@+id/duration"
+                android:id="@+id/time_credit_filter"
                 android:icon="@drawable/ic_av_timer"
-                android:title="@string/duration"
+                android:title="@string/time_credit"
                 app:iconTint="@color/md_theme_onBackground">
 
                 <menu>
 
                     <item
-                        android:id="@+id/half_hour"
-                        android:title="@string/half_hour" />
+                        android:id="@+id/eq_one_hour"
+                        android:title="@string/eq_one_hour" />
 
                     <item
-                        android:id="@+id/one_hour"
-                        android:title="@string/one_hour" />
+                        android:id="@+id/le_three_hours"
+                        android:title="@string/le_three_hours" />
 
                     <item
-                        android:id="@+id/two_hour"
-                        android:title="@string/two_hour" />
+                        android:id="@+id/le_five_hours"
+                        android:title="@string/le_five_hours" />
 
                     <item
-                        android:id="@+id/three_hour"
-                        android:title="@string/three_hour" />
-
-                    <item
-                        android:id="@+id/more_three_hour"
-                        android:title="@string/more_three_hour" />
+                        android:id="@+id/gt_five_hours"
+                        android:title="@string/gt_five_hours" />
 
                 </menu>
 
@@ -66,6 +62,12 @@
         app:showAsAction="ifRoom">
 
         <menu>
+
+            <item
+                android:id="@+id/time_credit_sort"
+                android:icon="@drawable/ic_av_timer"
+                android:title="@string/time_credit"
+                app:iconTint="@color/md_theme_onBackground" />
 
             <item
                 android:id="@+id/title_sort"

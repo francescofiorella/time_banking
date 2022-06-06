@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,8 +48,7 @@ class TimeSlotEditFragment : Fragment() {
 
         binding.timeSlot = timeSlotModel.currentTimeSlot
 
-        binding.durationAutoCompleteTV.setOnClickListener(durationListener)
-        binding.durationTextInputLayout.setEndIconOnClickListener(durationListener)
+        binding.creditNumberPicker.setOnValueChangedListener(creditListener)
         binding.skillAutoCompleteTV.setOnClickListener(userSkillListener)
         binding.skillTextInputLayout.setEndIconOnClickListener(userSkillListener)
 
@@ -146,6 +146,12 @@ class TimeSlotEditFragment : Fragment() {
         timePickerButton.hour = timeSlotModel.currentTimeSlot?.hour.takeIf { it != 99 }
         timePickerButton.minute = timeSlotModel.currentTimeSlot?.minute.takeIf { it != 99 }
 
+        // init numberPicker
+        binding.creditNumberPicker.apply {
+            minValue = 1
+            maxValue = Int.MAX_VALUE
+            wrapSelectorWheel = false
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -204,33 +210,16 @@ class TimeSlotEditFragment : Fragment() {
         dialog.dismiss()
     }
 
-    private val durationListener = View.OnClickListener {
-        val durationArray = resources.getStringArray(R.array.durations)
-        val builder = MaterialAlertDialogBuilder(requireContext())
-        builder.setIcon(R.drawable.ic_av_timer)
-        builder.setTitle(getString(R.string.duration))
-        builder.setSingleChoiceItems(
-            durationArray,
-            durationArray.indexOf(binding.durationAutoCompleteTV.text.toString()),
-            durationOnSaveListener
-        )
-        builder.show()
-    }
-
-    private val durationOnSaveListener = DialogInterface.OnClickListener { dialog, selectedItem ->
-        val durationArray = resources.getStringArray(R.array.durations)
-        val durationString = durationArray[selectedItem]
+    private val creditListener = NumberPicker.OnValueChangeListener { _, _, newVal ->
         timeSlotModel.currentTimeSlot?.apply {
-            duration = durationString
+            timeCredit = newVal
         }
-        binding.durationAutoCompleteTV.setText(durationString)
-        dialog.dismiss()
     }
 
     private fun saveTimeSlotDataIn(timeSlot: TimeSlot) {
         timeSlot.title = binding.titleEt.text.toString()
         timeSlot.description = binding.descriptionEt.text.toString()
         timeSlot.location = binding.locationEt.text.toString()
-        // date, time and duration are saved on positive button click
+        // date, time and timeCredit are saved in listeners
     }
 }

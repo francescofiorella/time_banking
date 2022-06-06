@@ -12,7 +12,7 @@ data class TimeSlot(
     var day: Int = 0,
     var hour: Int = 99,
     var minute: Int = 99,
-    var duration: String = "",
+    var timeCredit: Int = 0,
     var location: String = "",
     var uid: String = "",
     var sid: String = "",

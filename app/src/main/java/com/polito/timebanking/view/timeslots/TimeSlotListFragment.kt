@@ -166,6 +166,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 true
             }
 
+            R.id.time_credit_sort -> {
+                adapter?.sortByTimeCredit()
+                true
+            }
+
             R.id.title_sort -> {
                 adapter?.sortByTitle()
                 true
@@ -176,28 +181,23 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 true
             }
 
-            R.id.half_hour -> {
-                adapter?.filterDuration(getString(R.string.half_hour))
+            R.id.eq_one_hour -> {
+                adapter?.filterTimeCredit { value: Int -> value == 1 }
                 true
             }
 
-            R.id.one_hour -> {
-                adapter?.filterDuration(getString(R.string.one_hour))
+            R.id.le_three_hours -> {
+                adapter?.filterTimeCredit { value: Int -> value <= 3 }
                 true
             }
 
-            R.id.two_hour -> {
-                adapter?.filterDuration(getString(R.string.two_hour))
+            R.id.le_five_hours -> {
+                adapter?.filterTimeCredit { value: Int -> value <= 5 }
                 true
             }
 
-            R.id.three_hour -> {
-                adapter?.filterDuration(getString(R.string.three_hour))
-                true
-            }
-
-            R.id.more_three_hour -> {
-                adapter?.filterDuration(getString(R.string.more_three_hour))
+            R.id.gt_five_hours -> {
+                adapter?.filterTimeCredit { value: Int -> value > 5 }
                 true
             }
 

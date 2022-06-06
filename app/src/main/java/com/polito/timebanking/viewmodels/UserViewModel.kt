@@ -54,6 +54,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 auth.currentUser?.also { currentUser ->
                     user.apply {
                         uid = currentUser.uid
+                        timeCredit = INITIAL_TIME_CREDIT
                     }
                     setCurrentUser(user, true)
                 }
@@ -105,7 +106,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         val user = User(
                             uid = uid,
                             fullName = fullName,
-                            email = email
+                            email = email,
+                            timeCredit = INITIAL_TIME_CREDIT
                         )
                         setCurrentUser(user, true)
                     }
@@ -277,5 +279,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun initialUserHasBeenModified(): Boolean {
         return (initialUser != _currentUser.value)
+    }
+
+    companion object {
+        private const val INITIAL_TIME_CREDIT = 5
     }
 }

@@ -68,6 +68,12 @@ class TimeSlotDetailsFragment : Fragment() {
             binding.openChatFab.isVisible = true
         }
 
+        timeSlotModel.currentTimeSlot?.let { timeSlot ->
+            val timeCredit =
+                "${timeSlot.timeCredit} ${if (timeSlot.timeCredit == 1) "hour" else "hours"}"
+            binding.timeCreditTv.text = timeCredit
+        }
+
         (activity as MainActivity).apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)

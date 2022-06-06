@@ -10,6 +10,7 @@
     <string name="photo_iv_description">User Photo</string>
     <string name="edit_photo_ib_description">Edit Photo</string>
     <string name="full_name_et_hint">Full Name</string>
+    <string name="time_credit_tv_text">Time credit:</string>
     <string name="nickname_et_hint">Nickname</string>
     <string name="email_et_hint">Email</string>
     <string name="location_et_hint">Location</string>
@@ -26,7 +27,7 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="date_time">Date and time</string>
-    <string name="duration">Duration</string>
+    <string name="time_credit">Time credit</string>
     <string name="location">Location</string>
     <string name="skill">Skill</string>
     <string name="edit">Edit</string>
@@ -51,6 +52,7 @@
     <string name="sign_in">SIGN IN</string>
     <string name="time_slot_main_info">Time slot main info</string>
     <string name="time_slot_starts_time">Time slot start time</string>
+    <string name="time_slot_credit">Time slot credit</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="sort">Sort</string>
@@ -72,18 +74,8 @@
     <string name="five_stars">&#9733;&#9733;&#9733;&#9733;&#9733;</string>
     <string name="user_rating">User rating</string>
     <string name="given_ratings">Given ratings</string>
-
-    <string name="half_hour">Half hour</string>
-    <string name="one_hour">One hour</string>
-    <string name="two_hour">Two hours</string>
-    <string name="three_hour">Three hours</string>
-    <string name="more_three_hour">More then three hours</string>
-
-    <string-array name="durations">
-        <item>@string/half_hour</item>
-        <item>@string/one_hour</item>
-        <item>@string/two_hour</item>
-        <item>@string/three_hour</item>
-        <item>@string/more_three_hour</item>
-    </string-array>
+    <string name="eq_one_hour">1 hour</string>
+    <string name="le_three_hours">&#8804;3 hours</string>
+    <string name="le_five_hours">&#8804;5 hours</string>
+    <string name="gt_five_hours">&#62;5 hours</string>
 </resources>
