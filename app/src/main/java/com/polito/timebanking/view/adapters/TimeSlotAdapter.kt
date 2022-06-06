@@ -58,7 +58,7 @@ class TimeSlotAdapter(
 
             editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
 
-            if (timeSlot.state == "completed") {
+            if (timeSlot.state == "completed" && (Firebase.auth.currentUser?.uid==timeSlot.uid ||Firebase.auth.currentUser?.uid==timeSlot.cid)) {
                 isReviewed(Firebase.auth.currentUser?.uid, timeSlot.id, feedbackBTN)
             } else {
                 feedbackBTN.isVisible = false
