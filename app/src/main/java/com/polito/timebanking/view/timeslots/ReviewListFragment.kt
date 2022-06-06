@@ -51,8 +51,13 @@ class ReviewListFragment : Fragment() {
                 }
             }
         }
-        binding.user = userModel.user
-        val user = userModel.user
+
+        val user = if (userModel.profileMode == ShowProfileFragment.JUST_SHOW) {
+            userModel.user
+        } else {
+            userModel.currentUser
+        }
+        binding.user = user
 
         if (binding.photoIv != null) {
             if (user.value?.photoUrl.isNullOrEmpty()) {
