@@ -242,4 +242,8 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         }
 
     }
+
+    override fun onCompleteClickListener(timeSlot: TimeSlot, position: Int) {
+        viewModel.completeTimeSlot(timeSlot)
+    }
 }

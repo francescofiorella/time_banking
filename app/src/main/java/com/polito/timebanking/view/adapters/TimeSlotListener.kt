@@ -6,4 +6,5 @@ interface TimeSlotListener {
     fun onCardClickListener(timeSlot: TimeSlot, position: Int)
     fun onEditClickListener(timeSlot: TimeSlot, position: Int)
     fun onFeedbackClickListener(timeSlot: TimeSlot, position: Int)
+    fun onCompleteClickListener(timeSlot: TimeSlot, position: Int)
 }

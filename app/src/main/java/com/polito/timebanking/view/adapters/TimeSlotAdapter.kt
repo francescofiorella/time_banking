@@ -29,6 +29,7 @@ class TimeSlotAdapter(
 
     class TimeSlotViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        private val auth = Firebase.auth
 
         private val cardLayout: MaterialCardView = v.findViewById(R.id.layout)
         private val titleTV: TextView = v.findViewById(R.id.title_tv)
@@ -43,7 +44,8 @@ class TimeSlotAdapter(
             timeSlot: TimeSlot,
             cardAction: (v: View) -> Unit,
             editAction: (v: View) -> Unit,
-            FeedbackAction: (v: View) -> Unit
+            FeedbackAction: (v: View) -> Unit,
+            completeAction: (v: View) -> Unit
         ) {
             titleTV.text = timeSlot.title
             loadUserInfo(timeSlot.uid, fullNameTV)
@@ -56,14 +58,42 @@ class TimeSlotAdapter(
             editFAB.setOnClickListener(editAction)
             feedbackBTN.setOnClickListener(FeedbackAction)
 
-            editFAB.isVisible = timeSlot.uid == Firebase.auth.currentUser?.uid
+            editFAB.isVisible = timeSlot.uid == auth.currentUser?.uid
 
-            if (timeSlot.state == "completed" && (Firebase.auth.currentUser?.uid==timeSlot.uid ||Firebase.auth.currentUser?.uid==timeSlot.cid)) {
-                isReviewed(Firebase.auth.currentUser?.uid, timeSlot.id, feedbackBTN)
+            if (timeSlot.state == "completed" && (auth.currentUser?.uid==timeSlot.uid ||auth.currentUser?.uid==timeSlot.cid)) {
+                isReviewed(auth.currentUser?.uid, timeSlot.id, feedbackBTN)
             } else {
                 feedbackBTN.isVisible = false
             }
 
+            if (timeSlot.state == "accepted" && auth.currentUser?.uid == timeSlot.uid && isTimeslotInThePast(timeSlot)) {
+                feedbackBTN.text = "Mark as completed"
+                feedbackBTN.isVisible = true
+                feedbackBTN.setOnClickListener(completeAction)
+            }
+        }
+
+        private fun isTimeslotInThePast(timeSlot: TimeSlot) : Boolean {
+            val calendar = Calendar.getInstance(Locale.getDefault())
+            return if (timeSlot.year < calendar.get(Calendar.YEAR)) {
+                true
+            } else if (timeSlot.year > calendar.get(Calendar.YEAR)) {
+                false
+            } else if (timeSlot.month < (calendar.get(Calendar.MONTH) + 1)) {
+                true
+            } else if (timeSlot.month > (calendar.get(Calendar.MONTH) + 1)) {
+                false
+            } else if (timeSlot.day < calendar.get(Calendar.DAY_OF_MONTH)) {
+                true
+            } else if (timeSlot.day > calendar.get(Calendar.DAY_OF_MONTH)) {
+                false
+            } else if (timeSlot.hour < calendar.get(Calendar.HOUR_OF_DAY)) {
+                true
+            } else if (timeSlot.hour > calendar.get(Calendar.HOUR_OF_DAY)) {
+                false
+            } else {
+                timeSlot.minute < calendar.get(Calendar.MINUTE)
+            }
         }
 
         private fun loadUserInfo(uid: String, textView: TextView) {
@@ -108,8 +138,8 @@ class TimeSlotAdapter(
             timeSlot,
             { listener.onCardClickListener(timeSlot, position) },
             { listener.onEditClickListener(timeSlot, position) },
-            { listener.onFeedbackClickListener(timeSlot, position) }
-
+            { listener.onFeedbackClickListener(timeSlot, position) },
+            { listener.onCompleteClickListener(timeSlot, position) }
         )
     }
 

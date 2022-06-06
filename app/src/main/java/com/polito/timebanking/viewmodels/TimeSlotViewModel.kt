@@ -111,4 +111,13 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun isTimeSlotAvailable(): Boolean = currentTimeSlot?.state == ""
+
+    fun completeTimeSlot(timeSlot: TimeSlot) {
+        timeSlot.state = "completed"
+        db.collection("timeslot")
+            .document(timeSlot.id)
+            .set(timeSlot)
+            .addOnSuccessListener { Log.d("Firebase", "Success") }
+            .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
+    }
 }
