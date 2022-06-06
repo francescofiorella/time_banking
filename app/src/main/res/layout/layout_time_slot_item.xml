@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/leave_a_feedback"
-            android:textColor="@color/black"
+            android:textColor="@color/md_theme_onSecondaryContainer"
             app:backgroundTint="@color/md_theme_secondaryContainer"
             app:elevation="0dp"
             app:fabSize="mini"
