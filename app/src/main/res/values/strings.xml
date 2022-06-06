@@ -63,7 +63,8 @@
     <string name="message">Message</string>
     <string name="my_chats">My Chats</string>
     <string name="my_time_slots">My Time Slots</string>
-    <string name="required_time_slots">Required TS</string>
+    <string name="requested_time_slot">Requested Time Slots</string>
+    <string name="requested_ts">Requested TS</string>
     <string name="no_chats">You have not opened any chats</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>

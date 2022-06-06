@@ -5,16 +5,14 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -39,8 +37,8 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        val nanView = findViewById<NavigationView>(R.id.nav_view)
-        nanView.setupWithNavController(navController!!)
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        navView.setupWithNavController(navController!!)
 
         setSupportActionBar(findViewById<MaterialToolbar>(R.id.toolbar))
 
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 "userModel.currentUser.observe (currentUser = ${currentUser})"
             )
 
-            val header = nanView.getHeaderView(0)
+            val header = navView.getHeaderView(0)
             val fullNameTV = header.findViewById<TextView>(R.id.tv_full_name)
             fullNameTV.text = currentUser?.fullName
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
@@ -87,28 +85,38 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        nanView.setNavigationItemSelectedListener { item ->
-            if (item.itemId == R.id.authFragment) {
-                userModel.signOut()
-                navController?.apply {
-                    // reset the navGraph (the start destination)
-                    graph = navInflater.inflate(R.navigation.navigation_graph)
-                }
-            } else {
-                if (item.itemId == R.id.timeSlotRequiredListFragment) {
-                    val bundle = bundleOf(TimeSlotListFragment.FROM to "REQUIRED")
-                    navController?.navigate(R.id.timeSlotListFragment, bundle)
-                } else {
-                    val bundle = bundleOf(TimeSlotListFragment.FROM to null)
-                    navController?.navigate(item.itemId, bundle)
-                    //NavigationUI.onNavDestinationSelected(item, navController!!)
-                }
-            }
+        navView.setNavigationItemSelectedListener { item ->
             val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
             drawerLayout.closeDrawer(GravityCompat.START)
+            when (item.itemId) {
+                R.id.authFragment -> {
+                    userModel.signOut()
+                    navController?.apply {
+                        // reset the navGraph (the start destination)
+                        graph = navInflater.inflate(R.navigation.navigation_graph)
+                    }
+                }
+
+                R.id.timeSlotRequiredListFragment -> {
+                    val bundle = bundleOf(TimeSlotListFragment.FROM to "REQUIRED")
+                    navController?.navigate(R.id.timeSlotListFragment, bundle)
+                }
+
+                R.id.mytimeSlotListFragment -> {
+                    val bundle = bundleOf(TimeSlotListFragment.FROM to null)
+                    navController?.navigate(R.id.timeSlotListFragment, bundle)
+                }
+
+                else -> navController?.navigate(item.itemId)
+            }
             true
         }
     }
 
     fun getDrawerLayout(): DrawerLayout = findViewById(R.id.drawer_layout)
+
+    fun setNavCheckedItem(@IdRes id: Int) {
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        navView.setCheckedItem(id)
+    }
 }
