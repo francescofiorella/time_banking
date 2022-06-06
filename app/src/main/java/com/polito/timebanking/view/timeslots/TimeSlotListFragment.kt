@@ -116,7 +116,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
         super.onResume()
 
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(
-            if (viewModel.listFragmentMode == MY_LIST||!arguments?.getString(FROM).isNullOrEmpty()) {
+            if (arguments?.getInt(MODE_KEY)!=2||!arguments?.getString(FROM).isNullOrEmpty()) {
                 R.drawable.ic_menu
             } else {
                 R.drawable.ic_arrow_back
@@ -158,7 +158,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
 
         return when (item.itemId) {
             android.R.id.home -> {
-                if (viewModel.listFragmentMode == MY_LIST || !arguments?.getString(FROM).isNullOrEmpty()) {
+                if (arguments?.getInt(MODE_KEY)!=2 || !arguments?.getString(FROM).isNullOrEmpty()) {
                     (activity as MainActivity).getDrawerLayout().open()
                 } else {
                     activity?.onBackPressed()

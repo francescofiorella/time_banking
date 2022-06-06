@@ -135,7 +135,8 @@ class FeedbackFragment: Fragment() {
     private val feedbackListener = View.OnClickListener {
         saveFeedbackDataIn(feedbackModel.currentFeedback)
         feedbackModel.addFeedback(feedbackModel.currentFeedback!!)
-        findNavController().navigate(R.id.timeSlotListFragment)
+        val bundle = bundleOf(TimeSlotListFragment.FROM to "REQUIRED")
+        findNavController().navigate(R.id.timeSlotListFragment,bundle)
     }
 
 
