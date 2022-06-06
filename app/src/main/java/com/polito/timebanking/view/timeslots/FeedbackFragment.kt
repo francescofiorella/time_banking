@@ -70,6 +70,8 @@ class FeedbackFragment : Fragment() {
 
         val showedUser = userModel.user
         binding.user = showedUser
+        println("MOSTRO"+showedUser.value?.fullName)
+
 
         showedUser.observe(viewLifecycleOwner) { user ->
             if (user?.photoUrl.isNullOrEmpty()) {
@@ -104,6 +106,7 @@ class FeedbackFragment : Fragment() {
         return binding.root
     }
 
+    /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -111,7 +114,7 @@ class FeedbackFragment : Fragment() {
             userModel.getUser(timeSlot.uid)
         }
     }
-
+*/
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
