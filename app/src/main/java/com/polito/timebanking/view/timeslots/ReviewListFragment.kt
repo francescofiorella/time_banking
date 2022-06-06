@@ -53,19 +53,19 @@ class ReviewListFragment : Fragment() {
             }
         }
         binding.user = userModel.currentUser
-        var user = userModel.currentUser
+        val user = userModel.currentUser
 
         if(binding.photoIv!=null){
-            if (user?.value?.photoUrl.isNullOrEmpty()) {
+            if (user.value?.photoUrl.isNullOrEmpty()) {
                 binding.photoIv?.setImageDrawable(
                     ContextCompat.getDrawable(
-                        binding!!.photoIv!!.context,
+                        binding.photoIv!!.context,
                         R.drawable.ic_user
                     )
                 )
             } else {
                 Glide.with(binding.photoIv!!)
-                    .load(user?.value?.photoUrl)
+                    .load(user.value?.photoUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(binding.photoIv!!)
             }

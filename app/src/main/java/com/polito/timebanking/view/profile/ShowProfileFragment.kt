@@ -93,7 +93,7 @@ class ShowProfileFragment : Fragment() {
         if (userModel.profileMode == JUST_SHOW) {
             // Others profile (user)
             userModel.getRatings(uid!!,"writeruid")
-            userModel.getRatings(uid!!,"destuid")
+            userModel.getRatings(uid,"destuid")
 
             binding.userRatingbar.rating = userModel.user.value!!.userRating!!
             binding.givenRatingbar.rating = userModel.user.value!!.givenRatings!!

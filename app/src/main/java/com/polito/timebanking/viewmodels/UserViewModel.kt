@@ -10,7 +10,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.polito.timebanking.models.*
@@ -172,7 +171,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     _feedbackList.value = v!!.mapNotNull { f ->
                         f.toObject(Feedback::class.java).apply {
                             println("sono il rate: " + this.rate)
-                            sum += this.rate!!
+                            sum += this.rate
                             count++
                         }
                     }
