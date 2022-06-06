@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentReviewListBinding
 import com.polito.timebanking.models.Feedback
@@ -49,6 +51,21 @@ class ReviewListFragment : Fragment() {
                     binding.listRecyclerView.adapter = it
                 }
             }
+        }
+        binding.user = userModel.currentUser
+        var user = userModel.currentUser
+        if (user?.value?.photoUrl.isNullOrEmpty()) {
+            binding.photoIv?.setImageDrawable(
+                ContextCompat.getDrawable(
+                    binding!!.photoIv!!.context,
+                    R.drawable.ic_user
+                )
+            )
+        } else {
+            Glide.with(binding.photoIv!!)
+                .load(user?.value?.photoUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.photoIv!!)
         }
 
         (activity as MainActivity).apply {
