@@ -169,6 +169,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     fun acceptTimeSlot() {
         _timeSlot.value?.let { timeslot ->
             timeslot.state = "accepted"
+            timeslot.cid = _otherUser.value?.uid ?: ""
             db.collection("timeslot")
                 .document(timeslot.id)
                 .set(timeslot)
