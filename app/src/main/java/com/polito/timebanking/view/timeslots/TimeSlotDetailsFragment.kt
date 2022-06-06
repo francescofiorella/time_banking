@@ -40,6 +40,12 @@ class TimeSlotDetailsFragment : Fragment() {
 
         binding.timeSlot = timeSlotModel.currentTimeSlot
 
+        binding.statusTv.text = when (timeSlotModel.currentTimeSlot?.state) {
+            "completed" -> "Status: Completed"
+            "accepted" -> "Status: Accepted"
+            else -> "Status: Available"
+        }
+
         binding.userCard.setOnClickListener(userListener)
 
         userModel.user.observe(viewLifecycleOwner) { user ->
