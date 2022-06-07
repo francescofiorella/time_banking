@@ -59,7 +59,7 @@ class TimeSlotAdapter(
             editFAB.setOnClickListener(editAction)
             feedbackBTN.setOnClickListener(FeedbackAction)
 
-            editFAB.isVisible = timeSlot.uid == auth.currentUser?.uid
+            editFAB.isVisible = timeSlot.uid == auth.currentUser?.uid && timeSlot.state == ""
 
             if (timeSlot.state == "completed" && (auth.currentUser?.uid == timeSlot.uid || auth.currentUser?.uid == timeSlot.cid)) {
                 isReviewed(auth.currentUser?.uid, timeSlot.id, feedbackBTN)

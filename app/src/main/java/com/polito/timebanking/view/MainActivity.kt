@@ -117,6 +117,6 @@ class MainActivity : AppCompatActivity() {
 
     fun setNavCheckedItem(@IdRes id: Int) {
         val navView = findViewById<NavigationView>(R.id.nav_view)
-        navView.setCheckedItem(id)
+        navView.menu.findItem(id).isChecked = true
     }
 }

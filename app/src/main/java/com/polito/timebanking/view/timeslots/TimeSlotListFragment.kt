@@ -80,14 +80,14 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             val skillName = arguments?.getString(SKILL_NAME_KEY)
             val from = arguments?.getString(FROM)
             if (from.isNullOrEmpty()) {
-                (activity as MainActivity).setNavCheckedItem(R.id.mytimeSlotListFragment)
+                setNavCheckedItem(R.id.mytimeSlotListFragment)
                 supportActionBar?.title = if (skillName.isNullOrEmpty()) {
                     getString(R.string.my_time_slots)
                 } else {
                     skillName
                 }
             } else {
-                (activity as MainActivity).setNavCheckedItem(R.id.timeSlotRequiredListFragment)
+                setNavCheckedItem(R.id.timeSlotRequiredListFragment)
                 // If Required Time Slot list
                 supportActionBar?.title = getString(R.string.requested_ts)
                 binding.addFab.isVisible = false

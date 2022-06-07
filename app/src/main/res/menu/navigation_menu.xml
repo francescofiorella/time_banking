@@ -33,7 +33,7 @@
 
     <group
         android:id="@+id/logout_group"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/showProfileFragment"
