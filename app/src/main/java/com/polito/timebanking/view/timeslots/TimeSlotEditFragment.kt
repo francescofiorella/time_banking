@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -50,6 +51,34 @@ class TimeSlotEditFragment : Fragment() {
         binding.skillAutoCompleteTV.setOnClickListener(userSkillListener)
         binding.skillTextInputLayout.setEndIconOnClickListener(userSkillListener)
 
+        binding.titleEt.doOnTextChanged { text, _, _, _ ->
+            binding.titleTextInputLayout.helperText =
+                if (text.isNullOrEmpty()) getString(R.string.required) else null
+        }
+
+        binding.locationEt.doOnTextChanged { text, _, _, _ ->
+            binding.locationTextInputLayout.helperText =
+                if (text.isNullOrEmpty()) getString(R.string.required) else null
+        }
+
+        binding.skillAutoCompleteTV.doOnTextChanged { text, _, _, _ ->
+            binding.skillTextInputLayout.helperText =
+                if (text.isNullOrEmpty()) getString(R.string.required) else null
+        }
+
+        binding.dateAutoCompleteTV.doOnTextChanged { text, _, _, _ ->
+            binding.dateTextInputLayout.helperText =
+                if (text.isNullOrEmpty()) getString(R.string.required) else null
+        }
+
+        binding.timeCreditEt.doOnTextChanged { text, _, _, _ ->
+            if (text.toString() != "" && text.toString().toInt() == 0) {
+                binding.timeCreditEt.setText("")
+            }
+            binding.timeCreditTextInputLayout.helperText =
+                if (text.isNullOrEmpty() || text.toString().toInt() == 0) getString(R.string.required) else null
+        }
+
         skillModel.skillList.observe(viewLifecycleOwner) { skillList ->
             binding.skillAutoCompleteTV.setText(
                 skillList
@@ -66,19 +95,30 @@ class TimeSlotEditFragment : Fragment() {
                         saveTimeSlotDataIn(timeSlot)
 
                         // save the list
-                        if (!timeSlot.isEmpty() && timeSlotModel.tsHasBeenModified()) {
-                            when (timeSlotModel.editFragmentMode) {
-                                ADD_MODE -> {
+                        when (timeSlotModel.editFragmentMode) {
+                            ADD_MODE -> {
+                                if (!timeSlot.isEmpty()) {
                                     timeSlotModel.addTimeSlot(timeSlot)
                                     activity?.snackBar("Time slot created!")
+                                } else {
+                                    activity?.snackBar("Time slot NOT created: please fill all required fields!")
                                 }
-                                EDIT_MODE -> {
-                                    timeSlotModel.updateTimeSlot(timeSlot)
-                                    activity?.snackBar("Time slot updated!")
-                                }
-                                else -> Unit
                             }
+                            EDIT_MODE -> {
+                                if (!timeSlot.isEmpty()) {
+                                    if (timeSlotModel.tsHasBeenModified()) {
+                                        timeSlotModel.updateTimeSlot(timeSlot)
+                                        activity?.snackBar("Time slot updated!")
+                                    } else {
+                                        activity?.snackBar("Time slot NOT updated: no modification")
+                                    }
+                                } else {
+                                    activity?.snackBar("Time slot NOT updated: please fill all required fields!")
+                                }
+                            }
+                            else -> Unit
                         }
+
                         // disable the callback to avoid loops
                         isEnabled = false
                         activity?.onBackPressed()
@@ -205,7 +245,9 @@ class TimeSlotEditFragment : Fragment() {
         timeSlot.title = binding.titleEt.text.toString()
         timeSlot.description = binding.descriptionEt.text.toString()
         timeSlot.location = binding.locationEt.text.toString()
-        timeSlot.timeCredit = binding.timeCreditEt.text.toString().toInt()
+        binding.timeCreditEt.text.toString().let {
+            timeSlot.timeCredit = if (it == "") 0 else it.toInt()
+        }
         // date and time are saved in listeners
     }
 }

@@ -26,6 +26,6 @@ data class TimeSlot(
     override fun toString(): String = "{ id: $id, title: \"$title\" }"
 
     fun isEmpty(): Boolean {
-        return title == "" || sid == "" || timeCredit == 0
+        return title == "" || location == "" || sid == "" || year == 0 || month == 0 || day == 0 || timeCredit == 0
     }
 }

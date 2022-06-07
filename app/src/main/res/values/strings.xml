@@ -87,4 +87,5 @@
     <string name="le_five_hours">&#8804;5 hours</string>
     <string name="gt_five_hours">&#62;5 hours</string>
     <string name="more">More</string>
+    <string name="required">Required</string>
 </resources>
