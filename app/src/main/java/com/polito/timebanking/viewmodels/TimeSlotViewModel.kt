@@ -83,9 +83,21 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
         thread {
             timeSlot.uid = auth.currentUser?.uid ?: ""
             db.collection("timeslot")
-                .document()
-                .set(timeSlot)
-                .addOnSuccessListener { Log.d("Firebase", "Success") }
+                .add(timeSlot)
+                .addOnSuccessListener {
+                    Log.d("Firebase", "Success")
+                    timeSlot.id = it.id
+
+                    db.collection("timeslot")
+                        .document(it.id)
+                        .update(mapOf("id" to it.id))
+                        .addOnSuccessListener {
+                            Log.d("Firebase", "Success")
+                        }
+                        .addOnFailureListener { ex ->
+                            Log.d("Firebase", ex.message ?: "Error")
+                        }
+                }
                 .addOnFailureListener { Log.d("Firebase", it.message ?: "Error") }
         }
     }
@@ -103,8 +115,10 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
     fun isCurrentTimeSlotMine(): Boolean = (initialTimeSlot?.uid == auth.currentUser?.uid)
 
     fun setTimeSlot(timeSlot: TimeSlot?) {
-        initialTimeSlot = timeSlot
-        currentTimeSlot = timeSlot?.copy()
+        thread {
+            initialTimeSlot = timeSlot
+            currentTimeSlot = timeSlot?.copy()
+        }
     }
 
     fun tsHasBeenModified(): Boolean {
