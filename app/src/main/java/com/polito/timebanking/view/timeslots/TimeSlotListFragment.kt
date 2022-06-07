@@ -94,7 +94,7 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
             }
 
             getDrawerLayout().setDrawerLockMode(
-                if (viewModel.listFragmentMode == MY_LIST) {
+                if (arguments?.getInt(MODE_KEY) != 2 || !arguments?.getString(FROM).isNullOrEmpty()) {
                     DrawerLayout.LOCK_MODE_UNLOCKED
                 } else {
                     DrawerLayout.LOCK_MODE_LOCKED_CLOSED
