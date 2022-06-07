@@ -106,7 +106,7 @@ class TimeSlotDetailsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        if (timeSlotModel.isCurrentTimeSlotMine()) {
+        if (timeSlotModel.isCurrentTimeSlotMine() && timeSlotModel.currentTimeSlot?.state == "") {
             inflater.inflate(R.menu.toolbar_menu, menu)
         }
     }
