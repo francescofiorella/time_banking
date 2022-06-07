@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.polito.timebanking.R
 import com.polito.timebanking.databinding.FragmentTimeSlotDetailBinding
+import com.polito.timebanking.utils.snackBar
 import com.polito.timebanking.view.MainActivity
 import com.polito.timebanking.viewmodels.SkillViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel
@@ -59,18 +60,20 @@ class TimeSlotDetailsFragment : Fragment() {
                     ?.name
         }
 
-        if (timeSlotModel.isCurrentTimeSlotMine() || !timeSlotModel.isTimeSlotAvailable() ||
-            !userModel.hasEnoughTimeCredit(timeSlotModel.currentTimeSlot?.timeCredit)
-        ) {
+        if (timeSlotModel.isCurrentTimeSlotMine() || !timeSlotModel.isTimeSlotAvailable()) {
             binding.openChatFab.isVisible = false
         } else {
             binding.openChatFab.setOnClickListener {
-                timeSlotModel.currentTimeSlot?.id?.let {
-                    val bundle = bundleOf(TIMESLOT_ID_KEY to it)
-                    findNavController().navigate(
-                        R.id.action_timeSlotDetailsFragment_to_chatFragment,
-                        bundle
-                    )
+                if (!userModel.hasEnoughTimeCredit(timeSlotModel.currentTimeSlot?.timeCredit)) {
+                    activity?.snackBar("You don't have enough time credit for this time slot!")
+                } else {
+                    timeSlotModel.currentTimeSlot?.id?.let {
+                        val bundle = bundleOf(TIMESLOT_ID_KEY to it)
+                        findNavController().navigate(
+                            R.id.action_timeSlotDetailsFragment_to_chatFragment,
+                            bundle
+                        )
+                    }
                 }
             }
             binding.openChatFab.isVisible = true
