@@ -18,23 +18,14 @@
         android:clipToPadding="false"
         android:padding="20dp">
 
-        <ImageView
-            android:id="@+id/photo_iv"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/photo_iv_description"
-            android:src="@drawable/ic_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/title_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toStartOf="@+id/photo_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
@@ -55,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/photo_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
             app:layout_constraintStart_toEndOf="@id/person_icon"
             app:layout_constraintTop_toBottomOf="@+id/title_tv"
             tools:text="Full Name" />
@@ -76,7 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/photo_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_btn"
             app:layout_constraintStart_toEndOf="@id/location_icon"
             app:layout_constraintTop_toBottomOf="@+id/person_tv"
             tools:text="Location" />
@@ -97,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/photo_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/feedback_btn"
             app:layout_constraintStart_toEndOf="@id/location_icon"
             app:layout_constraintTop_toBottomOf="@+id/location_tv"
             tools:text="Date" />
@@ -118,7 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/photo_iv"
+            app:layout_constraintEnd_toEndOf="@+id/feedback_btn"
+            app:layout_constraintEnd_toStartOf="@+id/feedback_btn"
             app:layout_constraintStart_toEndOf="@id/time_credit_icon"
             app:layout_constraintTop_toBottomOf="@+id/date_tv"
             tools:text="Time credit" />
@@ -128,16 +123,14 @@
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="@string/leave_a_feedback"
             android:textColor="@color/md_theme_onSecondaryContainer"
             app:backgroundTint="@color/md_theme_secondaryContainer"
             app:elevation="0dp"
             app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_credit_tv"
-            app:layout_constraintVertical_bias="0.047"
+            app:layout_constraintBottom_toBottomOf="@+id/time_credit_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_tv"
             app:tint="@color/md_theme_onSecondaryContainer" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -151,8 +144,7 @@
             app:elevation="0dp"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/feedback_btn"
-            app:layout_constraintBottom_toBottomOf="@id/feedback_btn"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/md_theme_onSecondaryContainer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

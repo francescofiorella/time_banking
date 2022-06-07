@@ -7,8 +7,6 @@ import android.widget.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
@@ -32,7 +30,6 @@ class TimeSlotAdapter(
         private val auth = Firebase.auth
 
         private val cardLayout: MaterialCardView = v.findViewById(R.id.layout)
-        private val photoIv: ImageView = v.findViewById(R.id.photo_iv)
         private val titleTV: TextView = v.findViewById(R.id.title_tv)
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
@@ -49,7 +46,7 @@ class TimeSlotAdapter(
             completeAction: (v: View) -> Unit
         ) {
             titleTV.text = timeSlot.title
-            loadUserInfo(timeSlot.uid, fullNameTV, photoIv)
+            loadUserInfo(timeSlot.uid, fullNameTV)
             locationTV.text = timeSlot.location
             dateTV.text = timeSlot.getDate()
             val timeCredit =
@@ -67,7 +64,10 @@ class TimeSlotAdapter(
                 feedbackBTN.isVisible = false
             }
 
-            if (timeSlot.state == "accepted" && auth.currentUser?.uid == timeSlot.uid && isTimeslotInThePast(timeSlot)) {
+            if (timeSlot.state == "accepted"
+                && auth.currentUser?.uid == timeSlot.uid
+                && isTimeslotInThePast(timeSlot)
+            ) {
                 feedbackBTN.text = "Mark as completed"
                 feedbackBTN.isVisible = true
                 feedbackBTN.setOnClickListener(completeAction)
@@ -97,7 +97,7 @@ class TimeSlotAdapter(
             }
         }
 
-        private fun loadUserInfo(uid: String, textView: TextView, imageView: ImageView) {
+        private fun loadUserInfo(uid: String, textView: TextView) {
             db.collection("users")
                 .document(uid)
                 .get()
@@ -105,10 +105,6 @@ class TimeSlotAdapter(
                     val writer = it.toObject(User::class.java)
                     if (writer != null) {
                         textView.text = writer.fullName
-                        Glide.with(imageView)
-                            .load(writer.photoUrl)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(imageView)
                     }
                 }
         }
