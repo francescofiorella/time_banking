@@ -45,18 +45,16 @@ class FeedbackViewModel(application: Application) : AndroidViewModel(application
             .get()
             .addOnSuccessListener {
                 val feedback = it.toObject(Feedback::class.java)
-                if (feedback != null) {
+                feedback?.let { f ->
                     Log.d(
                         "Firebase/Cloud Firestore",
-                        "getFeedback: success (feedback = ${feedback})"
+                        "getFeedback: success (feedback = ${f})"
                     )
-                    _feedback.value = feedback!!
-                } else {
-                    Log.e(
-                        "Firebase/Cloud Firestore",
-                        "getFeedback: failure (feedback = null)"
-                    )
-                }
+                    _feedback.value = f
+                } ?: Log.e(
+                    "Firebase/Cloud Firestore",
+                    "getFeedback: failure (feedback = null)"
+                )
             }
             .addOnFailureListener {
                 Log.e(

@@ -69,8 +69,6 @@ class FeedbackFragment : Fragment() {
 
         val showedUser = userModel.user
         binding.user = showedUser
-        println("MOSTRO"+showedUser.value?.fullName)
-
 
         showedUser.observe(viewLifecycleOwner) { user ->
             if (user?.photoUrl.isNullOrEmpty()) {

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +32,7 @@ class TimeSlotAdapter(
         private val auth = Firebase.auth
 
         private val cardLayout: MaterialCardView = v.findViewById(R.id.layout)
-        private val photoIv : ImageView = v.findViewById(R.id.photo_iv)
+        private val photoIv: ImageView = v.findViewById(R.id.photo_iv)
         private val titleTV: TextView = v.findViewById(R.id.title_tv)
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
@@ -62,7 +61,7 @@ class TimeSlotAdapter(
 
             editFAB.isVisible = timeSlot.uid == auth.currentUser?.uid
 
-            if (timeSlot.state == "completed" && (auth.currentUser?.uid==timeSlot.uid ||auth.currentUser?.uid==timeSlot.cid)) {
+            if (timeSlot.state == "completed" && (auth.currentUser?.uid == timeSlot.uid || auth.currentUser?.uid == timeSlot.cid)) {
                 isReviewed(auth.currentUser?.uid, timeSlot.id, feedbackBTN)
             } else {
                 feedbackBTN.isVisible = false
@@ -75,7 +74,7 @@ class TimeSlotAdapter(
             }
         }
 
-        private fun isTimeslotInThePast(timeSlot: TimeSlot) : Boolean {
+        private fun isTimeslotInThePast(timeSlot: TimeSlot): Boolean {
             val calendar = Calendar.getInstance(Locale.getDefault())
             return if (timeSlot.year < calendar.get(Calendar.YEAR)) {
                 true
@@ -98,19 +97,18 @@ class TimeSlotAdapter(
             }
         }
 
-        private fun loadUserInfo(uid: String, textView: TextView, photo: ImageView) {
+        private fun loadUserInfo(uid: String, textView: TextView, imageView: ImageView) {
             db.collection("users")
                 .document(uid)
                 .get()
-                .addOnSuccessListener{
+                .addOnSuccessListener {
                     val writer = it.toObject(User::class.java)
-                    if(writer != null){
-                        if (writer != null)
+                    if (writer != null) {
                         textView.text = writer.fullName
-                        Glide.with(photoIv)
+                        Glide.with(imageView)
                             .load(writer.photoUrl)
                             .apply(RequestOptions.circleCropTransform())
-                            .into(photoIv)
+                            .into(imageView)
                     }
                 }
         }
@@ -123,7 +121,6 @@ class TimeSlotAdapter(
                 .addOnSuccessListener {
                     val feedback = it.toObjects(Feedback::class.java)
                     if (feedback.size != 0) {
-                        println("Ho letto: $feedback")
                         feedbackbtn.alpha = .5f
                         feedbackbtn.isClickable = false
                         feedbackbtn.text = "Feedback sent"

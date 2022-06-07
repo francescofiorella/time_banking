@@ -159,18 +159,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getRatings(uid: String, type: String) {
-
         var sum = 0.0
         var count = 0
-        var result = 0.0
-        println("type: " + type + "uid: " + uid)
+
         db.collection("feedback")
             .whereEqualTo(type, uid)
             .addSnapshotListener { v, e ->
                 if (e == null) {
                     _feedbackList.value = v!!.mapNotNull { f ->
                         f.toObject(Feedback::class.java).apply {
-                            println("sono il rate: " + this.rate)
                             sum += this.rate
                             count++
                         }
@@ -189,13 +186,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             .document(uid)
                             .update(mapOf("userRating" to (sum / count)))
                     }
-
-
                 } else {
                     _feedbackList.value = emptyList()
                 }
-
-
             }
     }
 
