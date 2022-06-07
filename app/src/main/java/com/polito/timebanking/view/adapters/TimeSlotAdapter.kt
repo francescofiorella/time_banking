@@ -3,13 +3,13 @@ package com.polito.timebanking.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.polito.timebanking.R
 import com.polito.timebanking.models.Feedback
 import com.polito.timebanking.models.TimeSlot
+import com.polito.timebanking.models.User
 import java.util.*
 
 class TimeSlotAdapter(
@@ -32,6 +33,7 @@ class TimeSlotAdapter(
         private val auth = Firebase.auth
 
         private val cardLayout: MaterialCardView = v.findViewById(R.id.layout)
+        private val photoIv : ImageView = v.findViewById(R.id.photo_iv)
         private val titleTV: TextView = v.findViewById(R.id.title_tv)
         private val fullNameTV: TextView = v.findViewById(R.id.person_tv)
         private val locationTV: TextView = v.findViewById(R.id.location_tv)
@@ -48,7 +50,7 @@ class TimeSlotAdapter(
             completeAction: (v: View) -> Unit
         ) {
             titleTV.text = timeSlot.title
-            loadUserInfo(timeSlot.uid, fullNameTV)
+            loadUserInfo(timeSlot.uid, fullNameTV, photoIv)
             locationTV.text = timeSlot.location
             dateTV.text = timeSlot.getDate()
             val timeCredit =
@@ -96,12 +98,19 @@ class TimeSlotAdapter(
             }
         }
 
-        private fun loadUserInfo(uid: String, textView: TextView) {
+        private fun loadUserInfo(uid: String, textView: TextView, photo: ImageView) {
             db.collection("users")
                 .document(uid)
-                .addSnapshotListener { v, e ->
-                    if (e == null) {
-                        textView.text = v?.getString("fullName")
+                .get()
+                .addOnSuccessListener{
+                    val writer = it.toObject(User::class.java)
+                    if(writer != null){
+                        if (writer != null)
+                        textView.text = writer.fullName
+                        Glide.with(photoIv)
+                            .load(writer.photoUrl)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(photoIv)
                     }
                 }
         }

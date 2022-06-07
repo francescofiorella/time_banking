@@ -4,6 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.timeslots.TimeSlotListFragment">
 
+    <data>
+
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="com.polito.timebanking.models.User" />
+
+        <variable
+            name="user"
+            type="LiveData&lt;User&gt;" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
