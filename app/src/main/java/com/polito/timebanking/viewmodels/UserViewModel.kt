@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -263,6 +264,24 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         "setCurrentUserPhoto: failure", task.exception
                     )
                 }
+            }
+    }
+
+    fun updateTimeCredit(uid: String, timeCredit: Int) {
+        db.collection("users")
+            .document(uid)
+            .update("timeCredit", FieldValue.increment(timeCredit.toLong()))
+            .addOnSuccessListener {
+                Log.d(
+                    "Firebase/Cloud Firestore",
+                    "updateTimeCredit: success (uid = $uid, timeCredit = $timeCredit})"
+                )
+            }
+            .addOnFailureListener {
+                Log.e(
+                    "Firebase/Cloud Firestore",
+                    "updateTimeCredit: failure", it
+                )
             }
     }
 

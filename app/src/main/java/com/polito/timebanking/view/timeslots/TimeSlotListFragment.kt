@@ -22,10 +22,12 @@ import com.polito.timebanking.viewmodels.TimeSlotViewModel
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.ADD_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.EDIT_MODE
 import com.polito.timebanking.viewmodels.TimeSlotViewModel.Companion.NONE
+import com.polito.timebanking.viewmodels.UserViewModel
 
 class TimeSlotListFragment : Fragment(), TimeSlotListener {
     private lateinit var binding: FragmentTimeSlotListBinding
     private val viewModel by activityViewModels<TimeSlotViewModel>()
+    private val userModel by activityViewModels<UserViewModel>()
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -151,7 +153,6 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 adapter.filter.filter(newText)
                 return true
             }
-
         })
     }
 
@@ -242,10 +243,11 @@ class TimeSlotListFragment : Fragment(), TimeSlotListener {
                 bundle
             )
         }
-
     }
 
     override fun onCompleteClickListener(timeSlot: TimeSlot, position: Int) {
+        userModel.updateTimeCredit(timeSlot.cid, -timeSlot.timeCredit)
+        userModel.updateTimeCredit(timeSlot.uid, timeSlot.timeCredit)
         viewModel.completeTimeSlot(timeSlot)
     }
 }
