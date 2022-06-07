@@ -125,6 +125,10 @@ class TimeSlotViewModel(application: Application) : AndroidViewModel(application
         return (initialTimeSlot != currentTimeSlot)
     }
 
+    fun restoreInitial() {
+        currentTimeSlot = initialTimeSlot
+    }
+
     fun isTimeSlotAvailable(): Boolean = currentTimeSlot?.state == ""
 
     fun completeTimeSlot(timeSlot: TimeSlot) {

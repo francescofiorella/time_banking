@@ -113,6 +113,7 @@ class TimeSlotEditFragment : Fragment() {
                                         activity?.snackBar("Time slot NOT updated: no modification")
                                     }
                                 } else {
+                                    timeSlotModel.restoreInitial()
                                     activity?.snackBar("Time slot NOT updated: please fill all required fields!")
                                 }
                             }
