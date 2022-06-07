@@ -37,8 +37,33 @@
         android:layout_marginBottom="16dp"
         android:text="@string/email_et_hint"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_full_name" />
+
+    <TextView
+        android:id="@+id/tv_time_credit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/time_credit_tv_text"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toStartOf="@id/tv_time_credit_value"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email" />
+
+    <TextView
+        android:id="@+id/tv_time_credit_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:text=""
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/tv_time_credit_text"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
