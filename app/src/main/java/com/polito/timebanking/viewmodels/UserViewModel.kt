@@ -300,6 +300,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         return (initialUser != _currentUser.value)
     }
 
+    fun hasEnoughTimeCredit(timeCreditNeeded: Int?): Boolean {
+        if (timeCreditNeeded == null || _currentUser.value == null || _currentUser.value!!.timeCredit == null) {
+            return false
+        }
+        return timeCreditNeeded <= _currentUser.value!!.timeCredit!!
+    }
+
     companion object {
         private const val INITIAL_TIME_CREDIT = 5
     }

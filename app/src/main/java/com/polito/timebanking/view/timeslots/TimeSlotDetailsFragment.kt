@@ -59,7 +59,9 @@ class TimeSlotDetailsFragment : Fragment() {
                     ?.name
         }
 
-        if (timeSlotModel.isCurrentTimeSlotMine() || !timeSlotModel.isTimeSlotAvailable()) {
+        if (timeSlotModel.isCurrentTimeSlotMine() || !timeSlotModel.isTimeSlotAvailable() ||
+            !userModel.hasEnoughTimeCredit(timeSlotModel.currentTimeSlot?.timeCredit)
+        ) {
             binding.openChatFab.isVisible = false
         } else {
             binding.openChatFab.setOnClickListener {
