@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
             fullNameTV.text = currentUser?.fullName
             val emailTV = header.findViewById<TextView>(R.id.tv_email)
             emailTV.text = currentUser?.email
+            val timeCreditValueTV = header.findViewById<TextView>(R.id.tv_time_credit_value)
+            val timeCreditValue = "${currentUser?.timeCredit ?: 0} ${if (currentUser?.timeCredit == 1) "hour" else "hours"}"
+            timeCreditValueTV.text = timeCreditValue
 
             val photoIV = header.findViewById<ImageView>(R.id.iv_photo)
             if (currentUser?.photoUrl.isNullOrEmpty()) {
